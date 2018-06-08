@@ -1,28 +1,88 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
+    <AppModalContainer />
   </div>
 </template>
 
+<script>
+import AppModalContainer from './components/ModalContainer';
+
+export default {
+  components: {
+    AppModalContainer,
+  },
+};
+</script>
+
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Nunito:300,400,700');
+
+@import './styles/variables';
+@import './styles/forms';
+@import './styles/button';
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+html {
+  font-size: 10px;
+}
+body {
+  font-size: 1.5rem;
+  padding: 0;
+  margin: 0;
+}
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: $font-family;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: $black;
 }
 #nav {
   padding: 30px;
+
   a {
     font-weight: bold;
     color: #2c3e50;
     &.router-link-exact-active {
       color: #42b983;
+    }
+  }
+}
+
+.main-title {
+  font-size: 2.5rem;
+  margin-bottom: $spacing-small;
+}
+
+.back-button {
+  padding: $spacing-small + .5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-decoration: none;
+  color: $black;
+  z-index: 1000;
+  background-color: rgba($white, .8);
+
+  .icon {
+    margin-right: 0.5rem;
+    transition: transform $transition-duration ease;
+  }
+
+  &:hover,
+  &:focus {
+    .icon {
+      transform: translateX(-.5rem);
     }
   }
 }

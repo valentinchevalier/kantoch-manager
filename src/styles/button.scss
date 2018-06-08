@@ -1,0 +1,68 @@
+.btn {
+  position: relative;
+  z-index: 0;
+  width: auto;
+  padding: $button-padding;
+  border: 2px solid $black;
+  background: $white;
+  transition: color $transition-duration ease;
+  cursor: pointer;
+  color: $black;
+  font-weight: $regular-weight;
+  outline: none;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  &:hover,
+  &:focus {
+    color: $white;
+    background-color: $black;
+  }
+
+  &.btn-small {
+    width: auto;
+    font-size: 1.4rem;
+    padding: $button-small-padding;
+  }
+
+
+  &.btn-icon-right {
+    padding-right: $spacing-medium + .5rem;
+
+    .icon {
+      position: absolute;
+      top: 50%;
+      right: $spacing;
+      transform: translate(50%, -50%);
+    }
+  }
+
+  &.btn-icon-left {
+    padding-left: $spacing-medium;
+
+    .icon {
+      position: absolute;
+      top: 50%;
+      left: $spacing;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .icon {
+    margin: 0 .5rem 0 0;
+  }
+}
+
+.btn-link {
+  background: transparent;
+  padding: .2rem;
+  margin: 0;
+  outline: none;
+  color: $black;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+
+  .icon {
+    margin: 0 .5rem 0 0;
+  }
+}
