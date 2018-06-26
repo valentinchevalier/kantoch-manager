@@ -24,11 +24,11 @@ export default {
     MenuItem,
   },
   computed: {
-    ...mapGetters('kantoch', ['foodItems', 'drinkItems', 'formuleItems']),
+    ...mapGetters('menu', ['foodItems', 'drinkItems', 'formuleItems']),
   },
   methods: {
     onClick(item) {
-      this.$emit('addItem', item.id);
+      this.$emit('click', item);
     },
   },
 };
@@ -39,7 +39,7 @@ export default {
 
 .items-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   grid-auto-rows: 1fr;
   grid-gap: 10px;
   flex-wrap: wrap;

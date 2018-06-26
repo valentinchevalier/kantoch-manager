@@ -29,7 +29,24 @@ export default {
     showCommandCreator({ commit }) {
       commit(SHOW_MODAL, {
         component: 'CommandCreator',
-        componentData: { test: 'test' },
+        componentData: {},
+      });
+    },
+    showComplexItemEditor({ commit }, { item, commandId }) {
+      commit(SHOW_MODAL, {
+        component: 'ComplexItemEditor',
+        componentData: {
+          item,
+          commandId,
+        },
+      });
+    },
+    showPlateChoicesEditor({ commit }, { plate }) {
+      commit(SHOW_MODAL, {
+        component: 'PlateChoicesEditor',
+        componentData: {
+          plateId: plate.id,
+        },
       });
     },
   },

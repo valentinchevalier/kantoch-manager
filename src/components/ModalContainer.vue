@@ -1,17 +1,21 @@
 <template>
   <div class="modal-container" :class="{visible: isVisible}">
     <div class="backdrop" @click="hide"></div>
-    <component class="modal" v-if="isVisible && componentData && component" :is="component" v-bind="{data: componentData}" @close="hide"></component>
+    <component class="modal" v-if="isVisible && componentData && component" :is="component" v-bind="componentData" @close="hide"></component>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
 import CommandCreator from '@/components/command/CommandCreator';
+import ComplexItemEditor from '@/components/command/ComplexItemEditor';
+import PlateChoicesEditor from '@/components/PlateChoicesEditor';
 
 export default {
   components: {
     CommandCreator,
+    ComplexItemEditor,
+    PlateChoicesEditor,
   },
   computed: {
     ...mapState('modal', ['isVisible', 'component', 'componentData']),

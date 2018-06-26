@@ -1,16 +1,28 @@
 <template>
   <div id="app">
     <router-view/>
+    <Initialize />
     <AppModalContainer />
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import AppModalContainer from './components/ModalContainer';
+import Initialize from './components/Initialize';
 
 export default {
   components: {
     AppModalContainer,
+    Initialize,
+  },
+  async created() {
+    await this.initMenuFromFirebase();
+    await this.initKantochFromFirebase();
+  },
+  methods: {
+    ...mapActions('menu', { initMenuFromFirebase: 'initFromFirebase' }),
+    ...mapActions('commands', { initKantochFromFirebase: 'initFromFirebase' }),
   },
 };
 </script>

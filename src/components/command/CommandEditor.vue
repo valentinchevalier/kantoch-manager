@@ -1,7 +1,7 @@
 <template>
   <div class="command-editor">
     <div class="column">
-      <Menu @addItem="addItemToCommand"/>
+      <Menu @click="onItemClick"/>
     </div>
     <div class="column">
       <div class="command-title">
@@ -11,15 +11,14 @@
           <div class="name" v-if="command.name">{{command.name}}</div>
         </div>
       </div>
-      <CommandDetails :command="command" @removeItem="removeItemToCommand" @addItem="addItemToCommand"/>
+      <CommandDetails :command="command" @removeItem="onRemoveItem" @addItem="onAddItem"/>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import Menu from '@/components/Menu';
-import { ADD_ITEM_TO_COMMAND, REMOVE_ITEM_TO_COMMAND } from '@/stores/kantochMutation.types';
 import CommandDetails from './CommandDetails';
 
 export default {
@@ -33,18 +32,43 @@ export default {
     },
   },
   computed: {
-    ...mapState('kantoch', ['commands']),
+    ...mapState('commands', ['commands']),
     command() {
       return this.commands.find(command => command.id === this.id);
     },
   },
   methods: {
-    ...mapMutations('kantoch', [ADD_ITEM_TO_COMMAND, REMOVE_ITEM_TO_COMMAND]),
-    addItemToCommand(itemId) {
-      this[ADD_ITEM_TO_COMMAND]({ commandId: this.id, itemId });
+    ...mapActions('commands', ['addItemToCommand', 'removeItemToCommand']),
+    ...mapActions('modal', ['showComplexItemEditor']),
+    onItemClick(item) {
+      if ((item.variations && item.variations.length > 0) || (item.choices && item.choices.length > 0)) {
+        this.showComplexItemEditor({
+          item,
+          commandId: this.id,
+        });
+        console.log('Has variations or choices', item);
+        return;
+      }
+      this.addItemToCommand({
+        commandId: this.id,
+        itemId: item.id,
+      });
     },
-    removeItemToCommand(itemId) {
-      this[REMOVE_ITEM_TO_COMMAND]({ commandId: this.id, itemId });
+    onAddItem(itemId, variationId, choiceId) {
+      this.addItemToCommand({
+        commandId: this.id,
+        itemId,
+        variationId,
+        choiceId,
+      });
+    },
+    onRemoveItem(itemId, variationId, choiceId) {
+      this.removeItemToCommand({
+        commandId: this.id,
+        itemId,
+        variationId,
+        choiceId,
+      });
     },
   },
 };
@@ -55,7 +79,7 @@ export default {
 
 .command-editor {
   display: grid;
-  grid-template-columns: minmax(50%, 800px) 400px;
+  grid-template-columns: auto minmax(450px, 25%);
   grid-gap: $spacing-small 0;
   padding: 0;
   height: 100vh;

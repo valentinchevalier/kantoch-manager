@@ -1,15 +1,23 @@
 <template>
-  <div class="menu-item">
-    <div class="plate-name" v-html="item.name"></div>
+  <div class="menu-item" v-long-press="700" @long-press="onLongClick()">
+    <div class="plate-label" v-html="item.label"></div>
     <div class="price">{{item.price | price}}</div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   props: {
     item: {
       type: Object,
+    },
+  },
+  methods: {
+    ...mapActions('modal', ['showPlateChoicesEditor']),
+    onLongClick() {
+      this.showPlateChoicesEditor({ plate: this.item });
     },
   },
 };
@@ -37,7 +45,7 @@ export default {
     margin-top: $spacing-small;
   }
 
-  .plate-name {
+  .plate-label {
     line-height: 1.1;
 
     .small {

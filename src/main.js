@@ -3,6 +3,7 @@ import App from './App';
 import router from './router';
 import store from './store';
 import './assets/fonts/font-icons/font-icons.font';
+import './longPressDirective';
 
 Vue.config.productionTip = false;
 
