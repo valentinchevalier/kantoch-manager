@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Firebase from 'firebase/app';
 import db from '@/utils/db';
 import CommandUtils from '@/utils/command-utils';
-import { RESET_COMMAND_LIST, UPDATE_COMMAND, PUSH_COMMAND } from './commandsMutation.types';
+import { RESET_COMMAND_LIST, UPDATE_COMMAND, ADD_COMMAND, REMOVE_COMMAND } from './commandsMutation.types';
 
 const COMMANDS_COLLECTION = 'commands';
 
@@ -11,75 +11,102 @@ export default {
   state() {
     return {
       commands: [],
-      commandHistory: [],
     };
   },
-  getters: {
-    // currentCommandTotal({ currentCommand }) {
-    //   return currentCommand.items.reduce((total, item) => total + (item.price * item.quantity), 0);
-    // },
-  },
+  getters: {},
   mutations: {
-    [PUSH_COMMAND](state, command) {
+    [ADD_COMMAND](state, command) {
       state.commands.push(command);
     },
-    [RESET_COMMAND_LIST](state) {
-      state.commands = [];
+    [REMOVE_COMMAND](state, command) {
+      const commandIndex = state.commands.findIndex(pl => pl.id === command.id);
+      state.commands.splice(commandIndex, 1);
     },
     [UPDATE_COMMAND](state, command) {
       const commandIndex = state.commands.findIndex(pl => pl.id === command.id);
       Vue.set(state.commands, commandIndex, command);
+    },
+    [RESET_COMMAND_LIST](state) {
+      state.commands = [];
     },
   },
   actions: {
     initFromFirebase({ commit }) {
       commit(RESET_COMMAND_LIST);
 
-      db.collection(COMMANDS_COLLECTION).onSnapshot((snapshot) => {
-        snapshot.docChanges().forEach((change) => {
-          if (change.type === 'added') {
-            commit(PUSH_COMMAND, {
-              id: change.doc.id,
-              ...change.doc.data(),
-            });
-          }
-          if (change.type === 'modified') {
-            commit(UPDATE_COMMAND, {
-              id: change.doc.id,
-              ...change.doc.data(),
-            });
-          }
+      const start = new Date();
+      start.setHours(0, 0, 0, 0);
+      const end = new Date();
+      end.setHours(23, 59, 59, 999);
+
+      db.collection(COMMANDS_COLLECTION)
+        .where('addedAt', '>', start)
+        .where('addedAt', '<', end)
+        .onSnapshot((snapshot) => {
+          snapshot.docChanges().forEach((change) => {
+            switch (change.type) {
+              case 'added':
+                commit(ADD_COMMAND, {
+                  id: change.doc.id,
+                  ...change.doc.data(),
+                });
+                break;
+              case 'modified':
+                commit(UPDATE_COMMAND, {
+                  id: change.doc.id,
+                  ...change.doc.data(),
+                });
+                break;
+              case 'removed':
+                commit(REMOVE_COMMAND, {
+                  id: change.doc.id,
+                });
+                break;
+              default:
+                break;
+            }
+          });
         });
-      });
     },
     async addCommand(context, command) {
       console.log(command);
       const newCommand = {
         ...command,
         items: {},
+        addedAt: new Date(),
       };
 
       await db.collection(COMMANDS_COLLECTION).add(newCommand);
     },
-    async addItemToCommand({ state }, params) {
+    async updateInDB(context, params) {
       const {
         commandId,
-        itemId,
-        variationId,
-        choiceId,
+        set,
+        merge,
       } = params;
 
-      const itemFullId = CommandUtils.commandItemFullId(itemId, variationId, choiceId);
-      let set = {
-        plateId: itemId,
-        quantity: 1,
-      };
-      if (variationId) {
-        set.variationId = variationId;
+      console.log(set);
+
+      await db.collection(COMMANDS_COLLECTION).doc(commandId).set(set, { merge: merge || true });
+    },
+    async addItemToCommand({ state, dispatch }, params) {
+      const {
+        commandId,
+        item,
+      } = params;
+
+      if (!item.plateId) {
+        return;
       }
 
-      if (choiceId) {
-        set.choiceId = choiceId;
+      const itemFullId = CommandUtils.commandItemFullId(item.plateId, item.choiceId);
+      let set = {
+        plateId: item.plateId,
+        quantity: 1,
+      };
+
+      if (item.choiceId) {
+        set.choiceId = item.choiceId;
       }
       const currentCommand = state.commands.find(command => command.id === commandId);
       const currentItem = currentCommand.items[itemFullId];
@@ -90,25 +117,29 @@ export default {
         };
       }
 
-      await db.collection(COMMANDS_COLLECTION).doc(commandId).set({
-        items: {
-          [itemFullId]: set,
+      dispatch('updateInDB', {
+        commandId,
+        set: {
+          items: {
+            [itemFullId]: set,
+          },
         },
-      }, { merge: true });
+      });
     },
-    async removeItemToCommand({ state }, params) {
+    async removeItemToCommand({ state, dispatch }, params) {
       const {
         commandId,
-        itemId,
-        variationId,
-        choiceId,
+        item,
       } = params;
       let {
         quantity,
       } = params;
 
+      if (!item.plateId) {
+        return;
+      }
 
-      const itemFullId = CommandUtils.commandItemFullId(itemId, variationId, choiceId);
+      const itemFullId = CommandUtils.commandItemFullId(item.plateId, item.choiceId);
       const currentCommand = state.commands.find(command => command.id === commandId);
       const currentItem = currentCommand.items[itemFullId];
 
@@ -120,21 +151,41 @@ export default {
 
       const newQuantity = currentItem.quantity - quantity;
       if (newQuantity <= 0) {
-        await db.collection(COMMANDS_COLLECTION).doc(commandId).set({
-          items: {
-            [itemFullId]: Firebase.firestore.FieldValue.delete(),
+        dispatch('updateInDB', {
+          commandId,
+          set: {
+            items: {
+              [itemFullId]: Firebase.firestore.FieldValue.delete(),
+            },
           },
-        }, { merge: true });
+        });
         return;
       }
 
-      await db.collection(COMMANDS_COLLECTION).doc(commandId).set({
-        items: {
-          [itemFullId]: {
-            quantity: newQuantity,
+      dispatch('updateInDB', {
+        commandId,
+        set: {
+          items: {
+            [itemFullId]: {
+              quantity: newQuantity,
+            },
           },
         },
-      }, { merge: true });
+      });
+    },
+    async finishCommand({ dispatch }, params) {
+      const {
+        commandId,
+        bill,
+      } = params;
+
+      dispatch('updateInDB', {
+        commandId,
+        set: {
+          bill: JSON.parse(JSON.stringify(bill)),
+          endedAt: new Date(),
+        },
+      });
     },
   },
 };

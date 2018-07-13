@@ -16,6 +16,14 @@
         <div class="number-of-guests">{{command.numberOfGuest}} personnes</div>
       </router-link>
     </div>
+    <h1 class="main-title" v-if="commandsEnded.length > 0">Commandes finies</h1>
+    <div class="command-list" v-if="commandsEnded.length > 0">
+      <router-link :to="{ name: 'command', params: { id: command.id }}" class="command ended" v-for="command in commandsEnded" :key="command.id">
+        <div class="command-type">{{ isOnSite(command) ? 'Sur place' : 'A emporter' }}</div>
+        <div class="number-of-guests">{{command.numberOfGuest}} personnes</div>
+        <div class="total-price">{{command.bill.totalPrice | price}}</div>
+      </router-link>
+    </div>
     <button type="button" class="btn btn-icon-left add-btn" @click="openCommandCreator"><AppIcon icon="plus" />Nouvelle commande</button>
   </div>
 </template>
@@ -32,10 +40,13 @@ export default {
   computed: {
     ...mapState('commands', ['commands']),
     commandsTakeAway() {
-      return this.commands.filter(command => command.type === TAKE_AWAY);
+      return this.commands.filter(command => !command.endedAt && command.type === TAKE_AWAY);
     },
     commandsOnSite() {
-      return this.commands.filter(command => command.type === ON_SITE);
+      return this.commands.filter(command => !command.endedAt && command.type === ON_SITE);
+    },
+    commandsEnded() {
+      return this.commands.filter(command => command.endedAt);
     },
   },
   methods: {
@@ -46,12 +57,16 @@ export default {
     onCommandClick(command) {
       console.log(command);
     },
+    isOnSite(command) {
+      return command.type === ON_SITE;
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
 @import '~@/styles/variables';
+@import '~@/styles/mixins';
 
 .command-manager {
   padding: $spacing;
@@ -118,5 +133,9 @@ export default {
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
+
+  @include responsive($small-breakpoint) {
+    right: -50%;
+  }
 }
 </style>

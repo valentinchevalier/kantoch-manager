@@ -8,6 +8,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import CommandCreator from '@/components/command/CommandCreator';
+import CommandBilling from '@/components/command/CommandBilling';
 import ComplexItemEditor from '@/components/command/ComplexItemEditor';
 import PlateChoicesEditor from '@/components/PlateChoicesEditor';
 
@@ -16,6 +17,7 @@ export default {
     CommandCreator,
     ComplexItemEditor,
     PlateChoicesEditor,
+    CommandBilling,
   },
   computed: {
     ...mapState('modal', ['isVisible', 'component', 'componentData']),
@@ -28,6 +30,7 @@ export default {
 
 <style lang="scss">
 @import '~@/styles/variables';
+@import '~@/styles/mixins';
 
 .modal-container {
   position: fixed;
@@ -41,6 +44,10 @@ export default {
   align-items: center;
   justify-content: center;
   display: none;
+
+  @include responsive($small-breakpoint) {
+    padding: $spacing-small;
+  }
 
   .backdrop {
     background-color: rgba($black, 0.5);
@@ -73,8 +80,36 @@ export default {
     font-size: 2rem;
   }
 
+  .subtitle {
+    font-size: 1.8rem;
+    margin-top: 0;
+  }
+
   > * + * {
     margin-top: $spacing-small;
+  }
+
+  &.modal-large {
+    width: 90vw;
+  }
+
+  .actions {
+    margin-top: $spacing;
+
+    .btn {
+      @include responsive($small-breakpoint) {
+        width: 100%;
+      }
+    }
+
+    > * + * {
+      margin-left: $spacing-small;
+
+      @include responsive($small-breakpoint) {
+        margin-left: 0;
+        margin-top: $spacing-small;
+      }
+    }
   }
 }
 

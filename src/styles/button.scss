@@ -12,8 +12,18 @@
   outline: none;
   text-decoration: none;
   text-transform: uppercase;
+  font-size: 1.3rem;
 
-  &:hover {
+  // @include responsive($small-breakpoint) {
+  //   padding: $button-small-padding;
+  // }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
     color: $white;
     background-color: $black;
   }
@@ -24,9 +34,9 @@
     padding: $button-small-padding;
   }
 
-
   &.btn-icon-right {
-    padding-right: $spacing-medium + .5rem;
+    padding-right: $spacing-medium;
+    padding-left: $spacing;
 
     .icon {
       position: absolute;
@@ -38,12 +48,19 @@
 
   &.btn-icon-left {
     padding-left: $spacing-medium;
+    padding-right: $spacing;
 
     .icon {
       position: absolute;
       top: 50%;
       left: $spacing;
       transform: translate(-50%, -50%);
+    }
+  }
+
+  &.btn-icon-medium {
+    .icon {
+      font-size: 1.8rem;
     }
   }
 
@@ -64,4 +81,8 @@
   .icon {
     margin: 0 .5rem 0 0;
   }
+}
+
+button {
+  cursor: pointer;
 }

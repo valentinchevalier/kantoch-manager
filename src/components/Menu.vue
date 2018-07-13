@@ -1,9 +1,5 @@
 <template>
   <div class="menu">
-    <h1 class="category">Formules</h1>
-    <div class="formule items-container">
-      <MenuItem @click.native="onClick(item)" :item="item" v-for="item in formuleItems" :key="item.id" />
-    </div>
     <h1 class="category">Manger</h1>
     <div class="food items-container">
       <MenuItem @click.native="onClick(item)" :item="item" v-for="item in foodItems" :key="item.id" />
@@ -36,6 +32,7 @@ export default {
 
 <style scoped lang="scss">
 @import '~@/styles/variables';
+@import '~@/styles/mixins';
 
 .items-container {
   display: grid;
@@ -43,6 +40,10 @@ export default {
   grid-auto-rows: 1fr;
   grid-gap: 10px;
   flex-wrap: wrap;
+
+  @include responsive($small-breakpoint) {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
 }
 
 .category {

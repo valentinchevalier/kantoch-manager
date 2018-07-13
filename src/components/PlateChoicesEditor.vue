@@ -1,6 +1,7 @@
 <template>
   <div class="">
     <h3 class="title">{{plate.label}}</h3>
+    <h4 class="subtitle" v-if="plate.labelExtra">{{plate.labelExtra}}</h4>
 
     <form class="simple-form" @submit.prevent="saveChoice">
       <div class="input-wrapper">
@@ -16,7 +17,7 @@
         v-for="(choice, index) in plate.choices"
         :key="choice.id" >
         <p class="label">{{choice.label}}</p>
-        <div class="delete" @click="deleteChoice(index)"><i class="icon icon-cross"></i></div>
+        <button type="button" class="delete" @click="deleteChoice(index)"><i class="icon icon-cross"></i></button>
       </div>
       <p class="no-choices" v-if="!plate.choices || plate.choices.length === 0">Il n'y a aucun choix possibles</p>
     </div>
@@ -44,7 +45,7 @@ export default {
   computed: {
     ...mapState('menu', ['plates']),
     plate() {
-      return this.plates.find(plate => plate.id === this.plateId);
+      return this.plates[this.plateId];
     },
   },
   methods: {
@@ -109,6 +110,7 @@ export default {
     .edit,
     .delete {
       padding: $spacing-xsmall;
+      background-color: transparent;
 
       .icon {
         font-size: 1.8rem;
@@ -139,10 +141,12 @@ export default {
     }
   }
 }
-
-.actions {
-  > * + * {
-    margin-left: $spacing-small;
+</style>
+<style lang="scss">
+.title {
+  .small {
+    display: block;
+    font-size: 1.5rem;
   }
 }
 </style>

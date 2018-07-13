@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <router-view/>
-    <Initialize />
     <AppModalContainer />
   </div>
 </template>
@@ -9,12 +8,10 @@
 <script>
 import { mapActions } from 'vuex';
 import AppModalContainer from './components/ModalContainer';
-import Initialize from './components/Initialize';
 
 export default {
   components: {
     AppModalContainer,
-    Initialize,
   },
   async created() {
     await this.initMenuFromFirebase();
@@ -31,6 +28,7 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Nunito:300,400,700');
 
 @import './styles/variables';
+@import './styles/mixins';
 @import './styles/forms';
 @import './styles/button';
 
@@ -78,13 +76,21 @@ body {
 
 .back-button {
   padding: $spacing-small + .5rem;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   text-decoration: none;
   color: $black;
   z-index: 1000;
-  background-color: rgba($white, .8);
+  background-color: rgba($white, .9);
+
+  @include responsive($small-breakpoint) {
+    right: 0;
+
+    & + * {
+      margin-top: 5rem;
+    }
+  }
 
   .icon {
     margin-right: 0.5rem;

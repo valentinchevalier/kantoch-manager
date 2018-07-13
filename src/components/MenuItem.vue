@@ -1,6 +1,7 @@
 <template>
   <div class="menu-item" v-long-press="700" @long-press="onLongClick()">
-    <div class="plate-label" v-html="item.label"></div>
+    <div class="plate-label">{{item.label}}</div>
+    <div class="plate-label-extra" v-if="item.labelExtra">{{item.labelExtra}}</div>
     <div class="price">{{item.price | price}}</div>
   </div>
 </template>
@@ -25,6 +26,7 @@ export default {
 
 <style lang="scss">
 @import '~@/styles/variables';
+@import '~@/styles/mixins';
 
 .menu-item {
   position: relative;
@@ -40,17 +42,26 @@ export default {
   color: $black;
   transition: background-color $transition-duration ease, color $transition-duration ease;
 
+  @include responsive($small-breakpoint) {
+    padding: $spacing-small $spacing-xsmall;
+  }
+
   .price {
     font-size: 2rem;
     margin-top: $spacing-small;
+
+    @include responsive($small-breakpoint) {
+      font-size: 1.5rem;
+      margin-top: $spacing-xsmall;
+    }
   }
 
   .plate-label {
     line-height: 1.1;
+  }
 
-    .small {
-      font-size: 1.2rem;
-    }
+  .plate-label-extra {
+    font-size: 1.2rem;
   }
 
   &:hover,

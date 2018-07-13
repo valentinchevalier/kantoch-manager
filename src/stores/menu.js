@@ -2,52 +2,42 @@ import Vue from 'vue';
 import defaultMenu from '@/utils/default-menu';
 import utils from '@/utils/utils';
 import db from '@/utils/db';
-import { RESET_PLATE_LIST, PUSH_PLATE, UPDATE_PLATE } from './menuMutation.types';
+import { RESET_PLATE_LIST, ADD_PLATE, REMOVE_PLATE } from './menuMutation.types';
 
 export default {
   namespaced: true,
   state() {
     return {
-      formules: [],
-      formuleItems: {},
-      plates: [],
+      plates: {},
     };
   },
   getters: {
-    availableItems({ plates }) {
-      return plates.filter(plate => plate.isDisable);
-    },
     foodItems({ plates }) {
-      return plates.filter(item => item.category === 'food');
+      return Object.values(plates).filter(item => item.category === 'food');
     },
     drinkItems({ plates }) {
-      return plates.filter(item => item.category === 'drink');
-    },
-    formuleItems({ plates }) {
-      return plates.filter(item => item.category === 'formule');
+      return Object.values(plates).filter(item => item.category === 'drink');
     },
   },
   mutations: {
-    [PUSH_PLATE](state, plate) {
-      state.plates.push(plate);
+    [ADD_PLATE](state, plate) {
+      Vue.set(state.plates, plate.id, plate);
+    },
+    [REMOVE_PLATE](state, plate) {
+      Vue.delete(state.plates, plate.id);
     },
     [RESET_PLATE_LIST](state) {
-      state.plates = [];
-    },
-    [UPDATE_PLATE](state, plate) {
-      const plateIndex = state.plates.findIndex(pl => pl.id === plate.id);
-      Vue.set(state.plates, plateIndex, plate);
+      state.plates = {};
     },
   },
   actions: {
-    seed() {
+    seed({ state }) {
       const menuRef = db.collection('plates');
+      Object.keys(state.plates).forEach((plateId) => {
+        menuRef.doc(plateId).delete();
+      });
       defaultMenu.plates.forEach((plate) => {
         menuRef.doc(plate.id).set(plate);
-      });
-      const formulesRef = db.collection('formules');
-      defaultMenu.formules.forEach((formule) => {
-        formulesRef.doc(formule.id).set(formule);
       });
     },
     initFromFirebase({ commit }) {
@@ -55,17 +45,21 @@ export default {
 
       db.collection('plates').onSnapshot((snapshot) => {
         snapshot.docChanges().forEach((change) => {
-          if (change.type === 'added') {
-            commit(PUSH_PLATE, {
-              id: change.doc.id,
-              ...change.doc.data(),
-            });
-          }
-          if (change.type === 'modified') {
-            commit(UPDATE_PLATE, {
-              id: change.doc.id,
-              ...change.doc.data(),
-            });
+          switch (change.type) {
+            case 'added':
+            case 'modified':
+              commit(ADD_PLATE, {
+                id: change.doc.id,
+                ...change.doc.data(),
+              });
+              break;
+            case 'removed':
+              commit(REMOVE_PLATE, {
+                id: change.doc.id,
+              });
+              break;
+            default:
+              break;
           }
         });
       });
@@ -75,7 +69,7 @@ export default {
         plateId,
         choiceLabel,
       } = params;
-      const currentPlate = state.plates.find(plate => plate.id === plateId);
+      const currentPlate = state.plates[plateId];
       const choices = currentPlate.choices ? currentPlate.choices.slice() : [];
 
       choices.push({
@@ -94,7 +88,7 @@ export default {
       } = params;
 
       console.log(choiceIndex);
-      const currentPlate = state.plates.find(plate => plate.id === plateId);
+      const currentPlate = state.plates[plateId];
       const choices = currentPlate.choices.slice();
 
       choices.splice(choiceIndex, 1);

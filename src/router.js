@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home';
-import Command from './views/Command';
+import HomeView from './views/HomeView';
+import CommandEditionView from './views/CommandEditionView';
+import CommandManagerView from './views/CommandManagerView';
+import SettingsView from './views/SettingsView';
 
 Vue.use(Router);
 
@@ -10,12 +12,22 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: HomeView,
     },
     {
       path: '/command/:id',
       name: 'command',
-      component: Command,
+      component: CommandEditionView,
+    },
+    {
+      path: '/command-manager',
+      name: 'command-manager',
+      component: CommandManagerView,
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: SettingsView,
     },
   ],
 });

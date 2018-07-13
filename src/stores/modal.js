@@ -49,5 +49,14 @@ export default {
         },
       });
     },
+    showCommandBilling({ commit }, { command }) {
+      commit(SHOW_MODAL, {
+        component: 'CommandBilling',
+        componentData: {
+          command,
+          // class: 'modal-large',
+        },
+      });
+    },
   },
 };

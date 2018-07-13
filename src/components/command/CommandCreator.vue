@@ -82,10 +82,11 @@ export default {
 
 <style lang="scss" scoped>
 @import '~@/styles/variables';
+@import '~@/styles/mixins';
 
 .command-type-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   grid-gap: $spacing-small;
   justify-content: center;
 
@@ -104,6 +105,10 @@ export default {
 
   .btn {
     border-radius: $box-radius;
+
+    @include responsive($small-breakpoint) {
+      padding: 1rem;
+    }
   }
 }
 .inputs {
@@ -113,10 +118,14 @@ export default {
   width: 100%;
   margin-bottom: $spacing-small;
 
+  @include responsive($small-breakpoint) {
+    grid-template-columns: 1fr;
+  }
+
   .input-wrapper,
   .checkbox-wrapper {
     align-self: center;
-    justify-self: center;
+    justify-self: stretch;
 
     input[type=text],
     input[type=number], {
@@ -127,12 +136,10 @@ export default {
   .fullwidth {
     grid-column: span 2;
     width: 100%;
-  }
-}
 
-.actions {
-  > * + * {
-    margin-left: $spacing-small;
+    @include responsive($small-breakpoint) {
+      grid-column: span 1;
+    }
   }
 }
 </style>
