@@ -1,8 +1,15 @@
 .input-wrapper,
 .radio-wrapper,
 .checkbox-wrapper {
+  input,
+  textarea,
   label {
     font-size: 1.6rem;
+  }
+
+  input,
+  textarea {
+    width: 100%;
   }
 }
 

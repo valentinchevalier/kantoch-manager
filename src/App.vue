@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view class="main-view"/>
     <AppModalContainer />
   </div>
 </template>
@@ -69,9 +69,17 @@ body {
   }
 }
 
+.main-view {
+  padding: $spacing;
+}
+
 .main-title {
   font-size: 2.5rem;
-  margin-bottom: $spacing-small;
+  margin-bottom: $spacing;
+
+  .icon {
+    margin: 0 $spacing-small;
+  }
 }
 
 .back-button {

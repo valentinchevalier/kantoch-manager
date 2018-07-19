@@ -1,18 +1,19 @@
 <template>
   <div class="home">
-    <router-link :to="{ name: 'settings' }" class="settings-button"><AppIcon icon="cog"/> Paramètres</router-link>
-    <CommandManager />
+    <router-link :to="{ name: 'home' }" class="back-button"><AppIcon icon="arrow-left"/> Retour</router-link>
+    <h1 class="main-title"><AppIcon icon="calendar-check"/> Commandes du jour</h1>
+    <CommandsOfTheDay />
   </div>
 </template>
 
 <script>
-import CommandManager from '@/components/CommandManager';
+import CommandsOfTheDay from '@/components/CommandsOfTheDay';
 import AppIcon from '@/components/AppIcon';
 
 export default {
   name: 'home',
   components: {
-    CommandManager,
+    CommandsOfTheDay,
     AppIcon,
   },
 };

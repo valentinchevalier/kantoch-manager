@@ -7,7 +7,8 @@
         class="choice btn"
         v-for="choice in item.choices"
         :key="choice.id"
-        @click="selectChoice(choice.id)">
+        @click="selectChoice(choice.id)"
+        :disabled="!choice.available">
         <p class="label">{{choice.label}}</p>
       </button>
     </div>

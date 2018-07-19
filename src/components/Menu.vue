@@ -2,11 +2,11 @@
   <div class="menu">
     <h1 class="category">Manger</h1>
     <div class="food items-container">
-      <MenuItem @click.native="onClick(item)" :item="item" v-for="item in foodItems" :key="item.id" />
+      <MenuItem @click="onClick(item)" @long-click="onLongClick(item)" :item="item" :showChoices="showChoices" v-for="item in foodItems" :key="item.id" />
     </div>
     <h1 class="category">Boire</h1>
     <div class="drink items-container">
-      <MenuItem @click.native="onClick(item)" :item="item" v-for="item in drinkItems" :key="item.id" />
+      <MenuItem @click="onClick(item)" @long-click="onLongClick(item)" :item="item" :showChoices="showChoices" v-for="item in drinkItems" :key="item.id" />
     </div>
   </div>
 </template>
@@ -19,12 +19,20 @@ export default {
   components: {
     MenuItem,
   },
+  props: {
+    showChoices: {
+      type: Boolean,
+    },
+  },
   computed: {
     ...mapGetters('menu', ['foodItems', 'drinkItems', 'formuleItems']),
   },
   methods: {
     onClick(item) {
       this.$emit('click', item);
+    },
+    onLongClick(item) {
+      this.$emit('long-click', item);
     },
   },
 };

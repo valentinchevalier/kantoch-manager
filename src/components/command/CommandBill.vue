@@ -1,6 +1,5 @@
 <template>
-  <div class="command-billing" v-if="plates && bill.totalPrice">
-    <CommandTitle :command="command"/>
+  <div class="command-bill" v-if="plates && bill.totalPrice">
     <div>
       <div class="bill-item" v-for="(formule, index) in bill.formules" :key="index">
         <div class="formule-label">
@@ -19,72 +18,34 @@
       <h3 class="title">Total</h3>
       <DetailedPrice :amount="bill.totalPrice"  class="total-price" />
     </div>
-    <div class="actions">
-      <button type="button" class="btn btn-small" @click="close">Retour</button>
-      <button type="button" class="btn btn-small" @click="onFinishCommand">Terminer la commande</button>
+    <div class="price-by-guest" v-if="this.numberOfGuest">
+      <span>Prix par personne : </span>
+      <DetailedPrice :amount="bill.totalPrice / this.numberOfGuest"  class="price" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import CommandUtils from '@/utils/command-utils';
-import AppIcon from '@/components/AppIcon';
+import { mapState } from 'vuex';
 import DetailedPrice from '@/components/DetailedPrice';
-import FormuleBuilder from './FormuleBuilder';
-import CommandTitle from './CommandTitle';
 import PlateLabel from './PlateLabel';
 
 export default {
   components: {
-    AppIcon,
-    CommandTitle,
-    FormuleBuilder,
     PlateLabel,
     DetailedPrice,
   },
   props: {
-    command: {
+    bill: {
       type: Object,
       required: true,
     },
-  },
-  data() {
-    return {
-      bill: {},
-    };
-  },
-  mounted() {
-    this.bill = CommandUtils.generateBill(this.command.items, this.plates);
+    numberOfGuest: {
+      type: Number,
+    },
   },
   computed: {
     ...mapState('menu', ['plates']),
-    formuleMainItems() {
-      return Object.values(this.bill.singleItems).filter(commandItem => this.plates[commandItem.plateId] && this.plates[commandItem.plateId].isFormuleMain);
-    },
-    formuleEntreeItems() {
-      return Object.values(this.bill.singleItems).filter(commandItem => this.plates[commandItem.plateId] && this.plates[commandItem.plateId].isFormuleEntree);
-    },
-    formuleDessertItems() {
-      return Object.values(this.bill.singleItems).filter(commandItem => this.plates[commandItem.plateId] && this.plates[commandItem.plateId].isFormuleDessert);
-    },
-    commandItems() {
-      return Object.values(this.command.items);
-    },
-  },
-  methods: {
-    ...mapActions('commands', ['finishCommand']),
-    onFinishCommand() {
-      this.finishCommand({
-        commandId: this.command.id,
-        bill: this.bill,
-      });
-      this.close();
-      this.$router.push({ name: 'home' });
-    },
-    close() {
-      this.$emit('close');
-    },
   },
 };
 </script>
@@ -92,11 +53,6 @@ export default {
 <style scoped lang="scss">
 @import '~@/styles/variables';
 @import '~@/styles/mixins';
-
-.has-items {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-}
 
 .formule-label {
   .extra-label {
@@ -147,6 +103,18 @@ export default {
   .total-price {
     font-weight: bold;
     margin-left: auto;
+  }
+}
+
+.price-by-guest {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .detailed-price {
+    text-align: left;
+    margin-left: $spacing-small;
+    font-weight: $bold-weight;
   }
 }
 </style>

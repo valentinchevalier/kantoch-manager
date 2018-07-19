@@ -1,18 +1,20 @@
 <template>
   <div class="home">
-    <router-link :to="{ name: 'settings' }" class="back-button"><AppIcon icon="cog"/> Paramètres</router-link>
-    <CommandManager />
+    <div class="home-menu">
+      <router-link :to="{ name: 'commands-of-the-day' }" class="btn btn-icon-left"><AppIcon icon="calendar-check"/> Commandes du jour</router-link>
+      <router-link :to="{ name: 'command-history' }" class="btn btn-icon-left"><AppIcon icon="history"/> Historique des commandes</router-link>
+      <router-link :to="{ name: 'settings' }" class="btn btn-icon-left"><AppIcon icon="cog"/> Paramètres</router-link>
+    </div>
+
   </div>
 </template>
 
 <script>
-import CommandManager from '@/components/CommandManager';
 import AppIcon from '@/components/AppIcon';
 
 export default {
   name: 'home',
   components: {
-    CommandManager,
     AppIcon,
   },
 };
@@ -21,28 +23,15 @@ export default {
 <style lang="scss" scoped>
 @import '~@/styles/variables';
 
+.home-menu {
+  padding: $spacing-medium 0;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  max-width: 30rem;
 
-.settings-button {
-  padding: $spacing-small + .5rem;
-  position: absolute;
-  top: 0;
-  left: 0;
-  text-decoration: none;
-  color: $black;
-  z-index: 1000;
-  background-color: rgba($white, .8);
-
-  .icon {
-    margin-right: 0.5rem;
-    transition: transform $transition-duration ease;
-    font-size: 1.8rem;
-  }
-
-  &:hover,
-  &:focus {
-    .icon {
-      transform: translateX(-.5rem);
-    }
+  .btn {
+    margin-bottom: $spacing;
   }
 }
 </style>

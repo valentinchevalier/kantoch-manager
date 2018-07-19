@@ -1,10 +1,9 @@
 <template>
   <div class="command-editor" >
     <div class="column">
-      <Menu @click="onItemClick"/>
+      <Menu @click="onItemClick" @long-click="onItemLongClick" />
     </div>
     <div class="column" v-if="command">
-      <CommandTitle :command="command"/>
       <CommandDetails :command="command"/>
     </div>
     <AppLoader :loading="!command" />
@@ -15,7 +14,6 @@
 import { mapState, mapActions } from 'vuex';
 import Menu from '@/components/Menu';
 import AppLoader from '@/components/AppLoader';
-import CommandTitle from './CommandTitle';
 import CommandDetails from './CommandDetails';
 
 export default {
@@ -23,7 +21,6 @@ export default {
     CommandDetails,
     Menu,
     AppLoader,
-    CommandTitle,
   },
   props: {
     id: {
@@ -38,8 +35,11 @@ export default {
   },
   methods: {
     ...mapActions('commands', ['addItemToCommand']),
-    ...mapActions('modal', ['showComplexItemEditor']),
+    ...mapActions('modal', ['showComplexItemEditor', 'showMenuItemEditor']),
     onItemClick(item) {
+      if (!item.available) {
+        return;
+      }
       if (item.choices && item.choices.length > 0) {
         this.showComplexItemEditor({
           item,
@@ -53,6 +53,9 @@ export default {
           plateId: item.id,
         },
       });
+    },
+    onItemLongClick(item) {
+      this.showMenuItemEditor({ plate: item });
     },
   },
 };

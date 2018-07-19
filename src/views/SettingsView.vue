@@ -1,6 +1,7 @@
 <template>
   <div class="command">
     <router-link :to="{ name: 'home' }" class="back-button"><AppIcon icon="arrow-left"/> Retour</router-link>
+    <h1 class="main-title"><AppIcon icon="cog"/> Paramètres</h1>
     <SettingsEditor />
   </div>
 </template>

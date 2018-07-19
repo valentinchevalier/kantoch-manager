@@ -66,7 +66,6 @@ export default {
 }
 
 .simple-price {
-  width: 10rem;
   padding: $spacing-small 0;
 }
 
@@ -77,6 +76,8 @@ export default {
 
   .label {
     margin-right: $spacing-small;
+    display: inline-block;
+    width: 8rem;
   }
 
   .value {

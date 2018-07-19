@@ -1,5 +1,5 @@
 <template>
-  <div class="loader-container" :class="{loading: loading}">
+  <div class="loader-container" :class="{loading, inline}">
     <div class="spinner">
       <div class="double-bounce1"></div>
       <div class="double-bounce2"></div>
@@ -15,6 +15,9 @@ export default {
       type: Boolean,
       required: true,
     },
+    inline: {
+      type: Boolean,
+    },
   },
 };
 </script>
@@ -23,24 +26,34 @@ export default {
 @import '~@/styles/variables';
 
 .loader-container {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: rgba($white, 0.7);
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity $transition-duration ease 0.5s;
+
+  &:not(.inline) {
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba($white, 0.7);
+    opacity: 0;
+    pointer-events: none;
+    // transition: opacity $transition-duration ease 0.5s;
+    z-index: 1000;
+
+    &.loading {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
 
   &.loading {
-    opacity: 1;
-    pointer-events: all;
+    display: flex;
   }
+
 }
 
 .spinner {

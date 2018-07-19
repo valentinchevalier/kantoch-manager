@@ -1,9 +1,9 @@
 <template>
   <div class="command-title">
-    <div class="table-number">Table <span class="number">{{command.tableNumber}}</span></div>
+    <div class="name">{{command.name}}</div>
     <div class="infos">
       <div class="number-of-guests">{{command.numberOfGuest}} personnes</div>
-      <div class="name" v-if="command.name">{{command.name}}</div>
+      <div class="type">{{ command.type | commandType }}</div>
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@ export default {
 @import '~@/styles/variables';
 
 .command-title {
-  .table-number {
+  .name {
     font-size: 2rem;
     margin-bottom: $spacing-xsmall;
 

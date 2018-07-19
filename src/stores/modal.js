@@ -26,10 +26,18 @@ export default {
     hide({ commit }) {
       commit(HIDE_MODAL);
     },
-    showCommandCreator({ commit }) {
+    showCommandCreatorModal({ commit }) {
       commit(SHOW_MODAL, {
-        component: 'CommandCreator',
+        component: 'CommandCreatorModal',
         componentData: {},
+      });
+    },
+    showCommandEditorModal({ commit }, { commandId }) {
+      commit(SHOW_MODAL, {
+        component: 'CommandEditorModal',
+        componentData: {
+          commandId,
+        },
       });
     },
     showComplexItemEditor({ commit }, { item, commandId }) {
@@ -41,20 +49,28 @@ export default {
         },
       });
     },
-    showPlateChoicesEditor({ commit }, { plate }) {
+    showMenuItemEditor({ commit }, { plate }) {
       commit(SHOW_MODAL, {
-        component: 'PlateChoicesEditor',
+        component: 'MenuItemEditor',
         componentData: {
           plateId: plate.id,
         },
       });
     },
-    showCommandBilling({ commit }, { command }) {
+    showCommandEndingModal({ commit }, { commandId }) {
       commit(SHOW_MODAL, {
-        component: 'CommandBilling',
+        component: 'CommandEndingModal',
+        componentData: {
+          commandId,
+          // class: 'modal-large',
+        },
+      });
+    },
+    showCommandBillModal({ commit }, { command }) {
+      commit(SHOW_MODAL, {
+        component: 'CommandBillModal',
         componentData: {
           command,
-          // class: 'modal-large',
         },
       });
     },

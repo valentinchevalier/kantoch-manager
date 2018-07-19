@@ -1,5 +1,6 @@
 <template>
   <div class="command-details">
+    <CommandTitle :command="command"/>
     <p class="no-items" v-if="commandItems.length <= 0">Aucuns produits</p>
     <template v-else>
       <div class="items">
@@ -22,12 +23,14 @@
 <script>
 import { mapActions } from 'vuex';
 import AppIcon from '@/components/AppIcon';
+import CommandTitle from './CommandTitle';
 import PlateLabel from './PlateLabel';
 
 export default {
   components: {
     AppIcon,
     PlateLabel,
+    CommandTitle,
   },
   props: {
     command: {
@@ -42,7 +45,7 @@ export default {
   },
   methods: {
     ...mapActions('commands', ['addItemToCommand', 'removeItemToCommand']),
-    ...mapActions('modal', ['showCommandBilling']),
+    ...mapActions('modal', ['showCommandEndingModal']),
     onAddClick(item) {
       this.addItemToCommand({
         commandId: this.command.id,
@@ -56,7 +59,9 @@ export default {
       });
     },
     onBillClick() {
-      this.showCommandBilling({ command: this.command });
+      this.showCommandEndingModal({
+        commandId: this.command.id,
+      });
     },
   },
 };
@@ -64,6 +69,10 @@ export default {
 
 <style scoped lang="scss">
 @import '~@/styles/variables';
+
+.commant-title {
+  margin: $spacing-small 0;
+}
 
 .no-items {
   margin-top: $spacing-medium;

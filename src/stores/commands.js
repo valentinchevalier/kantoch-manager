@@ -69,7 +69,6 @@ export default {
         });
     },
     async addCommand(context, command) {
-      console.log(command);
       const newCommand = {
         ...command,
         items: {},
@@ -78,14 +77,28 @@ export default {
 
       await db.collection(COMMANDS_COLLECTION).add(newCommand);
     },
+    async updateCommand({ dispatch }, command) {
+      const {
+        type,
+        name,
+        numberOfGuest,
+      } = command;
+
+      dispatch('updateInDB', {
+        commandId: command.id,
+        set: {
+          type,
+          name,
+          numberOfGuest,
+        },
+      });
+    },
     async updateInDB(context, params) {
       const {
         commandId,
         set,
         merge,
       } = params;
-
-      console.log(set);
 
       await db.collection(COMMANDS_COLLECTION).doc(commandId).set(set, { merge: merge || true });
     },
@@ -173,7 +186,7 @@ export default {
         },
       });
     },
-    async finishCommand({ dispatch }, params) {
+    async closeCommand({ dispatch }, params) {
       const {
         commandId,
         bill,
@@ -184,6 +197,20 @@ export default {
         set: {
           bill: JSON.parse(JSON.stringify(bill)),
           endedAt: new Date(),
+          isEnded: true,
+        },
+      });
+    },
+    async openCommand({ dispatch }, params) {
+      const {
+        commandId,
+      } = params;
+
+      dispatch('updateInDB', {
+        commandId,
+        set: {
+          endedAt: Firebase.firestore.FieldValue.delete(),
+          isEnded: false,
         },
       });
     },

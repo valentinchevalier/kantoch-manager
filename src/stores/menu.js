@@ -37,7 +37,10 @@ export default {
         menuRef.doc(plateId).delete();
       });
       defaultMenu.plates.forEach((plate) => {
-        menuRef.doc(plate.id).set(plate);
+        menuRef.doc(plate.id).set({
+          ...plate,
+          available: true,
+        });
       });
     },
     initFromFirebase({ commit }) {
@@ -64,17 +67,28 @@ export default {
         });
       });
     },
+    async togglePlateAvailability(context, params) {
+      const {
+        plateId,
+        available,
+      } = params;
+
+      await db.collection('plates').doc(plateId).set({
+        available,
+      }, { merge: true });
+    },
     async addPlateChoice({ state }, params) {
       const {
         plateId,
         choiceLabel,
       } = params;
       const currentPlate = state.plates[plateId];
-      const choices = currentPlate.choices ? currentPlate.choices.slice() : [];
+      const choices = currentPlate.choices ? JSON.parse(JSON.stringify(currentPlate.choices)) : [];
 
       choices.push({
         id: utils.generateID(),
         label: choiceLabel,
+        available: true,
       });
 
       await db.collection('plates').doc(plateId).set({
@@ -87,11 +101,26 @@ export default {
         choiceIndex,
       } = params;
 
-      console.log(choiceIndex);
       const currentPlate = state.plates[plateId];
-      const choices = currentPlate.choices.slice();
+      const choices = JSON.parse(JSON.stringify(currentPlate.choices));
 
       choices.splice(choiceIndex, 1);
+
+      await db.collection('plates').doc(plateId).set({
+        choices,
+      }, { merge: true });
+    },
+    async togglePlateChoiceAvailability({ state }, params) {
+      const {
+        plateId,
+        choiceIndex,
+        available,
+      } = params;
+
+      const currentPlate = state.plates[plateId];
+      const choices = JSON.parse(JSON.stringify(currentPlate.choices));
+
+      choices[choiceIndex].available = available;
 
       await db.collection('plates').doc(plateId).set({
         choices,

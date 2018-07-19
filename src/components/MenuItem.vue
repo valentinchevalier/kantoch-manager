@@ -1,30 +1,36 @@
 <template>
-  <div class="menu-item" v-long-press="700" @long-press="onLongClick()">
+  <div class="menu-item" @click="onClick" v-long-press="700" @long-press="onLongClick" :class="{disable: !item.available}">
     <div class="plate-label">{{item.label}}</div>
     <div class="plate-label-extra" v-if="item.labelExtra">{{item.labelExtra}}</div>
     <div class="price">{{item.price | price}}</div>
+    <div class="choices" v-if="showChoices">
+      <div class="choice" :class="{disable: !choice.available}" v-for="choice in item.choices" :key="choice.id">{{choice.label}}</div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-
 export default {
   props: {
     item: {
       type: Object,
     },
+    showChoices: {
+      type: Boolean,
+    },
   },
   methods: {
-    ...mapActions('modal', ['showPlateChoicesEditor']),
+    onClick() {
+      this.$emit('click');
+    },
     onLongClick() {
-      this.showPlateChoicesEditor({ plate: this.item });
+      this.$emit('long-click');
     },
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~@/styles/variables';
 @import '~@/styles/mixins';
 
@@ -64,10 +70,28 @@ export default {
     font-size: 1.2rem;
   }
 
-  &:hover,
-  &:focus {
-    background-color: $black;
-    color: $white;
+  .choices {
+    font-size: 1.2rem;
+    margin-top: $spacing-xsmall;
+
+    .choice {
+      &.disable {
+        opacity: 0.4;
+      }
+    }
+  }
+
+  &.disable {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  &:not(.disable) {
+    &:hover,
+    &:focus {
+      background-color: $black;
+      color: $white;
+    }
   }
 }
 </style>

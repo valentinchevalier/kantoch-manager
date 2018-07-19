@@ -2,7 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import HomeView from './views/HomeView';
 import CommandEditionView from './views/CommandEditionView';
-import CommandManagerView from './views/CommandManagerView';
+import CommandsOfTheDayView from './views/CommandsOfTheDayView';
+import CommandHistoryView from './views/CommandHistoryView';
 import SettingsView from './views/SettingsView';
 
 Vue.use(Router);
@@ -20,9 +21,14 @@ export default new Router({
       component: CommandEditionView,
     },
     {
-      path: '/command-manager',
-      name: 'command-manager',
-      component: CommandManagerView,
+      path: '/commands-of-the-day',
+      name: 'commands-of-the-day',
+      component: CommandsOfTheDayView,
+    },
+    {
+      path: '/command-history',
+      name: 'command-history',
+      component: CommandHistoryView,
     },
     {
       path: '/settings',
