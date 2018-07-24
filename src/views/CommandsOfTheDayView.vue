@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div>
     <router-link :to="{ name: 'home' }" class="back-button"><AppIcon icon="arrow-left"/> Retour</router-link>
     <h1 class="main-title"><AppIcon icon="calendar-check"/> Commandes du jour</h1>
     <CommandsOfTheDay />

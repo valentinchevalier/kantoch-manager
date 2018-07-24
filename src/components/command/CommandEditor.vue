@@ -82,7 +82,7 @@ export default {
     padding: $spacing $spacing-small $spacing-small;
 
     @include responsive($small-breakpoint) {
-      padding-top: 0;
+    padding: 0 0 $spacing-small;
     }
   }
 

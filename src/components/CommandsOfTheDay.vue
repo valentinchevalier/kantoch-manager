@@ -66,6 +66,12 @@ export default {
 @import '~@/styles/variables';
 @import '~@/styles/mixins';
 
+.commands-of-the-day {
+  @include responsive($small-breakpoint) {
+    margin-bottom: $spacing-large;
+  }
+}
+
 .small-title {
   margin-bottom: $spacing-small;
 }
@@ -78,6 +84,10 @@ export default {
   justify-content: center;
   grid-gap: $spacing-small;
   margin-bottom: $spacing-small;
+
+  @include responsive($small-breakpoint) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .command-history-list {

@@ -71,6 +71,10 @@ body {
 
 .main-view {
   padding: $spacing;
+
+  @include responsive($small-breakpoint) {
+    padding: $spacing-small;
+  }
 }
 
 .main-title {
