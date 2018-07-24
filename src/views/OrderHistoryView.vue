@@ -2,17 +2,17 @@
   <div>
     <router-link :to="{ name: 'home' }" class="back-button"><AppIcon icon="arrow-left"/> Retour</router-link>
     <h1 class="main-title"><AppIcon icon="history"/> Historique des commandes</h1>
-    <CommandHistory />
+    <OrderHistory />
   </div>
 </template>
 
 <script>
-import CommandHistory from '@/components/CommandHistory';
+import OrderHistory from '@/components/OrderHistory';
 import AppIcon from '@/components/AppIcon';
 
 export default {
   components: {
-    CommandHistory,
+    OrderHistory,
     AppIcon,
   },
 };

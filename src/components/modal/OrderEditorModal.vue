@@ -1,10 +1,10 @@
 <template>
-  <form class="command-creator" @submit.prevent="onSubmit">
+  <form class="order-creator" @submit.prevent="onSubmit">
     <h3 class="title">Modifier la commande</h3>
-    <div v-if="command.isEnded">
-      <button class="btn-link" type="button" @click="reOpenCommand"><AppIcon icon="sync" />Continuer la commande</button>
+    <div v-if="order.isEnded">
+      <button class="btn-link" type="button" @click="reOpenOrder"><AppIcon icon="sync" />Continuer la commande</button>
     </div>
-    <CommandInfosEditor v-model="commandEdition" />
+    <OrderInfosEditor v-model="orderEdition" />
     <div class="actions">
       <button class="btn btn-small" type="button" @click="cancel">Annuler</button>
       <button class="btn btn-small" type="submit">Enregistrer</button>
@@ -14,29 +14,29 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import CommandInfosEditor from '@/components/command/CommandInfosEditor';
+import OrderInfosEditor from '@/components/order/OrderInfosEditor';
 import AppIcon from '@/components/AppIcon';
 
 export default {
   components: {
-    CommandInfosEditor,
+    OrderInfosEditor,
     AppIcon,
   },
   props: {
-    commandId: {
+    orderId: {
       type: String,
       required: true,
     },
   },
   data() {
     return {
-      commandEdition: {},
+      orderEdition: {},
     };
   },
   computed: {
-    ...mapState('commands', ['commands']),
-    command() {
-      return this.commands.find(command => command.id === this.commandId);
+    ...mapState('orders', ['orders']),
+    order() {
+      return this.orders.find(order => order.id === this.orderId);
     },
   },
   mounted() {
@@ -44,28 +44,28 @@ export default {
       type,
       numberOfGuest,
       name,
-    } = this.command;
-    this.commandEdition = Object.assign({}, {
+    } = this.order;
+    this.orderEdition = Object.assign({}, {
       type,
       numberOfGuest,
       name,
     });
   },
   methods: {
-    ...mapActions('commands', ['updateCommand', 'openCommand']),
+    ...mapActions('orders', ['updateOrder', 'openOrder']),
     onSubmit() {
-      this.updateCommand({
-        ...this.commandEdition,
-        id: this.commandId,
+      this.updateOrder({
+        ...this.orderEdition,
+        id: this.orderId,
       });
       this.$emit('close');
     },
     cancel() {
       this.$emit('close');
     },
-    reOpenCommand() {
-      this.openCommand({
-        commandId: this.commandId,
+    reOpenOrder() {
+      this.openOrder({
+        orderId: this.orderId,
       });
     },
   },

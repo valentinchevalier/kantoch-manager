@@ -1,5 +1,5 @@
 <template>
-  <form class="" @submit.prevent="addToCommand">
+  <form class="" @submit.prevent="addToOrder">
     <h3 class="title" v-html="item.label"></h3>
     <div class="complex-editor-buttons" v-if="hasChoices">
       <button
@@ -27,7 +27,7 @@ export default {
     item: {
       type: Object,
     },
-    commandId: {
+    orderId: {
       type: String,
     },
   },
@@ -37,10 +37,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions('commands', ['addItemToCommand']),
+    ...mapActions('orders', ['addItemToOrder']),
     selectChoice(choiceId) {
-      this.addItemToCommand({
-        commandId: this.commandId,
+      this.addItemToOrder({
+        orderId: this.orderId,
         item: {
           plateId: this.item.id,
           choiceId,

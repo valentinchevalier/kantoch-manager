@@ -1,26 +1,26 @@
 <template>
-  <div class="command-billing" v-if="plates && bill.totalPrice">
-    <CommandTitle :command="command"/>
-    <CommandBill :bill="bill" :numberOfGuest="command.numberOfGuest" />
+  <div class="order-billing" v-if="plates && bill.totalPrice">
+    <OrderTitle :order="order"/>
+    <OrderBill :bill="bill" :numberOfGuest="order.numberOfGuest" />
     <div class="actions">
       <button type="button" class="btn btn-small" @click="close">Retour</button>
-      <button type="button" class="btn btn-small" @click="onCloseCommand">Terminer la commande</button>
+      <button type="button" class="btn btn-small" @click="onCloseOrder">Terminer la commande</button>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import CommandUtils from '@/utils/command-utils';
+import OrderUtils from '@/utils/order-utils';
 import AppIcon from '@/components/AppIcon';
-import CommandTitle from '@/components/command/CommandTitle';
-import CommandBill from '@/components/command/CommandBill';
+import OrderTitle from '@/components/order/OrderTitle';
+import OrderBill from '@/components/order/OrderBill';
 
 export default {
   components: {
     AppIcon,
-    CommandTitle,
-    CommandBill,
+    OrderTitle,
+    OrderBill,
   },
   data() {
     return {
@@ -28,30 +28,30 @@ export default {
     };
   },
   props: {
-    commandId: {
+    orderId: {
       type: String,
       required: true,
     },
   },
   computed: {
-    ...mapState('commands', ['commands']),
+    ...mapState('orders', ['orders']),
     ...mapState('menu', ['plates']),
-    command() {
-      return this.commands.find(command => command.id === this.commandId);
+    order() {
+      return this.orders.find(order => order.id === this.orderId);
     },
   },
   mounted() {
-    this.bill = CommandUtils.generateBill(this.command.items, this.plates);
+    this.bill = OrderUtils.generateBill(this.order.items, this.plates);
   },
   methods: {
-    ...mapActions('commands', ['closeCommand']),
-    onCloseCommand() {
-      this.closeCommand({
-        commandId: this.command.id,
+    ...mapActions('orders', ['closeOrder']),
+    onCloseOrder() {
+      this.closeOrder({
+        orderId: this.order.id,
         bill: this.bill,
       });
       this.close();
-      this.$router.push({ name: 'commands-of-the-day' });
+      this.$router.push({ name: 'orders-of-the-day' });
     },
     close() {
       this.$emit('close');

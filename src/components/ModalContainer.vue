@@ -7,21 +7,21 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import CommandCreatorModal from '@/components/modal/CommandCreatorModal';
-import CommandEditorModal from '@/components/modal/CommandEditorModal';
-import CommandEndingModal from '@/components/modal/CommandEndingModal';
-import CommandBillModal from '@/components/modal/CommandBillModal';
-import ComplexItemEditor from '@/components/command/ComplexItemEditor';
+import OrderCreatorModal from '@/components/modal/OrderCreatorModal';
+import OrderEditorModal from '@/components/modal/OrderEditorModal';
+import OrderEndingModal from '@/components/modal/OrderEndingModal';
+import OrderBillModal from '@/components/modal/OrderBillModal';
+import ComplexItemEditor from '@/components/order/ComplexItemEditor';
 import MenuItemEditor from '@/components/MenuItemEditor';
 
 export default {
   components: {
-    CommandCreatorModal,
-    CommandEditorModal,
+    OrderCreatorModal,
+    OrderEditorModal,
     ComplexItemEditor,
     MenuItemEditor,
-    CommandEndingModal,
-    CommandBillModal,
+    OrderEndingModal,
+    OrderBillModal,
   },
   computed: {
     ...mapState('modal', ['isVisible', 'component', 'componentData']),

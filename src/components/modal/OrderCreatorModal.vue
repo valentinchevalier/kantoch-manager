@@ -1,7 +1,7 @@
 <template>
-  <form class="command-creator" @submit.prevent="onSubmit">
+  <form class="order-creator" @submit.prevent="onSubmit">
     <h3 class="title">Nouvelle commande</h3>
-    <CommandInfosEditor v-model="command" />
+    <OrderInfosEditor v-model="order" />
     <div class="actions">
       <button class="btn btn-small" type="button" @click="cancel">Annuler</button>
       <button class="btn btn-small" type="submit">Créer la commande</button>
@@ -11,16 +11,16 @@
 
 <script>
 import { mapActions } from 'vuex';
-import CommandInfosEditor from '@/components/command/CommandInfosEditor';
-import { ON_SITE } from '@/utils/command-utils';
+import OrderInfosEditor from '@/components/order/OrderInfosEditor';
+import { ON_SITE } from '@/utils/order-utils';
 
 export default {
   components: {
-    CommandInfosEditor,
+    OrderInfosEditor,
   },
   data() {
     return {
-      command: {
+      order: {
         numberOfGuest: 2,
         name: '',
         type: ON_SITE,
@@ -28,9 +28,9 @@ export default {
     };
   },
   methods: {
-    ...mapActions('commands', ['addCommand']),
+    ...mapActions('orders', ['addOrder']),
     onSubmit() {
-      this.addCommand(this.command);
+      this.addOrder(this.order);
       this.$emit('close');
     },
     cancel() {

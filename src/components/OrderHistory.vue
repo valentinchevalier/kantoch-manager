@@ -1,12 +1,12 @@
 <template>
-  <div class="command-history">
+  <div class="order-history">
     <datepicker v-model="date" inline format="D d MMMM yyyy" monday-first :disabledDates="disabledDates" :language="datepickerLang" @selected="onDateChange"></datepicker>
     <AppLoader :loading="loading" :inline="true" />
     <div v-if="!loading">
       <h2 class="small-title">{{date | moment('dddd Do MMMM YYYY')}}</h2>
-      <div class="no-result" v-if="commands.length === 0">Aucune commande</div>
+      <div class="no-result" v-if="orders.length === 0">Aucune commande</div>
       <div class="results" v-else>
-        <CommandHistoryList :commands="commands" @command-click="showBill"/>
+        <OrderHistoryList :orders="orders" @order-click="showBill"/>
       </div>
     </div>
 
@@ -21,8 +21,8 @@ import { fr } from 'vuejs-datepicker/dist/locale';
 import db from '@/utils/db';
 import AppIcon from '@/components/AppIcon';
 import AppLoader from '@/components/AppLoader';
-import CommandHistoryList from '@/components/command/CommandHistoryList';
-import { ON_SITE } from '@/utils/command-utils';
+import OrderHistoryList from '@/components/order/OrderHistoryList';
+import { ON_SITE } from '@/utils/order-utils';
 import { mapActions } from 'vuex';
 
 export default {
@@ -30,14 +30,14 @@ export default {
     AppIcon,
     AppLoader,
     Datepicker,
-    CommandHistoryList,
+    OrderHistoryList,
   },
   data() {
     const from = new Date();
     from.setHours(0, 0, 0, 0);
     return {
       date: undefined,
-      commands: [],
+      orders: [],
       datepickerLang: fr,
       disabledDates: {
         from,
@@ -46,16 +46,16 @@ export default {
     };
   },
   methods: {
-    ...mapActions('modal', ['showCommandBillModal']),
+    ...mapActions('modal', ['showOrderBillModal']),
     onDateChange(date) {
       this.loading = true;
-      this.commands = [];
+      this.orders = [];
       const start = new Date(date);
       start.setHours(0, 0, 0, 0);
       const end = new Date(date);
       end.setHours(23, 59, 59, 999);
 
-      db.collection('commands')
+      db.collection('orders')
         .where('addedAt', '>', start)
         .where('addedAt', '<', end)
         .where('isEnded', '==', true)
@@ -63,18 +63,18 @@ export default {
         .then((querySnapshot) => {
           this.loading = false;
           querySnapshot.forEach((doc) => {
-            this.commands.push({
+            this.orders.push({
               id: doc.id,
               ...doc.data(),
             });
           });
         });
     },
-    isOnSite(command) {
-      return command.type === ON_SITE;
+    isOnSite(order) {
+      return order.type === ON_SITE;
     },
-    showBill(command) {
-      this.showCommandBillModal({ command });
+    showBill(order) {
+      this.showOrderBillModal({ order });
     },
   },
 };
@@ -84,7 +84,7 @@ export default {
 @import '~@/styles/variables';
 @import '~@/styles/mixins';
 
-.command-history {
+.order-history {
   padding: $spacing;
   display: grid;
   grid-template-columns: 30rem auto;

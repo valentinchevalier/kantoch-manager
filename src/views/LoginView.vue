@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     ...mapActions('menu', { initMenuFromFirebase: 'initFromFirebase' }),
-    ...mapActions('commands', { initKantochFromFirebase: 'initFromFirebase' }),
+    ...mapActions('orders', { initKantochFromFirebase: 'initFromFirebase' }),
     signIn() {
       Authentication.signIn(this.email, this.password)
         .then(() => {

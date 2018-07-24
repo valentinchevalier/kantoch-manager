@@ -1,14 +1,14 @@
 <template>
-  <div class="command-link" @click="onClick" v-long-press="700" @long-press="onLongClick">
-    <div class="name" v-if="command.name">{{command.name}}</div>
-    <div class="number-of-guests">{{command.numberOfGuest}} personnes</div>
+  <div class="order-link" @click="onClick" v-long-press="700" @long-press="onLongClick">
+    <div class="name" v-if="order.name">{{order.name}}</div>
+    <div class="number-of-guests">{{order.numberOfGuest}} personnes</div>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    command: {
+    order: {
       type: Object,
       required: true,
     },
@@ -16,9 +16,9 @@ export default {
   methods: {
     onClick() {
       this.$router.push({
-        name: 'command',
+        name: 'order',
         params: {
-          id: this.command.id,
+          id: this.order.id,
         },
       });
     },
@@ -33,7 +33,7 @@ export default {
 @import '~@/styles/variables';
 @import '~@/styles/mixins';
 
-.command-link {
+.order-link {
   border-radius: $radius;
   text-decoration: none;
   border: 2px solid $black;

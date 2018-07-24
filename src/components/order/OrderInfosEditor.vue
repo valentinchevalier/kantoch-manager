@@ -1,15 +1,15 @@
 <template>
-  <div class="command-editor">
-    <div class="command-type-container">
+  <div class="order-editor">
+    <div class="order-type-container">
       <input type="radio" id="type-on-site" v-model="value.type" :value="ON_SITE">
       <input type="radio" id="type-take-away" v-model="value.type" :value="TAKE_AWAY">
       <label
         for="type-on-site"
-        class="command-type btn"
+        class="order-type btn"
         :class="{ selected: value.type === ON_SITE }">Sur place</label>
       <label
         for="type-take-away"
-        class="command-type btn"
+        class="order-type btn"
         :class="{ selected: value.type === TAKE_AWAY }">à emporter</label>
     </div>
     <div class="input-wrapper">
@@ -25,7 +25,7 @@
 
 <script>
 import NumberInput from '@/components/NumberInput';
-import { TAKE_AWAY, ON_SITE } from '@/utils/command-utils';
+import { TAKE_AWAY, ON_SITE } from '@/utils/order-utils';
 
 export default {
   components: {
@@ -46,7 +46,7 @@ export default {
 @import '~@/styles/mixins';
 
 
-.command-editor {
+.order-editor {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -58,7 +58,7 @@ export default {
     }
   }
 
-  .command-type-container {
+  .order-type-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     grid-gap: $spacing-small;

@@ -2,7 +2,7 @@ export const TAKE_AWAY = 'TAKE_AWAY';
 export const ON_SITE = 'ON_SITE';
 
 export default {
-  commandItemFullId(plateId, choiceId) {
+  orderItemFullId(plateId, choiceId) {
     let fullId = plateId;
     if (choiceId) {
       fullId += `_${choiceId}`;
@@ -24,8 +24,8 @@ export default {
     });
     return res;
   },
-  generateBill(commandItems, plates) {
-    const billItems = this.cleanBillItems(commandItems);
+  generateBill(orderItems, plates) {
+    const billItems = this.cleanBillItems(orderItems);
 
     const formules = this.generateFormules(
       this.formuleMainItems(billItems, plates),

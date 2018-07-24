@@ -1,33 +1,33 @@
 import Vue from 'vue';
 import Firebase from 'firebase/app';
-import db from '@/utils/db';
-import CommandUtils from '@/utils/command-utils';
-import { RESET_COMMAND_LIST, UPDATE_COMMAND, ADD_COMMAND, REMOVE_COMMAND } from './commandsMutation.types';
+import db from '../utils/db';
+import OrderUtils from '../utils/order-utils';
+import { RESET_COMMAND_LIST, UPDATE_COMMAND, ADD_COMMAND, REMOVE_COMMAND } from './ordersMutation.types';
 
-const COMMANDS_COLLECTION = 'commands';
+const COMMANDS_COLLECTION = 'orders';
 
 export default {
   namespaced: true,
   state() {
     return {
-      commands: [],
+      orders: [],
     };
   },
   getters: {},
   mutations: {
-    [ADD_COMMAND](state, command) {
-      state.commands.push(command);
+    [ADD_COMMAND](state, order) {
+      state.orders.push(order);
     },
-    [REMOVE_COMMAND](state, command) {
-      const commandIndex = state.commands.findIndex(pl => pl.id === command.id);
-      state.commands.splice(commandIndex, 1);
+    [REMOVE_COMMAND](state, order) {
+      const orderIndex = state.orders.findIndex(pl => pl.id === order.id);
+      state.orders.splice(orderIndex, 1);
     },
-    [UPDATE_COMMAND](state, command) {
-      const commandIndex = state.commands.findIndex(pl => pl.id === command.id);
-      Vue.set(state.commands, commandIndex, command);
+    [UPDATE_COMMAND](state, order) {
+      const orderIndex = state.orders.findIndex(pl => pl.id === order.id);
+      Vue.set(state.orders, orderIndex, order);
     },
     [RESET_COMMAND_LIST](state) {
-      state.commands = [];
+      state.orders = [];
     },
   },
   actions: {
@@ -68,24 +68,24 @@ export default {
           });
         });
     },
-    async addCommand(context, command) {
-      const newCommand = {
-        ...command,
+    async addOrder(context, order) {
+      const newOrder = {
+        ...order,
         items: {},
         addedAt: new Date(),
       };
 
-      await db.collection(COMMANDS_COLLECTION).add(newCommand);
+      await db.collection(COMMANDS_COLLECTION).add(newOrder);
     },
-    async updateCommand({ dispatch }, command) {
+    async updateOrder({ dispatch }, order) {
       const {
         type,
         name,
         numberOfGuest,
-      } = command;
+      } = order;
 
       dispatch('updateInDB', {
-        commandId: command.id,
+        orderId: order.id,
         set: {
           type,
           name,
@@ -95,16 +95,16 @@ export default {
     },
     async updateInDB(context, params) {
       const {
-        commandId,
+        orderId,
         set,
         merge,
       } = params;
 
-      await db.collection(COMMANDS_COLLECTION).doc(commandId).set(set, { merge: merge || true });
+      await db.collection(COMMANDS_COLLECTION).doc(orderId).set(set, { merge: merge || true });
     },
-    async addItemToCommand({ state, dispatch }, params) {
+    async addItemToOrder({ state, dispatch }, params) {
       const {
-        commandId,
+        orderId,
         item,
       } = params;
 
@@ -112,7 +112,7 @@ export default {
         return;
       }
 
-      const itemFullId = CommandUtils.commandItemFullId(item.plateId, item.choiceId);
+      const itemFullId = OrderUtils.orderItemFullId(item.plateId, item.choiceId);
       let set = {
         plateId: item.plateId,
         quantity: 1,
@@ -121,8 +121,8 @@ export default {
       if (item.choiceId) {
         set.choiceId = item.choiceId;
       }
-      const currentCommand = state.commands.find(command => command.id === commandId);
-      const currentItem = currentCommand.items[itemFullId];
+      const currentOrder = state.orders.find(order => order.id === orderId);
+      const currentItem = currentOrder.items[itemFullId];
 
       if (currentItem) {
         set = {
@@ -131,7 +131,7 @@ export default {
       }
 
       dispatch('updateInDB', {
-        commandId,
+        orderId,
         set: {
           items: {
             [itemFullId]: set,
@@ -139,9 +139,9 @@ export default {
         },
       });
     },
-    async removeItemToCommand({ state, dispatch }, params) {
+    async removeItemToOrder({ state, dispatch }, params) {
       const {
-        commandId,
+        orderId,
         item,
       } = params;
       let {
@@ -152,9 +152,9 @@ export default {
         return;
       }
 
-      const itemFullId = CommandUtils.commandItemFullId(item.plateId, item.choiceId);
-      const currentCommand = state.commands.find(command => command.id === commandId);
-      const currentItem = currentCommand.items[itemFullId];
+      const itemFullId = OrderUtils.orderItemFullId(item.plateId, item.choiceId);
+      const currentOrder = state.orders.find(order => order.id === orderId);
+      const currentItem = currentOrder.items[itemFullId];
 
       if (!currentItem) {
         return;
@@ -165,7 +165,7 @@ export default {
       const newQuantity = currentItem.quantity - quantity;
       if (newQuantity <= 0) {
         dispatch('updateInDB', {
-          commandId,
+          orderId,
           set: {
             items: {
               [itemFullId]: Firebase.firestore.FieldValue.delete(),
@@ -176,7 +176,7 @@ export default {
       }
 
       dispatch('updateInDB', {
-        commandId,
+        orderId,
         set: {
           items: {
             [itemFullId]: {
@@ -186,14 +186,14 @@ export default {
         },
       });
     },
-    async closeCommand({ dispatch }, params) {
+    async closeOrder({ dispatch }, params) {
       const {
-        commandId,
+        orderId,
         bill,
       } = params;
 
       dispatch('updateInDB', {
-        commandId,
+        orderId,
         set: {
           bill: JSON.parse(JSON.stringify(bill)),
           endedAt: new Date(),
@@ -201,13 +201,13 @@ export default {
         },
       });
     },
-    async openCommand({ dispatch }, params) {
+    async openOrder({ dispatch }, params) {
       const {
-        commandId,
+        orderId,
       } = params;
 
       dispatch('updateInDB', {
-        commandId,
+        orderId,
         set: {
           endedAt: Firebase.firestore.FieldValue.delete(),
           isEnded: false,

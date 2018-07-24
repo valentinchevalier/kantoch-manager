@@ -1,12 +1,12 @@
 <template>
-  <div class="command-editor" >
+  <div class="order-editor" >
     <div class="column">
       <Menu @click="onItemClick" @long-click="onItemLongClick" />
     </div>
-    <div class="column" v-if="command">
-      <CommandDetails :command="command"/>
+    <div class="column" v-if="order">
+      <OrderDetails :order="order"/>
     </div>
-    <AppLoader :loading="!command" />
+    <AppLoader :loading="!order" />
   </div>
 </template>
 
@@ -14,11 +14,11 @@
 import { mapState, mapActions } from 'vuex';
 import Menu from '@/components/Menu';
 import AppLoader from '@/components/AppLoader';
-import CommandDetails from './CommandDetails';
+import OrderDetails from './OrderDetails';
 
 export default {
   components: {
-    CommandDetails,
+    OrderDetails,
     Menu,
     AppLoader,
   },
@@ -28,13 +28,13 @@ export default {
     },
   },
   computed: {
-    ...mapState('commands', ['commands']),
-    command() {
-      return this.commands.find(command => command.id === this.id);
+    ...mapState('orders', ['orders']),
+    order() {
+      return this.orders.find(order => order.id === this.id);
     },
   },
   methods: {
-    ...mapActions('commands', ['addItemToCommand']),
+    ...mapActions('orders', ['addItemToOrder']),
     ...mapActions('modal', ['showComplexItemEditor', 'showMenuItemEditor']),
     onItemClick(item) {
       if (!item.available) {
@@ -43,12 +43,12 @@ export default {
       if (item.choices && item.choices.length > 0) {
         this.showComplexItemEditor({
           item,
-          commandId: this.id,
+          orderId: this.id,
         });
         return;
       }
-      this.addItemToCommand({
-        commandId: this.id,
+      this.addItemToOrder({
+        orderId: this.id,
         item: {
           plateId: item.id,
         },
@@ -65,7 +65,7 @@ export default {
 @import '~@/styles/variables';
 @import '~@/styles/mixins';
 
-.command-editor {
+.order-editor {
   display: grid;
   grid-template-columns: auto minmax(450px, 25%);
   grid-gap: $spacing-small 0;
@@ -86,7 +86,7 @@ export default {
     }
   }
 
-  .command-title {
+  .order-title {
     .table-number {
       font-size: 2rem;
       margin-bottom: $spacing-xsmall;

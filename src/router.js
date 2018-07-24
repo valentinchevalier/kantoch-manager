@@ -4,9 +4,9 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import HomeView from './views/HomeView';
-import CommandEditionView from './views/CommandEditionView';
-import CommandsOfTheDayView from './views/CommandsOfTheDayView';
-import CommandHistoryView from './views/CommandHistoryView';
+import OrderEditionView from './views/OrderEditionView';
+import OrdersOfTheDayView from './views/OrdersOfTheDayView';
+import OrderHistoryView from './views/OrderHistoryView';
 import SettingsView from './views/SettingsView';
 import LoginView from './views/LoginView';
 
@@ -28,19 +28,19 @@ const router = new Router({
       },
     },
     {
-      path: '/command/:id',
-      name: 'command',
-      component: CommandEditionView,
+      path: '/order/:id',
+      name: 'order',
+      component: OrderEditionView,
     },
     {
-      path: '/commands-of-the-day',
-      name: 'commands-of-the-day',
-      component: CommandsOfTheDayView,
+      path: '/orders-of-the-day',
+      name: 'orders-of-the-day',
+      component: OrdersOfTheDayView,
     },
     {
-      path: '/command-history',
-      name: 'command-history',
-      component: CommandHistoryView,
+      path: '/order-history',
+      name: 'order-history',
+      component: OrderHistoryView,
     },
     {
       path: '/settings',

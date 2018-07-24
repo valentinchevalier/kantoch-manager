@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 
 import menu from './stores/menu';
-import commands from './stores/commands';
+import orders from './stores/orders';
 import modal from './stores/modal';
 
 Vue.use(Vuex);
@@ -14,7 +14,7 @@ export default new Vuex.Store({
   state: {},
   modules: {
     menu,
-    commands,
+    orders,
     modal,
   },
   strict: debug,

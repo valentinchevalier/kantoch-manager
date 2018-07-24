@@ -1,5 +1,5 @@
 <template>
-  <div class="command-bill" v-if="plates && bill.totalPrice">
+  <div class="order-bill" v-if="plates && bill.totalPrice">
     <div>
       <div class="bill-item" v-for="(formule, index) in bill.formules" :key="index">
         <div class="formule-label">

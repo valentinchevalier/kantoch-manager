@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import moment from 'moment';
 
-import { ON_SITE, TAKE_AWAY } from '@/utils/command-utils';
+import { ON_SITE, TAKE_AWAY } from '@/utils/order-utils';
 
 Vue.filter('price', (value) => {
   if (!value) {
@@ -22,7 +22,7 @@ Vue.filter('moment', (value, format = 'LL') => {
   return moment(value).format(format);
 });
 
-Vue.filter('commandType', (value) => {
+Vue.filter('orderType', (value) => {
   let res;
   switch (value) {
     case ON_SITE:

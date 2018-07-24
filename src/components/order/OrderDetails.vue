@@ -1,15 +1,15 @@
 <template>
-  <div class="command-details">
-    <CommandTitle :command="command"/>
-    <p class="no-items" v-if="commandItems.length <= 0">Aucuns produits</p>
+  <div class="order-details">
+    <OrderTitle :order="order"/>
+    <p class="no-items" v-if="orderItems.length <= 0">Aucuns produits</p>
     <template v-else>
       <div class="items">
-        <div class="command-item" v-for="commandItem in commandItems" :key="commandItem.id">
-          <PlateLabel :plateId="commandItem.plateId" :choiceId="commandItem.choiceId" />
+        <div class="order-item" v-for="orderItem in orderItems" :key="orderItem.id">
+          <PlateLabel :plateId="orderItem.plateId" :choiceId="orderItem.choiceId" />
           <div class="quantity">
-            <div class="quantity-button remove-button" @click="onRemoveClick(commandItem)"><AppIcon icon="minus"/></div>
-            <span class="number">{{commandItem.quantity}}</span>
-            <div class="quantity-button add-button" @click="onAddClick(commandItem)"><AppIcon icon="plus"/></div>
+            <div class="quantity-button remove-button" @click="onRemoveClick(orderItem)"><AppIcon icon="minus"/></div>
+            <span class="number">{{orderItem.quantity}}</span>
+            <div class="quantity-button add-button" @click="onAddClick(orderItem)"><AppIcon icon="plus"/></div>
           </div>
         </div>
       </div>
@@ -23,44 +23,44 @@
 <script>
 import { mapActions } from 'vuex';
 import AppIcon from '@/components/AppIcon';
-import CommandTitle from './CommandTitle';
+import OrderTitle from './OrderTitle';
 import PlateLabel from './PlateLabel';
 
 export default {
   components: {
     AppIcon,
     PlateLabel,
-    CommandTitle,
+    OrderTitle,
   },
   props: {
-    command: {
+    order: {
       type: Object,
       required: true,
     },
   },
   computed: {
-    commandItems() {
-      return Object.values(this.command.items);
+    orderItems() {
+      return Object.values(this.order.items);
     },
   },
   methods: {
-    ...mapActions('commands', ['addItemToCommand', 'removeItemToCommand']),
-    ...mapActions('modal', ['showCommandEndingModal']),
+    ...mapActions('orders', ['addItemToOrder', 'removeItemToOrder']),
+    ...mapActions('modal', ['showOrderEndingModal']),
     onAddClick(item) {
-      this.addItemToCommand({
-        commandId: this.command.id,
+      this.addItemToOrder({
+        orderId: this.order.id,
         item,
       });
     },
     onRemoveClick(item) {
-      this.removeItemToCommand({
-        commandId: this.command.id,
+      this.removeItemToOrder({
+        orderId: this.order.id,
         item,
       });
     },
     onBillClick() {
-      this.showCommandEndingModal({
-        commandId: this.command.id,
+      this.showOrderEndingModal({
+        orderId: this.order.id,
       });
     },
   },
@@ -78,7 +78,7 @@ export default {
   margin-top: $spacing-medium;
 }
 
-.command-details {
+.order-details {
   padding: 0 $spacing-small;
 }
 
@@ -86,7 +86,7 @@ export default {
   margin-top: $spacing;
 }
 
-.command-item {
+.order-item {
   display: flex;
   padding: $spacing-small 0;
   align-items: center;

@@ -1,7 +1,7 @@
 <template>
-  <div class="command-billing" v-if="command.bill.totalPrice">
-    <CommandTitle :command="command"/>
-    <CommandBill :bill="command.bill" :numberOfGuest="command.numberOfGuest" />
+  <div class="order-billing" v-if="order.bill.totalPrice">
+    <OrderTitle :order="order"/>
+    <OrderBill :bill="order.bill" :numberOfGuest="order.numberOfGuest" />
     <div class="actions">
       <button type="button" class="btn btn-small" @click="close">Retour</button>
     </div>
@@ -9,16 +9,16 @@
 </template>
 
 <script>
-import CommandTitle from '@/components/command/CommandTitle';
-import CommandBill from '@/components/command/CommandBill';
+import OrderTitle from '@/components/order/OrderTitle';
+import OrderBill from '@/components/order/OrderBill';
 
 export default {
   components: {
-    CommandTitle,
-    CommandBill,
+    OrderTitle,
+    OrderBill,
   },
   props: {
-    command: {
+    order: {
       type: Object,
       required: true,
     },
