@@ -2,9 +2,9 @@ import Vue from 'vue';
 import Firebase from 'firebase/app';
 import db from '../utils/db';
 import OrderUtils from '../utils/order-utils';
-import { RESET_COMMAND_LIST, UPDATE_COMMAND, ADD_COMMAND, REMOVE_COMMAND } from './ordersMutation.types';
+import { RESET_ORDER_LIST, UPDATE_ORDER, ADD_ORDER, REMOVE_ORDER } from './ordersMutation.types';
 
-const COMMANDS_COLLECTION = 'orders';
+const ORDERS_COLLECTION = 'orders';
 
 export default {
   namespaced: true,
@@ -15,50 +15,50 @@ export default {
   },
   getters: {},
   mutations: {
-    [ADD_COMMAND](state, order) {
+    [ADD_ORDER](state, order) {
       state.orders.push(order);
     },
-    [REMOVE_COMMAND](state, order) {
+    [REMOVE_ORDER](state, order) {
       const orderIndex = state.orders.findIndex(pl => pl.id === order.id);
       state.orders.splice(orderIndex, 1);
     },
-    [UPDATE_COMMAND](state, order) {
+    [UPDATE_ORDER](state, order) {
       const orderIndex = state.orders.findIndex(pl => pl.id === order.id);
       Vue.set(state.orders, orderIndex, order);
     },
-    [RESET_COMMAND_LIST](state) {
+    [RESET_ORDER_LIST](state) {
       state.orders = [];
     },
   },
   actions: {
     initFromFirebase({ commit }) {
-      commit(RESET_COMMAND_LIST);
+      commit(RESET_ORDER_LIST);
 
       const start = new Date();
       start.setHours(0, 0, 0, 0);
       const end = new Date();
       end.setHours(23, 59, 59, 999);
 
-      db.collection(COMMANDS_COLLECTION)
+      db.collection(ORDERS_COLLECTION)
         .where('addedAt', '>', start)
         .where('addedAt', '<', end)
         .onSnapshot((snapshot) => {
           snapshot.docChanges().forEach((change) => {
             switch (change.type) {
               case 'added':
-                commit(ADD_COMMAND, {
+                commit(ADD_ORDER, {
                   id: change.doc.id,
                   ...change.doc.data(),
                 });
                 break;
               case 'modified':
-                commit(UPDATE_COMMAND, {
+                commit(UPDATE_ORDER, {
                   id: change.doc.id,
                   ...change.doc.data(),
                 });
                 break;
               case 'removed':
-                commit(REMOVE_COMMAND, {
+                commit(REMOVE_ORDER, {
                   id: change.doc.id,
                 });
                 break;
@@ -75,7 +75,7 @@ export default {
         addedAt: new Date(),
       };
 
-      await db.collection(COMMANDS_COLLECTION).add(newOrder);
+      await db.collection(ORDERS_COLLECTION).add(newOrder);
     },
     async updateOrder({ dispatch }, order) {
       const {
@@ -100,7 +100,7 @@ export default {
         merge,
       } = params;
 
-      await db.collection(COMMANDS_COLLECTION).doc(orderId).set(set, { merge: merge || true });
+      await db.collection(ORDERS_COLLECTION).doc(orderId).set(set, { merge: merge || true });
     },
     async addItemToOrder({ state, dispatch }, params) {
       const {

@@ -1,7 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import firebase from 'firebase/app';
-import 'firebase/auth';
 
 import HomeView from './views/HomeView';
 import OrderEditionView from './views/OrderEditionView';
@@ -9,6 +7,7 @@ import OrdersOfTheDayView from './views/OrdersOfTheDayView';
 import OrderHistoryView from './views/OrderHistoryView';
 import SettingsView from './views/SettingsView';
 import LoginView from './views/LoginView';
+import Authentication from './utils/authentication';
 
 Vue.use(Router);
 
@@ -58,13 +57,14 @@ router.beforeEach((to, from, next) => {
     return;
   }
 
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      next();
-    } else {
-      next('login');
-    }
-  });
+  Authentication.isLoggedIn()
+    .then((res) => {
+      if (!res) {
+        next('login');
+      } else {
+        next();
+      }
+    });
 });
 
 export default router;

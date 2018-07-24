@@ -6,11 +6,26 @@
 </template>
 
 <script>
-import AppModalContainer from './components/ModalContainer';
+import { mapActions } from 'vuex';
+import Authentication from '@/utils/authentication';
+import AppModalContainer from '@/components/ModalContainer';
 
 export default {
   components: {
     AppModalContainer,
+  },
+  created() {
+    Authentication.isLoggedIn()
+      .then((res) => {
+        if (res) {
+          this.initMenuFromFirebase();
+          this.initKantochFromFirebase();
+        }
+      });
+  },
+  methods: {
+    ...mapActions('menu', { initMenuFromFirebase: 'initFromFirebase' }),
+    ...mapActions('orders', { initKantochFromFirebase: 'initFromFirebase' }),
   },
 };
 </script>
