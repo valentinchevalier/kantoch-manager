@@ -1,12 +1,12 @@
 <template>
-  <div class="menu-item" @click="onClick" v-long-press="700" @long-press="onLongClick" :class="{disable: !item.available}">
+  <button type="button" class="menu-item" @click="onClick" v-long-press="700" @long-press="onLongClick" :class="{disable: !item.available}">
     <div class="plate-label">{{item.label}}</div>
     <div class="plate-label-extra" v-if="item.labelExtra">{{item.labelExtra}}</div>
     <div class="price">{{item.price | price}}</div>
-    <div class="choices" v-if="showChoices">
+    <div class="choices" v-if="showChoices && item.choices && item.choices.length > 0">
       <div class="choice" :class="{disable: !choice.available}" v-for="choice in item.choices" :key="choice.id">{{choice.label}}</div>
     </div>
-  </div>
+  </button>
 </template>
 
 <script>

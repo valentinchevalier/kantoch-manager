@@ -25,7 +25,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('menu', ['foodItems', 'drinkItems', 'formuleItems']),
+    ...mapGetters('menu', ['foodItems', 'drinkItems']),
   },
   methods: {
     onClick(item) {

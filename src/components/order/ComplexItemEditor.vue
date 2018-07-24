@@ -5,7 +5,7 @@
       <button
         type="button"
         class="choice btn"
-        v-for="choice in item.choices"
+        v-for="choice in sortedChoices"
         :key="choice.id"
         @click="selectChoice(choice.id)"
         :disabled="!choice.available">
@@ -34,6 +34,21 @@ export default {
   computed: {
     hasChoices() {
       return this.item.choices && this.item.choices.length > 0;
+    },
+    sortedChoices() {
+      return this.item.choices.concat().sort((choiceA, choiceB) => {
+        if (choiceA.available) {
+          if (!choiceB.available) {
+            return -1;
+          }
+        }
+        if (choiceB.available) {
+          if (!choiceA.available) {
+            return 1;
+          }
+        }
+        return 0;
+      });
     },
   },
   methods: {

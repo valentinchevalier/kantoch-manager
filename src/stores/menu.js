@@ -13,10 +13,14 @@ export default {
   },
   getters: {
     foodItems({ plates }) {
-      return Object.values(plates).filter(item => item.category === 'food');
+      return Object.values(plates)
+        .filter(item => item.category === 'food')
+        .sort((itemA, itemB) => itemA.order - itemB.order);
     },
     drinkItems({ plates }) {
-      return Object.values(plates).filter(item => item.category === 'drink');
+      return Object.values(plates)
+        .filter(item => item.category === 'drink')
+        .sort((itemA, itemB) => itemA.order - itemB.order);
     },
   },
   mutations: {
@@ -36,10 +40,12 @@ export default {
       Object.keys(state.plates).forEach((plateId) => {
         menuRef.doc(plateId).delete();
       });
-      defaultMenu.plates.forEach((plate) => {
+      defaultMenu.plates.forEach((plate, index) => {
+        console.log(index);
         menuRef.doc(plate.id).set({
           ...plate,
           available: true,
+          order: index,
         });
       });
     },

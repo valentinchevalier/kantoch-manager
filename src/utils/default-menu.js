@@ -1,6 +1,25 @@
 export default {
   plates: [
     {
+      id: 'entree',
+      category: 'food',
+      label: 'Entrée',
+      price: 3.5,
+      isFormuleEntree: true,
+    },
+    {
+      id: 'tarte-crudites',
+      category: 'food',
+      label: 'Tarte salée',
+      labelExtra: 'Avec crudités',
+      price: 9.5,
+      isFormuleMain: true,
+      formules: {
+        small: 12,
+        big: 15,
+      },
+    },
+    {
       id: 'plat-du-jour',
       category: 'food',
       label: 'Plat du jour',
@@ -23,32 +42,6 @@ export default {
       },
     },
     {
-      id: 'tarte-seule',
-      category: 'food',
-      label: 'Tarte salé',
-      labelExtra: 'Seule',
-      price: 5,
-    },
-    {
-      id: 'tarte-crudites',
-      category: 'food',
-      label: 'Tarte salée',
-      labelExtra: 'Avec crudités',
-      price: 9.5,
-      isFormuleMain: true,
-      formules: {
-        small: 12,
-        big: 15,
-      },
-    },
-    {
-      id: 'entree',
-      category: 'food',
-      label: 'Entrée',
-      price: 3.5,
-      isFormuleEntree: true,
-    },
-    {
       id: 'soupe-petite',
       category: 'food',
       label: 'Soupe',
@@ -62,6 +55,13 @@ export default {
       label: 'Soupe',
       labelExtra: 'Grande',
       price: 5.5,
+    },
+    {
+      id: 'tarte-seule',
+      category: 'food',
+      label: 'Tarte salé',
+      labelExtra: 'Seule',
+      price: 5,
     },
     {
       id: 'dessert',
