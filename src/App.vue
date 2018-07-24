@@ -6,20 +6,11 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import AppModalContainer from './components/ModalContainer';
 
 export default {
   components: {
     AppModalContainer,
-  },
-  async created() {
-    await this.initMenuFromFirebase();
-    await this.initKantochFromFirebase();
-  },
-  methods: {
-    ...mapActions('menu', { initMenuFromFirebase: 'initFromFirebase' }),
-    ...mapActions('commands', { initKantochFromFirebase: 'initFromFirebase' }),
   },
 };
 </script>

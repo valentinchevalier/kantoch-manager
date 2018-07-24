@@ -4,7 +4,7 @@
     <h3 class="main-title">Connexion</h3>
     <form @submit.prevent="signIn">
       <div class="input-wrapper">
-        <input type="text" v-model="email" placeholder="Email">
+        <input type="email" v-model="email" placeholder="Email">
       </div>
       <div class="input-wrapper">
         <input type="password" v-model="password" placeholder="Mot de passe">
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import Authentication from '@/utils/authentication';
 
 export default {
@@ -28,9 +29,13 @@ export default {
     };
   },
   methods: {
+    ...mapActions('menu', { initMenuFromFirebase: 'initFromFirebase' }),
+    ...mapActions('commands', { initKantochFromFirebase: 'initFromFirebase' }),
     signIn() {
       Authentication.signIn(this.email, this.password)
         .then(() => {
+          this.initMenuFromFirebase();
+          this.initKantochFromFirebase();
           this.$router.replace({ name: 'home' });
         })
         .catch((err) => {
