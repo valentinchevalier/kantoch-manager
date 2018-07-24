@@ -1,10 +1,10 @@
 <template>
   <div class="menu">
-    <h1 class="category">Manger</h1>
+    <h1 class="small-title category">Manger</h1>
     <div class="food items-container">
       <MenuItem @click="onClick(item)" @long-click="onLongClick(item)" :item="item" :showChoices="showChoices" v-for="item in foodItems" :key="item.id" />
     </div>
-    <h1 class="category">Boire</h1>
+    <h1 class="small-title category">Boire</h1>
     <div class="drink items-container">
       <MenuItem @click="onClick(item)" @long-click="onLongClick(item)" :item="item" :showChoices="showChoices" v-for="item in drinkItems" :key="item.id" />
     </div>
@@ -55,11 +55,13 @@ export default {
 }
 
 .category {
-  font-size: 2rem;
-  font-weight: $light-weight;
   text-align: center;
-  padding: $spacing-small 0;
+  margin-top: $spacing;
   font-weight: $bold-weight;
   text-transform: uppercase;
+
+  @include responsive($small-breakpoint) {
+    margin-top: $spacing-small;
+  }
 }
 </style>

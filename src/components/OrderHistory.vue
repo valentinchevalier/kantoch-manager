@@ -1,6 +1,6 @@
 <template>
   <div class="order-history">
-    <datepicker v-model="date" inline format="D d MMMM yyyy" monday-first :disabledDates="disabledDates" :language="datepickerLang" @selected="onDateChange"></datepicker>
+    <datepicker class="datepicker" v-model="date" inline format="D d MMMM yyyy" monday-first :disabledDates="disabledDates" :language="datepickerLang" @selected="onDateChange"></datepicker>
     <AppLoader :loading="loading" :inline="true" />
     <div v-if="!loading">
       <h2 class="small-title">{{date | moment('dddd Do MMMM YYYY')}}</h2>
@@ -9,12 +9,10 @@
         <OrderHistoryList :orders="orders" @order-click="showBill"/>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
-// import { mapState, mapActions } from 'vuex';
 import Datepicker from 'vuejs-datepicker';
 import { fr } from 'vuejs-datepicker/dist/locale';
 
@@ -89,10 +87,15 @@ export default {
   display: grid;
   grid-template-columns: 30rem auto;
   grid-column-gap: $spacing-medium;
-}
+  justify-items: center;
 
-.small-title {
-  margin-bottom: $spacing;
+  @include responsive($small-breakpoint) {
+    grid-template-columns: 1fr;
+
+    .datepicker {
+      margin-bottom: $spacing;
+    }
+  }
 }
 
 </style>

@@ -67,12 +67,14 @@ export default {
 
 .order-editor {
   display: grid;
-  grid-template-columns: auto minmax(450px, 25%);
+  grid-template-columns: auto minmax(350px, 25%);
   grid-gap: $spacing-small 0;
   padding: 0;
   height: 100vh;
+  margin: -$spacing;
+  padding: $spacing;
 
-  @include responsive($small-breakpoint) {
+  @include responsive(820px) {
     grid-template-columns: auto;
     height: auto;
   }
@@ -82,7 +84,7 @@ export default {
     padding: $spacing $spacing-small $spacing-small;
 
     @include responsive($small-breakpoint) {
-    padding: 0 0 $spacing-small;
+      padding: 0 0 $spacing-small;
     }
   }
 

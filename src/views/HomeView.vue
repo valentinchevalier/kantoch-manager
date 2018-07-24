@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <div class="home-menu">
+      <h1 class="main-title">Kantoch Manager</h1>
       <router-link :to="{ name: 'orders-of-the-day' }" class="btn btn-icon-left"><AppIcon icon="calendar-check"/> Commandes du jour</router-link>
       <router-link :to="{ name: 'order-history' }" class="btn btn-icon-left"><AppIcon icon="history"/> Historique des commandes</router-link>
       <router-link :to="{ name: 'settings' }" class="btn btn-icon-left"><AppIcon icon="cog"/> Paramètres</router-link>

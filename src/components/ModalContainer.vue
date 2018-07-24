@@ -48,6 +48,7 @@ export default {
   align-items: center;
   justify-content: center;
   display: none;
+  overflow: auto;
 
   @include responsive($small-breakpoint) {
     padding: $spacing-small;
@@ -55,7 +56,7 @@ export default {
 
   .backdrop {
     background-color: rgba($black, 0.5);
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
@@ -98,7 +99,7 @@ export default {
   }
 
   .actions {
-    margin-top: $spacing;
+    margin-top: $spacing-small;
 
     .btn {
       @include responsive($small-breakpoint) {
@@ -107,7 +108,7 @@ export default {
     }
 
     > * + * {
-      margin-left: $spacing-small;
+      margin: $spacing-small;
 
       @include responsive($small-breakpoint) {
         margin-left: 0;

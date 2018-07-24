@@ -63,6 +63,7 @@ body {
   text-align: center;
   color: $black;
 }
+
 #nav {
   padding: 30px;
 
@@ -73,6 +74,11 @@ body {
       color: #42b983;
     }
   }
+}
+
+.vdp-datepicker__calendar.vdp-datepicker__calendar {
+  width: 100%;
+  max-width: 30rem;
 }
 
 .main-view {
@@ -87,8 +93,23 @@ body {
   font-size: 2.5rem;
   margin-bottom: $spacing;
 
+  @include responsive($small-breakpoint) {
+    font-size: 2rem;
+    margin-bottom: $spacing-small;
+  }
+
   .icon {
     margin: 0 $spacing-small;
+  }
+}
+
+.small-title {
+  font-size: 2.1rem;
+  margin-bottom: $spacing;
+
+  @include responsive($small-breakpoint) {
+    font-size: 1.7rem;
+    margin-bottom: $spacing-small;
   }
 }
 
