@@ -1,5 +1,5 @@
 <template>
-  <div class="order-details" :class="{ smaller: smaller }">
+  <div class="order-cooking-editor">
     <OrderTitle :order="order"/>
     <p class="no-items" v-if="orderItems.length <= 0">Aucuns produits</p>
     <template v-else>
@@ -7,14 +7,9 @@
         <div class="order-item" v-for="orderItem in orderItems" :key="orderItem.id">
           <PlateLabel :plateId="orderItem.plateId" :choiceId="orderItem.choiceId" />
           <div class="quantity">
-            <div class="quantity-button remove-button" @click="onRemoveClick(orderItem)" v-if="editable"><AppIcon icon="minus"/></div>
             <span class="number">{{orderItem.quantity}}</span>
-            <div class="quantity-button add-button" @click="onAddClick(orderItem)" v-if="editable"><AppIcon icon="plus"/></div>
           </div>
         </div>
-      </div>
-      <div class="actions" v-if="editable">
-        <button class="btn btn-icon-left btn-icon-medium" type="button" @click="onBillClick()"><AppIcon icon="receipt" /> Addition</button>
       </div>
     </template>
   </div>
@@ -37,16 +32,6 @@ export default {
       type: Object,
       required: true,
     },
-    editable: {
-      type: Boolean,
-      required: false,
-      default: true,
-    },
-    smaller: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
   },
   computed: {
     ...mapState('menu', ['plates']),
@@ -55,25 +40,6 @@ export default {
     },
   },
   methods: {
-    ...mapActions('orders', ['addItemToOrder', 'removeItemToOrder']),
-    ...mapActions('modal', ['showOrderEndingModal']),
-    onAddClick(item) {
-      this.addItemToOrder({
-        orderId: this.order.id,
-        item,
-      });
-    },
-    onRemoveClick(item) {
-      this.removeItemToOrder({
-        orderId: this.order.id,
-        item,
-      });
-    },
-    onBillClick() {
-      this.showOrderEndingModal({
-        orderId: this.order.id,
-      });
-    },
   },
 };
 </script>
@@ -81,16 +47,20 @@ export default {
 <style scoped lang="scss">
 @import '~@/styles/variables';
 
-.commant-title {
-  margin: $spacing-small 0;
+.order-title {
+  margin: 0;
+  margin-bottom: $spacing-small;
 }
 
 .no-items {
   margin-top: $spacing-medium;
+  margin-bottom: $spacing;
 }
 
-.order-details {
-  padding: 0 $spacing-small;
+.order-cooking-editor {
+  padding: $spacing-small $spacing;
+  border: 2px solid $black;
+  border-radius: $radius;
 }
 
 .actions {
@@ -99,18 +69,8 @@ export default {
 
 .order-item {
   display: flex;
-  padding: $spacing-small 0;
+  padding: $spacing-xsmall 0;
   align-items: center;
-
-  .smaller & {
-    padding: $spacing-xsmall 0;
-
-    .quantity {
-      > * {
-        padding: $spacing-xsmall;
-      }
-    }
-  }
 
   &:not(:last-child) {
     border-bottom: 1px solid $black;
@@ -126,16 +86,7 @@ export default {
     display: flex;
     align-items: center;
     margin-left: -$spacing-small;
-
-    > * {
-      padding: $spacing-small;
-    }
-
-    .quantity-button {
-      font-size: 1.8rem;
-      line-height: 1;
-      cursor: pointer;
-    }
+    padding: $spacing-xsmall;
   }
 }
 </style>

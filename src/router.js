@@ -3,7 +3,8 @@ import Router from 'vue-router';
 
 import HomeView from './views/HomeView';
 import OrderEditionView from './views/OrderEditionView';
-import OrdersOfTheDayView from './views/OrdersOfTheDayView';
+import OrdersManagerView from './views/OrdersManagerView';
+import OrdersPreparationView from './views/OrdersPreparationView';
 import OrderHistoryView from './views/OrderHistoryView';
 import SettingsView from './views/SettingsView';
 import LoginView from './views/LoginView';
@@ -32,9 +33,14 @@ const router = new Router({
       component: OrderEditionView,
     },
     {
-      path: '/orders-of-the-day',
-      name: 'orders-of-the-day',
-      component: OrdersOfTheDayView,
+      path: '/orders-manager',
+      name: 'orders-manager',
+      component: OrdersManagerView,
+    },
+    {
+      path: '/orders-preparation',
+      name: 'orders-preparation',
+      component: OrdersPreparationView,
     },
     {
       path: '/order-history',

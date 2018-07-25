@@ -12,7 +12,7 @@
   outline: none;
   text-decoration: none;
   text-transform: uppercase;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 
   // @include responsive($small-breakpoint) {
   //   padding: $button-small-padding;
@@ -30,7 +30,7 @@
 
   &.btn-small {
     width: auto;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     padding: $button-small-padding;
   }
 

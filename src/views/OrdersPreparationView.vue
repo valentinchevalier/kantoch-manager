@@ -1,19 +1,19 @@
 <template>
   <div>
     <router-link :to="{ name: 'home' }" class="back-button"><AppIcon icon="arrow-left"/> Retour</router-link>
-    <h1 class="main-title"><AppIcon icon="calendar-check"/> Commandes du jour</h1>
-    <OrdersOfTheDay />
+    <h1 class="main-title"><AppIcon icon="ustensils"/> Commandes à preparer</h1>
+    <OrdersPreparation/>
   </div>
 </template>
 
 <script>
-import OrdersOfTheDay from '@/components/OrdersOfTheDay';
+import OrdersPreparation from '@/components/OrdersPreparation';
 import AppIcon from '@/components/AppIcon';
 
 export default {
   name: 'home',
   components: {
-    OrdersOfTheDay,
+    OrdersPreparation,
     AppIcon,
   },
 };

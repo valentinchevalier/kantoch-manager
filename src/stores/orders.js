@@ -77,23 +77,15 @@ export default {
 
       await db.collection(ORDERS_COLLECTION).add(newOrder);
     },
-    async updateOrder({ dispatch }, order) {
-      const {
-        type,
-        name,
-        numberOfGuest,
-      } = order;
+    async deleteOrder(context, params) {
+      const orderId = params.id;
+      if (!orderId) {
+        return;
+      }
 
-      dispatch('updateInDB', {
-        orderId: order.id,
-        set: {
-          type,
-          name,
-          numberOfGuest,
-        },
-      });
+      await db.collection(ORDERS_COLLECTION).doc(orderId).delete();
     },
-    async updateInDB(context, params) {
+    async updateOrderInDB(context, params) {
       const {
         orderId,
         set,
@@ -101,6 +93,22 @@ export default {
       } = params;
 
       await db.collection(ORDERS_COLLECTION).doc(orderId).set(set, { merge: merge || true });
+    },
+    async updateOrder({ dispatch }, order) {
+      const {
+        type,
+        name,
+        numberOfGuest,
+      } = order;
+
+      dispatch('updateOrderInDB', {
+        orderId: order.id,
+        set: {
+          type,
+          name,
+          numberOfGuest,
+        },
+      });
     },
     async addItemToOrder({ state, dispatch }, params) {
       const {
@@ -130,7 +138,7 @@ export default {
         };
       }
 
-      dispatch('updateInDB', {
+      dispatch('updateOrderInDB', {
         orderId,
         set: {
           items: {
@@ -164,7 +172,7 @@ export default {
 
       const newQuantity = currentItem.quantity - quantity;
       if (newQuantity <= 0) {
-        dispatch('updateInDB', {
+        dispatch('updateOrderInDB', {
           orderId,
           set: {
             items: {
@@ -175,7 +183,7 @@ export default {
         return;
       }
 
-      dispatch('updateInDB', {
+      dispatch('updateOrderInDB', {
         orderId,
         set: {
           items: {
@@ -192,7 +200,7 @@ export default {
         bill,
       } = params;
 
-      dispatch('updateInDB', {
+      dispatch('updateOrderInDB', {
         orderId,
         set: {
           bill: JSON.parse(JSON.stringify(bill)),
@@ -206,7 +214,7 @@ export default {
         orderId,
       } = params;
 
-      dispatch('updateInDB', {
+      dispatch('updateOrderInDB', {
         orderId,
         set: {
           endedAt: Firebase.firestore.FieldValue.delete(),

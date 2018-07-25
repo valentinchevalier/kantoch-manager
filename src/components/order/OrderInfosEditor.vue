@@ -18,7 +18,7 @@
     </div>
     <div class="input-wrapper" v-if="value.numberOfGuest">
       <label for="numberOfGuest">Nombre de personnes</label>
-      <number-input v-model="value.numberOfGuest" :min="1"/>
+      <NumberInput v-model="value.numberOfGuest" :min="1"/>
     </div>
   </div>
 </template>

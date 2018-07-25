@@ -9,6 +9,8 @@
       <button class="btn btn-small" type="button" @click="cancel">Annuler</button>
       <button class="btn btn-small" type="submit">Enregistrer</button>
     </div>
+    <button class="btn-link" type="button" @click="startDeletingCommand" v-if="!isDeleting"><AppIcon icon="trash" /> Supprimer la commande</button>
+    <button class="btn-link" type="button" @click="confirmDeletingCommand" v-if="isDeleting">Confirmer la suppression ?</button>
   </form>
 </template>
 
@@ -31,6 +33,7 @@ export default {
   data() {
     return {
       orderEdition: {},
+      isDeleting: false,
     };
   },
   computed: {
@@ -52,7 +55,7 @@ export default {
     });
   },
   methods: {
-    ...mapActions('orders', ['updateOrder', 'openOrder']),
+    ...mapActions('orders', ['updateOrder', 'openOrder', 'deleteOrder']),
     onSubmit() {
       this.updateOrder({
         ...this.orderEdition,
@@ -67,6 +70,13 @@ export default {
       this.openOrder({
         orderId: this.orderId,
       });
+    },
+    startDeletingCommand() {
+      this.isDeleting = true;
+    },
+    confirmDeletingCommand() {
+      this.deleteOrder(this.order);
+      this.$emit('close');
     },
   },
 };

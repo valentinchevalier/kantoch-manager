@@ -11,7 +11,7 @@
     </div>
     <h2 class="small-title" v-if="ordersEnded.length > 0">Commandes terminées</h2>
     <OrderHistoryList :orders="ordersEnded" @order-click="showBill" @order-long-click="editOrderInfos"/>
-    <button type="button" class="btn btn-icon-left add-btn" @click="openOrderCreatorModal"><AppIcon icon="plus" />Nouvelle commande</button>
+    <button type="button" class="btn btn-small btn-icon-left add-btn" @click="openOrderCreatorModal"><AppIcon icon="plus" />Nouvelle commande</button>
   </div>
 </template>
 
@@ -39,20 +39,13 @@ export default {
     ordersEnded() {
       return this.orders.filter(order => order.isEnded);
     },
-    ordersEndedTotalPrice() {
-      return this.ordersEnded.reduce((acc, order) => acc + order.bill.totalPrice, 0);
-    },
   },
   methods: {
     ...mapActions('modal', ['showOrderCreatorModal', 'showOrderEditorModal', 'showOrderBillModal']),
     openOrderCreatorModal() {
       this.showOrderCreatorModal();
     },
-    isOnSite(order) {
-      return order.type === ON_SITE;
-    },
     editOrderInfos(order) {
-      console.log(order);
       this.showOrderEditorModal({ orderId: order.id });
     },
     showBill(order) {

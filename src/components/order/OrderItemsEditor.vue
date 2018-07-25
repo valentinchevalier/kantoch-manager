@@ -1,5 +1,5 @@
 <template>
-  <div class="order-details" :class="{ smaller: smaller }">
+  <div class="order-details">
     <OrderTitle :order="order"/>
     <p class="no-items" v-if="orderItems.length <= 0">Aucuns produits</p>
     <template v-else>
@@ -7,13 +7,13 @@
         <div class="order-item" v-for="orderItem in orderItems" :key="orderItem.id">
           <PlateLabel :plateId="orderItem.plateId" :choiceId="orderItem.choiceId" />
           <div class="quantity">
-            <div class="quantity-button remove-button" @click="onRemoveClick(orderItem)" v-if="editable"><AppIcon icon="minus"/></div>
+            <div class="quantity-button remove-button" @click="onRemoveClick(orderItem)"><AppIcon icon="minus"/></div>
             <span class="number">{{orderItem.quantity}}</span>
-            <div class="quantity-button add-button" @click="onAddClick(orderItem)" v-if="editable"><AppIcon icon="plus"/></div>
+            <div class="quantity-button add-button" @click="onAddClick(orderItem)"><AppIcon icon="plus"/></div>
           </div>
         </div>
       </div>
-      <div class="actions" v-if="editable">
+      <div class="actions">
         <button class="btn btn-icon-left btn-icon-medium" type="button" @click="onBillClick()"><AppIcon icon="receipt" /> Addition</button>
       </div>
     </template>
@@ -36,16 +36,6 @@ export default {
     order: {
       type: Object,
       required: true,
-    },
-    editable: {
-      type: Boolean,
-      required: false,
-      default: true,
-    },
-    smaller: {
-      type: Boolean,
-      required: false,
-      default: false,
     },
   },
   computed: {
@@ -81,7 +71,7 @@ export default {
 <style scoped lang="scss">
 @import '~@/styles/variables';
 
-.commant-title {
+.order-title {
   margin: $spacing-small 0;
 }
 

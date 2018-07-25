@@ -4,7 +4,7 @@
       <Menu @click="onItemClick" @long-click="onItemLongClick" />
     </div>
     <div class="column" v-if="order">
-      <OrderDetails :order="order"/>
+      <OrderItemsEditor :order="order" />
     </div>
     <AppLoader :loading="!order" />
   </div>
@@ -14,11 +14,11 @@
 import { mapState, mapActions } from 'vuex';
 import Menu from '@/components/Menu';
 import AppLoader from '@/components/AppLoader';
-import OrderDetails from './OrderDetails';
+import OrderItemsEditor from './OrderItemsEditor';
 
 export default {
   components: {
-    OrderDetails,
+    OrderItemsEditor,
     Menu,
     AppLoader,
   },
@@ -71,8 +71,6 @@ export default {
   grid-gap: $spacing-small 0;
   padding: 0;
   height: 100vh;
-  margin: -$spacing;
-  padding: $spacing;
 
   @include responsive(820px) {
     grid-template-columns: auto;

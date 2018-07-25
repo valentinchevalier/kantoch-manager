@@ -1,6 +1,6 @@
 <template>
   <div class="order-edition-view">
-    <router-link :to="{ name: 'orders-of-the-day' }" class="back-button"><AppIcon icon="arrow-left"/> Changer de commande</router-link>
+    <router-link :to="{ name: 'orders-manager' }" class="back-button"><AppIcon icon="arrow-left"/> Changer de commande</router-link>
     <OrderEditor :id="$route.params.id"/>
   </div>
 </template>
@@ -17,3 +17,9 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+.order-edition-view {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+</style>

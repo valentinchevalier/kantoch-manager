@@ -11,7 +11,6 @@ export default {
       id: 'tarte-crudites',
       category: 'food',
       label: 'Tarte salée',
-      labelExtra: 'Avec crudités',
       price: 9.5,
       isFormuleMain: true,
       formules: {
@@ -60,7 +59,7 @@ export default {
       id: 'tarte-seule',
       category: 'food',
       label: 'Tarte salé',
-      labelExtra: 'Seule',
+      labelExtra: 'Sans crudités',
       price: 5,
     },
     {

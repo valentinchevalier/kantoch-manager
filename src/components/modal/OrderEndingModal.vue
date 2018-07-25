@@ -51,7 +51,7 @@ export default {
         bill: this.bill,
       });
       this.close();
-      this.$router.push({ name: 'orders-of-the-day' });
+      this.$router.push({ name: 'orders-manager' });
     },
     close() {
       this.$emit('close');
