@@ -72,6 +72,9 @@ export default {
       const newOrder = {
         ...order,
         items: {},
+        itemGroups: {
+          nextId: 0,
+        },
         addedAt: new Date(),
       };
 
@@ -99,6 +102,7 @@ export default {
         type,
         name,
         numberOfGuest,
+        isRegular,
       } = order;
 
       dispatch('updateOrderInDB', {
@@ -107,6 +111,51 @@ export default {
           type,
           name,
           numberOfGuest,
+          isRegular,
+        },
+      });
+    },
+    async addItemsGroupToOrder({ state, dispatch }, params) {
+      const {
+        orderId,
+        itemGroup,
+      } = params;
+
+      if (itemGroup.length === 0) {
+        return;
+      }
+
+      const orderItems = {};
+
+      itemGroup.forEach((item) => {
+        const itemFullId = OrderUtils.orderItemFullId(item.plateId, item.choiceId);
+        const orderItem = {
+          plateId: item.plateId,
+          quantity: item.quantity,
+          isCooked: false,
+        };
+
+        if (item.choiceId) {
+          orderItem.choiceId = item.choiceId;
+        }
+
+        orderItems[itemFullId] = orderItem;
+      });
+
+      console.log(orderItems);
+
+      const currentOrder = state.orders.find(order => order.id === orderId);
+      const {
+        nextId,
+      } = currentOrder;
+
+      dispatch('updateOrderInDB', {
+        orderId,
+        set: {
+          itemGroups: {
+            [nextId]: orderItems,
+            nextId: nextId + 1,
+          },
         },
       });
     },

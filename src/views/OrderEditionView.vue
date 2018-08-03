@@ -1,19 +1,19 @@
 <template>
   <div class="order-edition-view">
     <router-link :to="{ name: 'orders-manager' }" class="back-button"><AppIcon icon="arrow-left"/> Changer de commande</router-link>
-    <OrderEditor :id="$route.params.id"/>
+    <ItemGroupEditor :id="$route.params.id"/>
   </div>
 </template>
 
 <script>
-import OrderEditor from '@/components/order/OrderEditor';
+import ItemGroupEditor from '@/components/order/ItemGroupEditor';
 import AppIcon from '@/components/AppIcon';
 
 export default {
   name: 'order',
   components: {
     AppIcon,
-    OrderEditor,
+    ItemGroupEditor,
   },
 };
 </script>

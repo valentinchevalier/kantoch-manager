@@ -47,11 +47,13 @@ export default {
       type,
       numberOfGuest,
       name,
+      isRegular,
     } = this.order;
     this.orderEdition = Object.assign({}, {
       type,
       numberOfGuest,
       name,
+      isRegular,
     });
   },
   methods: {

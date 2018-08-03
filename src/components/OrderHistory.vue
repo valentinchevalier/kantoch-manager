@@ -87,7 +87,11 @@ export default {
   display: grid;
   grid-template-columns: 30rem auto;
   grid-column-gap: $spacing-medium;
-  justify-items: center;
+  justify-items: stretch;
+
+  .datepicker {
+    justify-self: center;
+  }
 
   @include responsive($small-breakpoint) {
     grid-template-columns: 1fr;

@@ -20,6 +20,10 @@
       <label for="numberOfGuest">Nombre de personnes</label>
       <NumberInput v-model="value.numberOfGuest" :min="1"/>
     </div>
+    <div class="checkbox-wrapper">
+      <input type="checkbox" id="isRegular" v-model="value.isRegular">
+      <label for="isRegular">Est un habitué ?</label>
+    </div>
   </div>
 </template>
 
