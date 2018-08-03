@@ -24,6 +24,7 @@ export default {
         numberOfGuest: 2,
         name: '',
         type: ON_SITE,
+        isRegular: false,
       },
     };
   },

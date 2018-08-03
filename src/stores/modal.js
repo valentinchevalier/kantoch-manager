@@ -40,12 +40,11 @@ export default {
         },
       });
     },
-    showComplexItemEditor({ commit }, { item, orderId }) {
+    showItemChoiceSelector({ commit }, { item }) {
       commit(SHOW_MODAL, {
-        component: 'ComplexItemEditor',
+        component: 'ItemChoiceSelector',
         componentData: {
           item,
-          orderId,
         },
       });
     },

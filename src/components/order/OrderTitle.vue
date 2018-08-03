@@ -1,6 +1,6 @@
 <template>
   <div class="order-title">
-    <div class="name">{{order.name}}</div>
+    <div class="name"><AppIcon icon="star" class="regular" v-if="order.isRegular"/> {{order.name}}</div>
     <div class="infos">
       <div class="number-of-guests">{{order.numberOfGuest}} personnes</div>
       <div class="type">{{ order.type | orderType }}</div>
@@ -9,7 +9,12 @@
 </template>
 
 <script>
+import AppIcon from '@/components/AppIcon';
+
 export default {
+  components: {
+    AppIcon,
+  },
   props: {
     order: {
       type: Object,
@@ -29,6 +34,12 @@ export default {
 
     .number {
       font-weight: $bold-weight;
+    }
+
+    .regular {
+      font-size: 1.6rem;
+      vertical-align: middle;
+      margin-bottom: 0.4rem;
     }
   }
 

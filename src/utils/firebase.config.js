@@ -1,10 +1,10 @@
 const config = {
-  apiKey: 'AIzaSyC_8Xs2WhSvn_KRaKpBHXUMHRItc8njSdc',
-  authDomain: 'kantoch-manager.firebaseapp.com',
-  databaseURL: 'https://kantoch-manager.firebaseio.com',
-  projectId: 'kantoch-manager',
-  storageBucket: 'kantoch-manager.appspot.com',
-  messagingSenderId: '550312731532',
+  apiKey: process.env.VUE_APP_FIREBASE_apiKey,
+  authDomain: process.env.VUE_APP_FIREBASE_authDomain,
+  databaseURL: process.env.VUE_APP_FIREBASE_databaseURL,
+  projectId: process.env.VUE_APP_FIREBASE_projectId,
+  storageBucket: process.env.VUE_APP_FIREBASE_storageBucket,
+  messagingSenderId: process.env.VUE_APP_FIREBASE_messagingSenderId,
 };
 
 export default config;
