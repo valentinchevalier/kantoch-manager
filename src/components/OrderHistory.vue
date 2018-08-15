@@ -3,7 +3,7 @@
     <datepicker class="datepicker" v-model="date" inline format="D d MMMM yyyy" monday-first :disabledDates="disabledDates" :language="datepickerLang" @selected="onDateChange"></datepicker>
     <AppLoader :loading="loading" :inline="true" />
     <div v-if="!loading">
-      <h2 class="small-title">{{date | moment('dddd Do MMMM YYYY')}}</h2>
+      <h2 class="medium-title">{{date | moment('dddd Do MMMM YYYY')}}</h2>
       <div class="no-result" v-if="orders.length === 0">Aucune commande</div>
       <div class="results" v-else>
         <OrderHistoryList :orders="orders" @order-click="showBill"/>
@@ -87,7 +87,11 @@ export default {
   display: grid;
   grid-template-columns: 30rem auto;
   grid-column-gap: $spacing-medium;
-  justify-items: center;
+  justify-items: stretch;
+
+  .datepicker {
+    justify-self: center;
+  }
 
   @include responsive($small-breakpoint) {
     grid-template-columns: 1fr;

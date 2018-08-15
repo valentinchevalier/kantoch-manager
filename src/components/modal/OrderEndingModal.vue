@@ -1,5 +1,5 @@
 <template>
-  <div class="order-billing" v-if="plates && bill.totalPrice">
+  <div class="order-billing">
     <OrderTitle :order="order"/>
     <OrderBill :bill="bill" :numberOfGuest="order.numberOfGuest" />
     <div class="actions">
@@ -41,7 +41,7 @@ export default {
     },
   },
   mounted() {
-    this.bill = OrderUtils.generateBill(this.order.items, this.plates);
+    this.bill = OrderUtils.generateBill(this.order.itemGroups, this.plates);
   },
   methods: {
     ...mapActions('orders', ['closeOrder']),

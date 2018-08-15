@@ -1,15 +1,15 @@
 <template>
   <div class="orders-of-the-day">
     <p class="no-items" v-if="orders.length <= 0">Aucunes commandes</p>
-    <h2 class="small-title" v-if="ordersOnSite.length > 0">Sur place</h2>
+    <h2 class="medium-title" v-if="ordersOnSite.length > 0">Sur place</h2>
     <div class="order-list">
       <OrderLink v-for="order in ordersOnSite" :order="order" :key="order.id" @long-click="editOrderInfos(order)"/>
     </div>
-    <h2 class="small-title" v-if="ordersTakeAway.length > 0">À emporter</h2>
+    <h2 class="medium-title" v-if="ordersTakeAway.length > 0">À emporter</h2>
     <div class="order-list" v-if="ordersTakeAway.length > 0">
       <OrderLink v-for="order in ordersTakeAway" :order="order" :key="order.id" @long-click="editOrderInfos(order)"/>
     </div>
-    <h2 class="small-title" v-if="ordersEnded.length > 0">Commandes terminées</h2>
+    <h2 class="medium-title" v-if="ordersEnded.length > 0">Commandes terminées</h2>
     <OrderHistoryList :orders="ordersEnded" @order-click="showBill" @order-long-click="editOrderInfos"/>
     <button type="button" class="btn btn-small btn-icon-left add-btn" @click="openOrderCreatorModal"><AppIcon icon="plus" />Nouvelle commande</button>
   </div>
@@ -65,7 +65,7 @@ export default {
   }
 }
 
-.small-title {
+.medium-title {
   margin-bottom: $spacing-small;
 }
 

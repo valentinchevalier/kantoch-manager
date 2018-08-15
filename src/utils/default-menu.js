@@ -74,7 +74,6 @@ export default {
       category: 'food',
       label: 'Cookie',
       price: 2,
-      isFormuleDessert: true,
     },
     {
       id: 'eau',

@@ -11,14 +11,14 @@ import OrderCreatorModal from '@/components/modal/OrderCreatorModal';
 import OrderEditorModal from '@/components/modal/OrderEditorModal';
 import OrderEndingModal from '@/components/modal/OrderEndingModal';
 import OrderBillModal from '@/components/modal/OrderBillModal';
-import ComplexItemEditor from '@/components/order/ComplexItemEditor';
+import ItemChoiceSelector from '@/components/order/ItemChoiceSelector';
 import MenuItemEditor from '@/components/MenuItemEditor';
 
 export default {
   components: {
     OrderCreatorModal,
     OrderEditorModal,
-    ComplexItemEditor,
+    ItemChoiceSelector,
     MenuItemEditor,
     OrderEndingModal,
     OrderBillModal,

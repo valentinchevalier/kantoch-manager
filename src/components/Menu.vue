@@ -1,10 +1,10 @@
 <template>
   <div class="menu">
-    <h1 class="small-title category">Manger</h1>
+    <h1 class="medium-title category">Manger</h1>
     <div class="food items-container">
       <MenuItem @click="onClick(item)" @long-click="onLongClick(item)" :item="item" :showChoices="showChoices" v-for="item in foodItems" :key="item.id" />
     </div>
-    <h1 class="small-title category">Boire</h1>
+    <h1 class="medium-title category">Boire</h1>
     <div class="drink items-container">
       <MenuItem @click="onClick(item)" @long-click="onLongClick(item)" :item="item" :showChoices="showChoices" v-for="item in drinkItems" :key="item.id" />
     </div>

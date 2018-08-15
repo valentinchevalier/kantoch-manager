@@ -72,6 +72,8 @@ export default {
       const newOrder = {
         ...order,
         items: {},
+        itemGroups: {},
+        nextItemGroupId: 0,
         addedAt: new Date(),
       };
 
@@ -99,6 +101,7 @@ export default {
         type,
         name,
         numberOfGuest,
+        isRegular,
       } = order;
 
       dispatch('updateOrderInDB', {
@@ -107,93 +110,161 @@ export default {
           type,
           name,
           numberOfGuest,
+          isRegular,
         },
       });
     },
-    async addItemToOrder({ state, dispatch }, params) {
+    async addItemsGroupToOrder({ state, dispatch }, params) {
       const {
         orderId,
-        item,
+        itemGroup,
       } = params;
 
-      if (!item.plateId) {
+      if (itemGroup.length === 0) {
         return;
       }
 
-      const itemFullId = OrderUtils.orderItemFullId(item.plateId, item.choiceId);
-      let set = {
-        plateId: item.plateId,
-        quantity: 1,
-      };
+      const orderItems = {};
 
-      if (item.choiceId) {
-        set.choiceId = item.choiceId;
-      }
-      const currentOrder = state.orders.find(order => order.id === orderId);
-      const currentItem = currentOrder.items[itemFullId];
-
-      if (currentItem) {
-        set = {
-          quantity: currentItem.quantity + 1,
+      Object.values(itemGroup).forEach((item) => {
+        const itemFullId = OrderUtils.orderItemFullId(item.plateId, item.choiceId);
+        const orderItem = {
+          plateId: item.plateId,
+          quantity: item.quantity,
+          isCooked: false,
         };
-      }
+
+        if (item.choiceId) {
+          orderItem.choiceId = item.choiceId;
+        }
+
+        orderItems[itemFullId] = orderItem;
+      });
+
+      const currentOrder = state.orders.find(order => order.id === orderId);
+      const {
+        nextItemGroupId,
+      } = currentOrder;
 
       dispatch('updateOrderInDB', {
         orderId,
         set: {
-          items: {
-            [itemFullId]: set,
+          itemGroups: {
+            [nextItemGroupId]: orderItems,
           },
+          nextItemGroupId: nextItemGroupId + 1,
         },
       });
     },
-    async removeItemToOrder({ state, dispatch }, params) {
+    setCookedItem({ dispatch }, params) {
       const {
         orderId,
         item,
-      } = params;
-      let {
-        quantity,
+        groupIndex,
+        isCooked,
       } = params;
 
-      if (!item.plateId) {
-        return;
-      }
+      console.log(orderId, item, groupIndex, isCooked);
 
       const itemFullId = OrderUtils.orderItemFullId(item.plateId, item.choiceId);
-      const currentOrder = state.orders.find(order => order.id === orderId);
-      const currentItem = currentOrder.items[itemFullId];
-
-      if (!currentItem) {
-        return;
-      }
-
-      quantity = quantity || 1;
-
-      const newQuantity = currentItem.quantity - quantity;
-      if (newQuantity <= 0) {
-        dispatch('updateOrderInDB', {
-          orderId,
-          set: {
-            items: {
-              [itemFullId]: Firebase.firestore.FieldValue.delete(),
-            },
-          },
-        });
-        return;
-      }
 
       dispatch('updateOrderInDB', {
         orderId,
         set: {
-          items: {
-            [itemFullId]: {
-              quantity: newQuantity,
+          itemGroups: {
+            [groupIndex]: {
+              [itemFullId]: {
+                isCooked,
+              },
             },
           },
         },
       });
     },
+    // async addItemToOrder({ state, dispatch }, params) {
+    //   const {
+    //     orderId,
+    //     item,
+    //   } = params;
+
+    //   if (!item.plateId) {
+    //     return;
+    //   }
+
+    //   const itemFullId = OrderUtils.orderItemFullId(item.plateId, item.choiceId);
+    //   let set = {
+    //     plateId: item.plateId,
+    //     quantity: 1,
+    //   };
+
+    //   if (item.choiceId) {
+    //     set.choiceId = item.choiceId;
+    //   }
+    //   const currentOrder = state.orders.find(order => order.id === orderId);
+    //   const currentItem = currentOrder.items[itemFullId];
+
+    //   if (currentItem) {
+    //     set = {
+    //       quantity: currentItem.quantity + 1,
+    //     };
+    //   }
+
+    //   dispatch('updateOrderInDB', {
+    //     orderId,
+    //     set: {
+    //       items: {
+    //         [itemFullId]: set,
+    //       },
+    //     },
+    //   });
+    // },
+    // async removeItemToOrder({ state, dispatch }, params) {
+    //   const {
+    //     orderId,
+    //     item,
+    //   } = params;
+    //   let {
+    //     quantity,
+    //   } = params;
+
+    //   if (!item.plateId) {
+    //     return;
+    //   }
+
+    //   const itemFullId = OrderUtils.orderItemFullId(item.plateId, item.choiceId);
+    //   const currentOrder = state.orders.find(order => order.id === orderId);
+    //   const currentItem = currentOrder.items[itemFullId];
+
+    //   if (!currentItem) {
+    //     return;
+    //   }
+
+    //   quantity = quantity || 1;
+
+    //   const newQuantity = currentItem.quantity - quantity;
+    //   if (newQuantity <= 0) {
+    //     dispatch('updateOrderInDB', {
+    //       orderId,
+    //       set: {
+    //         items: {
+    //           [itemFullId]: Firebase.firestore.FieldValue.delete(),
+    //         },
+    //       },
+    //     });
+    //     return;
+    //   }
+
+    //   dispatch('updateOrderInDB', {
+    //     orderId,
+    //     set: {
+    //       items: {
+    //         [itemFullId]: {
+    //           quantity: newQuantity,
+    //         },
+    //       },
+    //     },
+    //   });
+    // },
     async closeOrder({ dispatch }, params) {
       const {
         orderId,

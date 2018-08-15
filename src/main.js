@@ -6,8 +6,6 @@ import './assets/fonts/font-icons/font-icons.font';
 import './utils/longPressDirective';
 import './utils/filters';
 
-Vue.config.productionTip = false;
-
 new Vue({
   router,
   store,
