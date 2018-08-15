@@ -1,32 +1,36 @@
 <template>
-  <div class="orders-of-the-day">
-    <p class="no-items" v-if="orders.length <= 0">Aucunes commandes</p>
-    <h2 class="medium-title" v-if="ordersOnSite.length > 0">Sur place</h2>
-    <div class="order-list">
-      <OrderLink v-for="order in ordersOnSite" :order="order" :key="order.id" @long-click="editOrderInfos(order)"/>
-    </div>
-    <h2 class="medium-title" v-if="ordersTakeAway.length > 0">À emporter</h2>
-    <div class="order-list" v-if="ordersTakeAway.length > 0">
-      <OrderLink v-for="order in ordersTakeAway" :order="order" :key="order.id" @long-click="editOrderInfos(order)"/>
-    </div>
-    <h2 class="medium-title" v-if="ordersEnded.length > 0">Commandes terminées</h2>
-    <OrderHistoryList :orders="ordersEnded" @order-click="showBill" @order-long-click="editOrderInfos"/>
+  <div class="orders-manager">
+    <h2 class="medium-title">Sur place</h2>
+    <div class="no-results" v-if="ordersOnSite.length <= 0">Aucune commande sur place</div>
+    <OrderDetailedList :orders="ordersOnSite" v-else/>
+    <h2 class="medium-title">À emporter</h2>
+    <div class="no-results" v-if="ordersTakeAway.length <= 0">Aucune commande à emporter</div>
+    <OrderDetailedList :orders="ordersTakeAway" v-else/>
+    <h2 class="medium-title">Commandes terminées</h2>
+    <div class="btn-link btn-small" @click="endedOrdersVisible = !endedOrdersVisible"><AppIcon :icon="!endedOrdersVisible ? 'eye' : 'eye-slash'"/>{{!endedOrdersVisible ? 'Afficher' : 'Masquer'}}</div>
+    <div class="no-results" v-if="endedOrdersVisible && ordersEnded.length <= 0">Aucune commande terminée</div>
+    <OrderHistoryList v-if="endedOrdersVisible && ordersEnded.length > 0" :orders="ordersEnded" @order-click="showBill" @order-long-click="editOrderInfos"/>
     <button type="button" class="btn btn-small btn-icon-left add-btn" @click="openOrderCreatorModal"><AppIcon icon="plus" />Nouvelle commande</button>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import AppIcon from '@/components/AppIcon';
-import OrderLink from '@/components/order/OrderLink';
+import AppIcon from '@/components/utils/AppIcon';
+import OrderDetailedList from '@/components/order/OrderDetailedList';
 import OrderHistoryList from '@/components/order/OrderHistoryList';
 import { ON_SITE, TAKE_AWAY } from '@/utils/order-utils';
 
 export default {
   components: {
     AppIcon,
-    OrderLink,
+    OrderDetailedList,
     OrderHistoryList,
+  },
+  data() {
+    return {
+      endedOrdersVisible: false,
+    };
   },
   computed: {
     ...mapState('orders', ['orders']),
@@ -41,15 +45,15 @@ export default {
     },
   },
   methods: {
-    ...mapActions('modal', ['showOrderCreatorModal', 'showOrderEditorModal', 'showOrderBillModal']),
+    ...mapActions('modal', ['showOrderCreatorModal', 'showOrderInfosEditorModal', 'showOrderBillModal']),
     openOrderCreatorModal() {
       this.showOrderCreatorModal();
     },
-    editOrderInfos(order) {
-      this.showOrderEditorModal({ orderId: order.id });
-    },
     showBill(order) {
       this.showOrderBillModal({ order });
+    },
+    editOrderInfos(order) {
+      this.showOrderInfosEditorModal({ orderId: order.id });
     },
   },
 };
@@ -59,7 +63,9 @@ export default {
 @import '~@/styles/variables';
 @import '~@/styles/mixins';
 
-.orders-of-the-day {
+.orders-manager {
+  padding-bottom: $spacing-large;
+
   @include responsive($small-breakpoint) {
     margin-bottom: $spacing-large;
   }
@@ -69,22 +75,9 @@ export default {
   margin-bottom: $spacing-small;
 }
 
-.order-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 15rem);
-  grid-auto-rows: 1fr;
-  flex-direction: row;
-  justify-content: center;
-  grid-gap: $spacing-small;
-  margin-bottom: $spacing-small;
-
-  @include responsive($small-breakpoint) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-.order-history-list {
-  max-width: 40rem;
+.order-detailed-list,
+.no-results {
+  margin-bottom: $spacing;
 }
 
 .add-btn {
@@ -97,5 +90,9 @@ export default {
   @include responsive($small-breakpoint) {
     right: -50%;
   }
+}
+
+.order-history-list {
+  max-width: 40rem;
 }
 </style>

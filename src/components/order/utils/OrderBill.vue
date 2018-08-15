@@ -27,8 +27,8 @@
 
 <script>
 import { mapState } from 'vuex';
-import DetailedPrice from '@/components/DetailedPrice';
-import PlateLabel from './PlateLabel';
+import DetailedPrice from '@/components/utils/DetailedPrice';
+import PlateLabel from '@/components/order/utils/OrderItemLabel';
 
 export default {
   components: {

@@ -1,20 +1,22 @@
 <template>
   <div class="order-history-list" v-if="orders.length > 0">
-    <div class="order-history-item" v-for="order in orders" :key="order.id" @click="onOrderClick(order)" v-long-press="700" @long-press="onOrderLongClick(order)">
-      <div class="order-type">{{ order.type | orderType }}</div>
-      <div class="number-of-guests">{{order.numberOfGuest}} personnes</div>
-      <div class="total-price">{{order.bill ? order.bill.totalPrice : 0 | price}}</div>
-    </div>
-    <div class="order-history-item total">
-      <div></div>
-      <div class="total-label">Total :</div>
-      <div class="total-price">{{ordersTotalPrice | price}}</div>
-    </div>
+    <h2 class="medium-title"></h2>
+    <OrdersTable :orders="normalOrders" @order-click="onOrderClick" @order-long-click="onOrderLongClick"/>
+    <h2 class="small-title"><AppIcon icon="star" /> Habitués <AppIcon icon="star" /></h2>
+    <OrdersTable :orders="regularOrders" :showName="true" @order-click="onOrderClick" @order-long-click="onOrderLongClick"/>
+    <div class="total-price">Total du jour : <span class="amount">{{ordersTotalPrice | price}}</span></div>
   </div>
 </template>
 
 <script>
+import OrdersTable from '@/components/order/utils/OrdersTable';
+import AppIcon from '@/components/utils/AppIcon';
+
 export default {
+  components: {
+    OrdersTable,
+    AppIcon,
+  },
   props: {
     orders: {
       type: Array,
@@ -22,6 +24,12 @@ export default {
     },
   },
   computed: {
+    normalOrders() {
+      return this.orders.filter(order => !order.isRegular);
+    },
+    regularOrders() {
+      return this.orders.filter(order => order.isRegular);
+    },
     ordersTotalPrice() {
       return this.orders.reduce((acc, order) => acc + (order.bill ? order.bill.totalPrice : 0), 0);
     },
@@ -46,34 +54,15 @@ export default {
   margin: auto;
   display: table;
 
-  .order-history-item {
-    text-decoration: none;
-    padding: $spacing-small 0;
-    color: $black;
-    display: table-row;
-    cursor: pointer;
+  .orders-table {
+    width: 100%;
+  }
 
-    > * {
-      display: table-cell;
-      text-align: left;
-      padding: $spacing-small 0;
-      border-bottom: 1px solid $black;
-    }
+  .total-price {
+    margin-top: $spacing-small;
 
-    .total-price {
-      text-align: right;
+    .amount {
       font-weight: $bold-weight;
-    }
-
-    &.total {
-      > * {
-        border-bottom: 0;
-      }
-
-      .total-label {
-        font-weight: $bold-weight;
-        text-align: right;
-      }
     }
   }
 }

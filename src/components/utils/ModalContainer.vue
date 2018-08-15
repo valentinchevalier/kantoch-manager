@@ -8,16 +8,16 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import OrderCreatorModal from '@/components/modal/OrderCreatorModal';
-import OrderEditorModal from '@/components/modal/OrderEditorModal';
+import OrderInfosEditorModal from '@/components/modal/OrderInfosEditorModal';
 import OrderEndingModal from '@/components/modal/OrderEndingModal';
 import OrderBillModal from '@/components/modal/OrderBillModal';
 import ItemChoiceSelector from '@/components/order/ItemChoiceSelector';
-import MenuItemEditor from '@/components/MenuItemEditor';
+import MenuItemEditor from '@/components/menu/MenuItemEditor';
 
 export default {
   components: {
     OrderCreatorModal,
-    OrderEditorModal,
+    OrderInfosEditorModal,
     ItemChoiceSelector,
     MenuItemEditor,
     OrderEndingModal,

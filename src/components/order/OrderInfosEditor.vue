@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import NumberInput from '@/components/NumberInput';
+import NumberInput from '@/components/utils/NumberInput';
 import { TAKE_AWAY, ON_SITE } from '@/utils/order-utils';
 
 export default {

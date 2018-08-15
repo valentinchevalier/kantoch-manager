@@ -35,7 +35,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 
-import AppIcon from '@/components/AppIcon';
+import AppIcon from '@/components/utils/AppIcon';
 
 export default {
   components: {
