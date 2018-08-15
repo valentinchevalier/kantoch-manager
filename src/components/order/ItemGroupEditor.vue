@@ -3,16 +3,12 @@
     <div class="column">
       <Menu @click="onMenuItemClick" @long-click="onItemLongClick" />
     </div>
-    <div class="column" v-if="itemGroup">
-      <p class="no-items" v-if="itemGroupArray.length <= 0">Aucuns produits</p>
-      <template v-else>
-        <div class="items">
-          <div class="order-item" v-for="item in itemGroupArray" :key="item.id">
-            <PlateLabel :plateId="item.plateId" :choiceId="item.choiceId" />
-            <NumberInput class="quantity" :value="item.quantity" @input="onQuantityUpdate(item, $event)"/>
-          </div>
-        </div>
-      </template>
+    <div class="column" v-if="order && itemGroup">
+      <OrderTitle :order="order" />
+      <TemporaryItems :order="order"/>
+      <div class="add-to-command btn btn-small" @click="addTemporaryItemsToCommand" v-if="hasTemporaryItems">Ajouter à la commande</div>
+      <h2 class="small-title mt">Produits en cours de préparation</h2>
+      <OrderItemsCooking :order="order"/>
     </div>
   </div>
 </template>
@@ -20,20 +16,16 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import Menu from '@/components/Menu';
-import AppLoader from '@/components/AppLoader';
-import PlateLabel from '@/components/order/PlateLabel';
-import AppIcon from '@/components/AppIcon';
-import NumberInput from '@/components/NumberInput';
-import OrderItemsEditor from './OrderItemsEditor';
+import OrderTitle from '@/components/order/OrderTitle';
+import OrderItemsCooking from './OrderItemsCooking';
+import TemporaryItems from './TemporaryItems';
 
 export default {
   components: {
-    OrderItemsEditor,
+    OrderItemsCooking,
     Menu,
-    AppLoader,
-    PlateLabel,
-    AppIcon,
-    NumberInput,
+    TemporaryItems,
+    OrderTitle,
   },
   data() {
     return {
@@ -41,19 +33,27 @@ export default {
     };
   },
   props: {
+    id: {
+      type: String,
+    },
   },
   mounted() {
-    this.resetItems();
+    // this.resetItems();
   },
   computed: {
+    ...mapState('orders', ['orders']),
     ...mapState('menu', ['plates']),
     ...mapState('temporaryOrder', ['items']),
-    itemGroupArray() {
-      return Object.values(this.items).sort((itemA, itemB) => this.plates[itemA.plateId].order - this.plates[itemB.plateId].order);
+    order() {
+      return this.orders.find(order => order.id === this.id);
+    },
+    hasTemporaryItems() {
+      return Object.values(this.items).length > 0;
     },
   },
   methods: {
     ...mapActions('temporaryOrder', ['addOneItem', 'setItemQuantity', 'resetItems']),
+    ...mapActions('orders', ['addItemsGroupToOrder']),
     ...mapActions('modal', ['showItemChoiceSelector', 'showMenuItemEditor']),
     onMenuItemClick(item) {
       if (!item.available) {
@@ -75,6 +75,13 @@ export default {
     onQuantityUpdate(item, value) {
       this.setItemQuantity({ item, quantity: value });
     },
+    addTemporaryItemsToCommand() {
+      this.addItemsGroupToOrder({
+        orderId: this.id,
+        itemGroup: this.items,
+      });
+      this.resetItems();
+    },
     onItemLongClick(item) {
       this.showMenuItemEditor({ plate: item });
     },
@@ -86,10 +93,18 @@ export default {
 @import '~@/styles/variables';
 @import '~@/styles/mixins';
 
+.order-items-editor {
+  margin-top: $spacing;
+}
+
+.no-items {
+  margin-top: $spacing-medium;
+}
+
 .item-group-editor {
   display: grid;
   grid-template-columns: auto minmax(350px, 25%);
-  grid-gap: $spacing-small 0;
+  grid-gap: $spacing-small $spacing;
   padding: 0;
   height: 100vh;
 
@@ -119,6 +134,10 @@ export default {
 
   .quantity {
     margin-left: auto;
+  }
+
+  .plate-label {
+    text-align: left;
   }
 }
 </style>

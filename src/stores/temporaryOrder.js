@@ -42,8 +42,6 @@ export default {
         quantity,
       } = params;
 
-      console.log(item, quantity);
-
       if (!item.plateId) {
         return;
       }

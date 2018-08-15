@@ -1,13 +1,19 @@
 <template>
   <div class="orders-of-the-day">
     <p class="no-items" v-if="orders.length <= 0">Aucunes commandes</p>
-    <h2 class="small-title" v-if="ordersOnSite.length > 0">Sur place</h2>
+    <h2 class="medium-title" v-if="ordersOnSite.length > 0">Sur place</h2>
     <div class="order-detailed-list">
-      <OrderItemsCooking :order="order" v-for="order in ordersOnSite" :key="order.id" />
+      <div class="order" v-for="order in ordersOnSite" :key="order.id">
+        <OrderTitle :order="order"/>
+        <OrderItemsCooking :order="order" />
+      </div>
     </div>
     <h2 class="small-detailed-title" v-if="ordersTakeAway.length > 0">À emporter</h2>
     <div class="order-detailed-list" v-if="ordersTakeAway.length > 0">
-      <OrderItemsCooking :order="order" v-for="order in ordersTakeAway" :key="order.id" />
+      <div class="order" v-for="order in ordersTakeAway" :key="order.id">
+        <OrderTitle :order="order"/>
+        <OrderItemsCooking :order="order" />
+      </div>
     </div>
   </div>
 </template>
@@ -16,6 +22,7 @@
 import { mapState } from 'vuex';
 import AppIcon from '@/components/AppIcon';
 import OrderItemsCooking from '@/components/order/OrderItemsCooking';
+import OrderTitle from '@/components/order/OrderTitle';
 import OrderHistoryList from '@/components/order/OrderHistoryList';
 import { ON_SITE, TAKE_AWAY } from '@/utils/order-utils';
 
@@ -23,6 +30,7 @@ export default {
   components: {
     AppIcon,
     OrderItemsCooking,
+    OrderTitle,
     OrderHistoryList,
   },
   computed: {
@@ -52,7 +60,7 @@ export default {
   }
 }
 
-.small-title {
+.medium-title {
   margin-bottom: $spacing-small;
 }
 
@@ -82,6 +90,16 @@ export default {
 
   @include responsive($small-breakpoint) {
     right: -50%;
+  }
+}
+
+.order {
+  padding: $spacing-small $spacing;
+  border: 2px solid $black;
+  border-radius: $radius;
+
+  .order-title {
+    margin-bottom: $spacing-small;
   }
 }
 </style>

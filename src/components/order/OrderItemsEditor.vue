@@ -1,27 +1,24 @@
 <template>
-  <div class="order-details">
-    <OrderTitle :order="order"/>
-    <p class="no-items" v-if="orderItems.length <= 0">Aucuns produits</p>
-    <template v-else>
-      <div class="items">
-        <div class="order-item" v-for="orderItem in orderItems" :key="orderItem.id">
-          <PlateLabel :plateId="orderItem.plateId" :choiceId="orderItem.choiceId" />
-          <div class="quantity">
-            <div class="quantity-button remove-button" @click="onRemoveClick(orderItem)"><AppIcon icon="minus"/></div>
-            <span class="number">{{orderItem.quantity}}</span>
-            <div class="quantity-button add-button" @click="onAddClick(orderItem)"><AppIcon icon="plus"/></div>
-          </div>
+  <div class="order-items-editor" v-if="order && orderItems.length > 0">
+    <div class="items">
+      <div class="order-item" v-for="orderItem in orderItems" :key="orderItem.id">
+        <PlateLabel :plateId="orderItem.plateId" :choiceId="orderItem.choiceId" />
+        <div class="quantity">
+          <div class="quantity-button remove-button" @click="onRemoveClick(orderItem)"><AppIcon icon="minus"/></div>
+          <span class="number">{{orderItem.quantity}}</span>
+          <div class="quantity-button add-button" @click="onAddClick(orderItem)"><AppIcon icon="plus"/></div>
         </div>
       </div>
-      <div class="actions">
-        <button class="btn btn-icon-left btn-icon-medium" type="button" @click="onBillClick()"><AppIcon icon="receipt" /> Addition</button>
-      </div>
-    </template>
+    </div>
+    <div class="actions">
+      <button class="btn btn-icon-left btn-icon-medium" type="button" @click="onBillClick()"><AppIcon icon="receipt" /> Addition</button>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import OrderUtils from '@/utils/order-utils';
 import AppIcon from '@/components/AppIcon';
 import OrderTitle from './OrderTitle';
 import PlateLabel from './PlateLabel';
@@ -41,7 +38,7 @@ export default {
   computed: {
     ...mapState('menu', ['plates']),
     orderItems() {
-      return Object.values(this.order.items).sort((itemA, itemB) => this.plates[itemA.plateId].order - this.plates[itemB.plateId].order);
+      return OrderUtils.orderItems(this.order);
     },
   },
   methods: {
@@ -77,10 +74,6 @@ export default {
 
 .no-items {
   margin-top: $spacing-medium;
-}
-
-.order-details {
-  padding: 0 $spacing-small;
 }
 
 .actions {

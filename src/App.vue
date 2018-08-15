@@ -103,7 +103,7 @@ body {
   }
 }
 
-.small-title {
+.medium-title {
   font-size: 2.1rem;
   margin-bottom: $spacing;
 
@@ -111,6 +111,24 @@ body {
     font-size: 1.7rem;
     margin-bottom: $spacing-small;
   }
+}
+
+.small-title {
+  font-size: 1.7rem;
+  font-weight: $bold-weight;
+  margin-bottom: $spacing-xsmall;
+
+  @include responsive($small-breakpoint) {
+    font-size: 1.5rem;
+  }
+}
+
+.mt {
+  margin-top: $spacing;
+}
+
+.mt-small {
+  margin-top: $spacing-small;
 }
 
 .back-button {
