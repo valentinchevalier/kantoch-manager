@@ -2,6 +2,16 @@ export const TAKE_AWAY = 'TAKE_AWAY';
 export const ON_SITE = 'ON_SITE';
 
 export default {
+  orderItems(order) {
+    const res = Object.keys(order.itemGroups)
+      .map(index => order.itemGroups[index])
+      .reduce((items, orderItemGroup) => {
+        items.push(...Object.values(orderItemGroup));
+        return items;
+      }, []);
+
+    return res;
+  },
   orderItemFullId(plateId, choiceId) {
     let fullId = plateId;
     if (choiceId) {
@@ -22,10 +32,30 @@ export default {
         };
       }
     });
+
     return res;
   },
-  generateBill(orderItems, plates) {
+  degroupItems(itemGroups) {
+    const items = {};
+
+    Object.values(itemGroups).forEach((itemGroup) => {
+      Object.keys(itemGroup).forEach((itemKey) => {
+        if (items[itemKey]) {
+          items[itemKey].quantity += itemGroup[itemKey].quantity;
+        } else {
+          items[itemKey] = itemGroup[itemKey];
+        }
+      });
+    });
+
+    return items;
+  },
+  generateBill(orderItemGroups, plates) {
+    const orderItems = this.degroupItems(orderItemGroups);
     const billItems = this.cleanBillItems(orderItems);
+
+    console.log(orderItems);
+    console.log(billItems);
 
     const formules = this.generateFormules(
       this.formuleMainItems(billItems, plates),

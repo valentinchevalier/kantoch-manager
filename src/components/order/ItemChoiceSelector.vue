@@ -55,12 +55,9 @@ export default {
     ...mapActions('temporaryOrder', ['addOneItem']),
     selectChoice(choiceId) {
       this.addOneItem({
-        item: {
-          plateId: this.item.id,
-          choiceId,
-        },
+        plateId: this.item.id,
+        choiceId,
       });
-
       this.$emit('close');
     },
     cancel() {
