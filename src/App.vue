@@ -8,7 +8,7 @@
 <script>
 import { mapActions } from 'vuex';
 import Authentication from '@/utils/authentication';
-import AppModalContainer from '@/components/ModalContainer';
+import AppModalContainer from '@/components/utils/ModalContainer';
 
 export default {
   components: {

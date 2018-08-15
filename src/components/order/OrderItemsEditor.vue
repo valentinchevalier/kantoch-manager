@@ -19,9 +19,9 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import OrderUtils from '@/utils/order-utils';
-import AppIcon from '@/components/AppIcon';
-import OrderTitle from './OrderTitle';
-import PlateLabel from './PlateLabel';
+import AppIcon from '@/components/utils/AppIcon';
+import OrderTitle from '@/components/order/utils/OrderTitle';
+import PlateLabel from '@/components/order/utils/OrderItemLabel';
 
 export default {
   components: {

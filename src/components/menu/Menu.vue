@@ -13,7 +13,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import MenuItem from './MenuItem';
+import MenuItem from '@/components/menu/MenuItem';
 
 export default {
   components: {

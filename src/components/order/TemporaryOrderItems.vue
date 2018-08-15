@@ -9,9 +9,9 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import PlateLabel from '@/components/order/PlateLabel';
-import AppIcon from '@/components/AppIcon';
-import NumberInput from '@/components/NumberInput';
+import PlateLabel from '@/components/order/utils/OrderItemLabel';
+import AppIcon from '@/components/utils/AppIcon';
+import NumberInput from '@/components/utils/NumberInput';
 
 export default {
   components: {

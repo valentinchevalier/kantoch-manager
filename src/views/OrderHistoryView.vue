@@ -8,7 +8,7 @@
 
 <script>
 import OrderHistory from '@/components/OrderHistory';
-import AppIcon from '@/components/AppIcon';
+import AppIcon from '@/components/utils/AppIcon';
 
 export default {
   components: {

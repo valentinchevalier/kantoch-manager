@@ -66,6 +66,7 @@
 
   .icon {
     margin: 0 .5rem 0 0;
+    font-size: 1.5rem;
   }
 }
 
@@ -80,6 +81,10 @@
 
   .icon {
     margin: 0 .5rem 0 0;
+  }
+
+  &.btn-small {
+    font-size: 1.2rem;
   }
 }
 

@@ -1,14 +1,14 @@
 <template>
   <div>
     <router-link :to="{ name: 'home' }" class="back-button"><AppIcon icon="arrow-left"/> Retour</router-link>
-    <h1 class="main-title"><AppIcon icon="clipboard-list"/> Prise de commandes</h1>
+    <h1 class="main-title"><AppIcon icon="ustensils"/> Gestion des commandes</h1>
     <OrdersManager/>
   </div>
 </template>
 
 <script>
 import OrdersManager from '@/components/OrdersManager';
-import AppIcon from '@/components/AppIcon';
+import AppIcon from '@/components/utils/AppIcon';
 
 export default {
   name: 'home',

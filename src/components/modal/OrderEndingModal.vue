@@ -12,9 +12,9 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import OrderUtils from '@/utils/order-utils';
-import AppIcon from '@/components/AppIcon';
-import OrderTitle from '@/components/order/OrderTitle';
-import OrderBill from '@/components/order/OrderBill';
+import AppIcon from '@/components/utils/AppIcon';
+import OrderTitle from '@/components/order/utils/OrderTitle';
+import OrderBill from '@/components/order/utils/OrderBill';
 
 export default {
   components: {

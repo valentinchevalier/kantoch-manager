@@ -10,7 +10,7 @@
       </div>
     </template>
     <template v-if="orderItemsAlreadyCooked.length > 0">
-      <button class="btn-link" @click="isCookedVisible = !isCookedVisible"><AppIcon :icon="!isCookedVisible ? 'eye' : 'eye-slash'" />
+      <button class="btn-link btn-small" @click="isCookedVisible = !isCookedVisible"><AppIcon :icon="!isCookedVisible ? 'eye' : 'eye-slash'" />
         <template v-if="isCookedVisible">Masquer les produits déjà servis</template>
         <template v-else>Afficher {{orderItemsAlreadyCooked.length}} produits déjà servis</template>
       </button>
@@ -21,15 +21,14 @@
         </div>
       </div>
     </template>
-    <button class="btn btn-icon-left btn-small btn-icon-medium" type="button" @click="onBillClick()"><AppIcon icon="receipt" /> Addition</button>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import AppIcon from '@/components/AppIcon';
-import OrderTitle from './OrderTitle';
-import PlateLabel from './PlateLabel';
+import AppIcon from '@/components/utils/AppIcon';
+import OrderTitle from '@/components/order/utils/OrderTitle';
+import PlateLabel from '@/components/order/utils/OrderItemLabel';
 
 export default {
   components: {

@@ -52,6 +52,10 @@ export default {
     font-size: 1.3rem;
     line-height: 1.2;
   }
+
+  .main-label {
+    font-weight: $bold-weight;
+  }
 }
 
 </style>
