@@ -1,12 +1,18 @@
 <template>
-  <div class="order-link" @click="onClick" v-long-press="700" @long-press="onLongClick">
+  <div class="order-link" @click="onClick" v-long-press="700" @long-press="onLongClick" >
+    <div class="regular" v-if="order.isRegular"><AppIcon icon="star" /></div>
     <div class="name" v-if="order.name">{{order.name}}</div>
     <div class="number-of-guests">{{order.numberOfGuest}} personnes</div>
   </div>
 </template>
 
 <script>
+import AppIcon from '@/components/AppIcon';
+
 export default {
+  components: {
+    AppIcon,
+  },
   props: {
     order: {
       type: Object,
@@ -45,6 +51,7 @@ export default {
   align-items: stretch;
   cursor: pointer;
   color: $black;
+  position: relative;
   transition: background-color $transition-duration ease, color $transition-duration ease;
 
   .name {
@@ -55,6 +62,12 @@ export default {
   .number-of-guests {
     font-style: italic;
     font-size: 1.4rem;
+  }
+
+  .regular {
+    position: absolute;
+    top: 0.2rem;
+    left: 0.2rem;
   }
 
   &:hover,
