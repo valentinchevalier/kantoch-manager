@@ -4,10 +4,7 @@
     <AppLoader :loading="loading" :inline="true" />
     <div v-if="!loading">
       <h2 class="medium-title">{{date | moment('dddd Do MMMM YYYY')}}</h2>
-      <div class="no-result" v-if="orders.length === 0">Aucune commande</div>
-      <div class="results" v-else>
-        <OrderHistoryList :orders="orders" @order-click="showBill"/>
-      </div>
+      <OrderHistoryList :orders="orders" @order-click="showBill" class="results" />
     </div>
   </div>
 </template>
@@ -17,8 +14,8 @@ import Datepicker from 'vuejs-datepicker';
 import { fr } from 'vuejs-datepicker/dist/locale';
 
 import db from '@/utils/db';
-import AppIcon from '@/components/AppIcon';
-import AppLoader from '@/components/AppLoader';
+import AppIcon from '@/components/utils/AppIcon';
+import AppLoader from '@/components/utils/AppLoader';
 import OrderHistoryList from '@/components/order/OrderHistoryList';
 import { ON_SITE } from '@/utils/order-utils';
 import { mapActions } from 'vuex';
@@ -32,7 +29,7 @@ export default {
   },
   data() {
     const from = new Date();
-    from.setHours(0, 0, 0, 0);
+    from.setHours(24, 0, 0, 0);
     return {
       date: undefined,
       orders: [],
@@ -99,6 +96,10 @@ export default {
     .datepicker {
       margin-bottom: $spacing;
     }
+  }
+
+  .order-history-list {
+    max-width: 60rem;
   }
 }
 

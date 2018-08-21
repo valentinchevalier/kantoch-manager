@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import AppIcon from '@/components/AppIcon';
+import AppIcon from '@/components/utils/AppIcon';
 
 export default {
   components: {
@@ -42,7 +42,7 @@ export default {
 .order-link {
   border-radius: $radius;
   text-decoration: none;
-  border: 2px solid $black;
+  border: 2px solid $secondary-color;
   padding: $spacing $spacing-small;
   display: flex;
   width: 100%;
@@ -50,7 +50,7 @@ export default {
   justify-content: center;
   align-items: stretch;
   cursor: pointer;
-  color: $black;
+  color: $secondary-color;
   position: relative;
   transition: background-color $transition-duration ease, color $transition-duration ease;
 
@@ -72,8 +72,8 @@ export default {
 
   &:hover,
   &:focus {
-    background-color: $black;
-    color: $white;
+    background-color: $secondary-color;
+    color: $primary-color;
   }
 }
 </style>

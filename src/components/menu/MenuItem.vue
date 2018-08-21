@@ -1,7 +1,7 @@
 <template>
   <button type="button" class="menu-item" @click="onClick" v-long-press="700" @long-press="onLongClick" :class="{disable: !item.available}">
-    <div class="plate-label">{{item.label}}</div>
-    <div class="plate-label-extra" v-if="item.labelExtra">{{item.labelExtra}}</div>
+    <div class="menu-item-label">{{item.label}}</div>
+    <div class="menu-item-label-extra" v-if="item.labelExtra">{{item.labelExtra}}</div>
     <div class="price">{{item.price | price}}</div>
     <div class="choices" v-if="showChoices && item.choices && item.choices.length > 0">
       <div class="choice" :class="{disable: !choice.available}" v-for="choice in item.choices" :key="choice.id">{{choice.label}}</div>
@@ -36,16 +36,16 @@ export default {
 
 .menu-item {
   position: relative;
-  background-color: $white;
+  background-color: $primary-color;
   border-radius: $radius;
-  border: 2px solid $black;
+  border: 2px solid $secondary-color;
   padding: $spacing-small;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
   cursor: pointer;
-  color: $black;
+  color: $secondary-color;
   transition: background-color $transition-duration ease, color $transition-duration ease;
 
   @include responsive($small-breakpoint) {
@@ -62,11 +62,11 @@ export default {
     }
   }
 
-  .plate-label {
+  .menu-item-label {
     line-height: 1.1;
   }
 
-  .plate-label-extra {
+  .menu-item-label-extra {
     font-size: 1.2rem;
   }
 
@@ -89,8 +89,8 @@ export default {
   &:not(.disable) {
     &:hover,
     &:focus {
-      background-color: $black;
-      color: $white;
+      background-color: $secondary-color;
+      color: $primary-color;
     }
   }
 }

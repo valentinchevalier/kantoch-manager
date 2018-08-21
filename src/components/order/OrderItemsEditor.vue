@@ -1,32 +1,42 @@
 <template>
-  <div class="order-items-editor" v-if="order && orderItems.length > 0">
-    <div class="items">
-      <div class="order-item" v-for="orderItem in orderItems" :key="orderItem.id">
-        <PlateLabel :plateId="orderItem.plateId" :choiceId="orderItem.choiceId" />
-        <div class="quantity">
-          <div class="quantity-button remove-button" @click="onRemoveClick(orderItem)"><AppIcon icon="minus"/></div>
-          <span class="number">{{orderItem.quantity}}</span>
-          <div class="quantity-button add-button" @click="onAddClick(orderItem)"><AppIcon icon="plus"/></div>
+  <div class="order-cooking-editor">
+    <p class="no-items" v-if="orderItemsToCook.length <= 0">Aucuns produits en cours</p>
+    <template v-else>
+      <div class="items">
+        <div class="order-item" v-for="orderItem in orderItemsToCook" :key="orderItem.id" v-long-press="700" @long-press="startDeletingItem(orderItem)" >
+          <div class="order-item-btn validate" @click="setCooked(orderItem, true)"><AppIcon icon="check-circle" /></div>
+          <OrderItemLabel :plateId="orderItem.plateId" :choiceId="orderItem.choiceId" />
+          <div class="quantity">{{orderItem.quantity}}</div>
+          <div class="order-item-btn" @click="deleteItem(orderItem)" v-if="isDeleting(orderItem)"><AppIcon icon="trash" /></div>
         </div>
       </div>
-    </div>
-    <div class="actions">
-      <button class="btn btn-icon-left btn-icon-medium" type="button" @click="onBillClick()"><AppIcon icon="receipt" /> Addition</button>
-    </div>
+    </template>
+    <template v-if="orderItemsAlreadyCooked.length > 0">
+      <button class="btn-link btn-small" @click="isCookedVisible = !isCookedVisible"><AppIcon :icon="!isCookedVisible ? 'eye' : 'eye-slash'" />
+        <template v-if="isCookedVisible">Masquer les produits déjà servis</template>
+        <template v-else>Afficher {{orderItemsAlreadyCooked.length}} produits déjà servis</template>
+      </button>
+      <div class="cooked-items" :class="{ visible: isCookedVisible }">
+        <div class="order-item cooked" v-for="orderItem in orderItemsAlreadyCooked" :key="orderItem.id">
+          <div class="order-item-btn validate" @click="setCooked(orderItem, false)"><AppIcon icon="cross-circle" /></div>
+          <OrderItemLabel :plateId="orderItem.plateId" :choiceId="orderItem.choiceId" />
+          <div class="quantity">{{orderItem.quantity}}</div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import OrderUtils from '@/utils/order-utils';
-import AppIcon from '@/components/AppIcon';
-import OrderTitle from './OrderTitle';
-import PlateLabel from './PlateLabel';
+import AppIcon from '@/components/utils/AppIcon';
+import OrderTitle from '@/components/order/utils/OrderTitle';
+import OrderItemLabel from '@/components/order/utils/OrderItemLabel';
 
 export default {
   components: {
     AppIcon,
-    PlateLabel,
+    OrderItemLabel,
     OrderTitle,
   },
   props: {
@@ -35,31 +45,81 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      isCookedVisible: false,
+      deletingItem: undefined,
+    };
+  },
   computed: {
     ...mapState('menu', ['plates']),
     orderItems() {
-      return OrderUtils.orderItems(this.order);
+      const res = this.orderItemGroups
+        .reduce((items, orderItemGroup) => {
+          const tempItems = Object.values(orderItemGroup.items).map(item => ({
+            groupIndex: orderItemGroup.index,
+            ...item,
+          }));
+          items.push(...tempItems);
+          return items;
+        }, []);
+
+      return res;
+    },
+    orderItemsToCook() {
+      return this.orderItems.filter(item => !item.isCooked);
+    },
+    orderItemsAlreadyCooked() {
+      return this.orderItems.filter(item => item.isCooked);
+    },
+    orderItemGroups() {
+      return Object.keys(this.order.itemGroups).map(index => ({
+        index,
+        items: this.order.itemGroups[index],
+      }));
     },
   },
   methods: {
-    ...mapActions('orders', ['addItemToOrder', 'removeItemToOrder']),
+    ...mapActions('orders', ['setCookedItem', 'removeItemToOrder']),
     ...mapActions('modal', ['showOrderEndingModal']),
-    onAddClick(item) {
-      this.addItemToOrder({
-        orderId: this.order.id,
-        item,
-      });
+    orderItemGroupReducer(items, orderItemGroup) {
+      const tempItems = Object.values(orderItemGroup.items).map(item => ({
+        ...item,
+        groupIndex: orderItemGroup.index,
+      }));
+      items.push(...tempItems);
+      return items;
     },
-    onRemoveClick(item) {
-      this.removeItemToOrder({
+    setCooked(orderItem, isCooked) {
+      this.setCookedItem({
         orderId: this.order.id,
-        item,
+        item: orderItem,
+        groupIndex: orderItem.groupIndex,
+        isCooked,
       });
     },
     onBillClick() {
       this.showOrderEndingModal({
         orderId: this.order.id,
       });
+    },
+    startDeletingItem(orderItem) {
+      if (this.isDeleting(orderItem)) {
+        this.deletingItem = false;
+      } else {
+        this.deletingItem = orderItem;
+      }
+    },
+    deleteItem(orderItem) {
+      this.removeItemToOrder({
+        orderId: this.order.id,
+        item: orderItem,
+        groupIndex: orderItem.groupIndex,
+      });
+    },
+    isDeleting(orderItem) {
+      console.log(this.deletingItem, orderItem);
+      return this.deletingItem && this.deletingItem.plateId === orderItem.plateId && this.deletingItem.choiceId === orderItem.choiceId && this.deletingItem.groupIndex === orderItem.groupIndex;
     },
   },
 };
@@ -68,38 +128,43 @@ export default {
 <style scoped lang="scss">
 @import '~@/styles/variables';
 
-.order-title {
-  margin: $spacing-small 0;
+.order-cooking-editor {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  > * + * {
+    margin-top: $spacing-small;
+  }
 }
 
-.no-items {
-  margin-top: $spacing-medium;
+.items,
+.cooked-items {
+  align-self: stretch;
 }
 
-.actions {
-  margin-top: $spacing;
+.cooked-items {
+  display: none;
+
+  &.visible {
+    display: block;
+  }
 }
 
 .order-item {
   display: flex;
-  padding: $spacing-small 0;
+  padding: $spacing-xsmall 0;
   align-items: center;
 
-  .smaller & {
-    padding: $spacing-xsmall 0;
-
-    .quantity {
-      > * {
-        padding: $spacing-xsmall;
-      }
-    }
+  &.cooked {
+    opacity: 0.6;
   }
 
   &:not(:last-child) {
-    border-bottom: 1px solid $black;
+    border-bottom: 1px solid $secondary-color;
   }
 
-  .plate-label {
+  .order-item-label {
     text-align: left;
     margin-right: auto;
   }
@@ -108,18 +173,19 @@ export default {
     margin-right: $spacing-small;
     display: flex;
     align-items: center;
-    margin-left: -$spacing-small;
+    padding: $spacing-xsmall;
+  }
 
-    > * {
-      padding: $spacing-small;
-    }
+  .order-item-btn {
+    padding: $spacing-small;
+    cursor: pointer;
+    line-height: 1;
+    font-size: 1.5rem;
 
-    .quantity-button {
-      font-size: 1.8rem;
-      line-height: 1;
-      cursor: pointer;
+    &.validate {
+      margin-left: -$spacing-small;
+      font-size: 2rem;
     }
   }
 }
 </style>
-

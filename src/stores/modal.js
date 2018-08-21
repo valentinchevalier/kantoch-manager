@@ -32,9 +32,9 @@ export default {
         componentData: {},
       });
     },
-    showOrderEditorModal({ commit }, { orderId }) {
+    showOrderInfosEditorModal({ commit }, { orderId }) {
       commit(SHOW_MODAL, {
-        component: 'OrderEditorModal',
+        component: 'OrderInfosEditorModal',
         componentData: {
           orderId,
         },

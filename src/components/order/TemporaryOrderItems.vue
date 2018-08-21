@@ -1,7 +1,7 @@
 <template>
   <div class="temporary-items">
     <div class="order-item" v-for="item in itemGroupArray" :key="item.id">
-      <PlateLabel :plateId="item.plateId" :choiceId="item.choiceId" />
+      <OrderItemLabel :plateId="item.plateId" :choiceId="item.choiceId" />
       <NumberInput class="quantity" :value="item.quantity" @input="onQuantityUpdate(item, $event)"/>
     </div>
   </div>
@@ -9,13 +9,13 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import PlateLabel from '@/components/order/PlateLabel';
-import AppIcon from '@/components/AppIcon';
-import NumberInput from '@/components/NumberInput';
+import OrderItemLabel from '@/components/order/utils/OrderItemLabel';
+import AppIcon from '@/components/utils/AppIcon';
+import NumberInput from '@/components/utils/NumberInput';
 
 export default {
   components: {
-    PlateLabel,
+    OrderItemLabel,
     AppIcon,
     NumberInput,
   },
@@ -55,14 +55,14 @@ export default {
   align-items: center;
 
   &:not(:last-child) {
-    border-bottom: 1px solid $black;
+    border-bottom: 1px solid $secondary-color;
   }
 
   .quantity {
     margin-left: auto;
   }
 
-  .plate-label {
+  .order-item-label {
     text-align: left;
   }
 }

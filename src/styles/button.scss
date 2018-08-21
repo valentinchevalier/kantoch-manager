@@ -3,11 +3,11 @@
   z-index: 0;
   width: auto;
   padding: $button-padding;
-  border: 2px solid $black;
-  background: $white;
+  border: 2px solid $secondary-color;
+  background: $primary-color;
   transition: color $transition-duration ease;
   cursor: pointer;
-  color: $black;
+  color: $secondary-color;
   font-weight: $regular-weight;
   outline: none;
   text-decoration: none;
@@ -24,8 +24,8 @@
   }
 
   &:not(:disabled):hover {
-    color: $white;
-    background-color: $black;
+    color: $primary-color;
+    background-color: $secondary-color;
   }
 
   &.btn-small {
@@ -66,6 +66,7 @@
 
   .icon {
     margin: 0 .5rem 0 0;
+    font-size: 1.5rem;
   }
 }
 
@@ -74,12 +75,16 @@
   padding: .2rem;
   margin: 0;
   outline: none;
-  color: $black;
+  color: $secondary-color;
   cursor: pointer;
   border-bottom: 1px solid transparent;
 
   .icon {
     margin: 0 .5rem 0 0;
+  }
+
+  &.btn-small {
+    font-size: 1.2rem;
   }
 }
 

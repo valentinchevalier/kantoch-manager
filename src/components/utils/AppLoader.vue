@@ -38,7 +38,7 @@ export default {
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba($white, 0.7);
+    background-color: rgba($primary-color, 0.7);
     opacity: 0;
     pointer-events: none;
     // transition: opacity $transition-duration ease 0.5s;
