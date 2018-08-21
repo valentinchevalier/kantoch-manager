@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import OrderTitle from '@/components/order/OrderTitle';
-import OrderBill from '@/components/order/OrderBill';
+import OrderTitle from '@/components/order/utils/OrderTitle';
+import OrderBill from '@/components/order/utils/OrderBill';
 
 export default {
   components: {

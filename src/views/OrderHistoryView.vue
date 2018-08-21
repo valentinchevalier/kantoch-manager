@@ -8,7 +8,7 @@
 
 <script>
 import OrderHistory from '@/components/OrderHistory';
-import AppIcon from '@/components/AppIcon';
+import AppIcon from '@/components/utils/AppIcon';
 
 export default {
   components: {
@@ -28,9 +28,9 @@ export default {
   top: 0;
   left: 0;
   text-decoration: none;
-  color: $black;
+  color: $secondary-color;
   z-index: 1000;
-  background-color: rgba($white, .8);
+  background-color: rgba($primary-color, .8);
 
   .icon {
     margin-right: 0.5rem;

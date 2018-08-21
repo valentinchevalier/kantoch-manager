@@ -25,7 +25,7 @@
   input {
     padding: $spacing-xsmall;
     text-align: center;
-    background-color: rgba($light-gray, .3);
+    background-color: rgba($primary-color-alt, .3);
   }
 }
 
@@ -76,7 +76,7 @@
       height: 1rem;
       width: 1rem;
       border-radius: 50%;
-      border: 2px solid $black;
+      border: 2px solid $secondary-color;
       background: transparent;
       transition: box-shadow $transition-duration ease;
       outline: none;
@@ -107,7 +107,7 @@
   .checkbox-wrapper {
     label {
       &::before {
-        border-color: $white;
+        border-color: $primary-color;
       }
     }
   }

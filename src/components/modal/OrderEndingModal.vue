@@ -12,9 +12,9 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import OrderUtils from '@/utils/order-utils';
-import AppIcon from '@/components/AppIcon';
-import OrderTitle from '@/components/order/OrderTitle';
-import OrderBill from '@/components/order/OrderBill';
+import AppIcon from '@/components/utils/AppIcon';
+import OrderTitle from '@/components/order/utils/OrderTitle';
+import OrderBill from '@/components/order/utils/OrderBill';
 
 export default {
   components: {
@@ -61,64 +61,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~@/styles/variables';
-@import '~@/styles/mixins';
 
-.has-items {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-}
-
-.formule-label {
-  .extra-label {
-    font-size: 1.3rem;
-    line-height: 1.2;
-  }
-}
-
-.bill-item {
-  display: flex;
-  padding: $spacing-small 0;
-  align-items: center;
-  cursor: pointer;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid $dark-gray;
-  }
-
-  .formule-label,
-  .plate-label {
-    text-align: left;
-    margin-right: auto;
-  }
-
-  .unit-price,
-  .total-price {
-    margin-left: $spacing-small;
-    flex: 0 0 10rem;
-    text-align: right;
-
-    @include responsive($small-breakpoint) {
-      flex: 0 0 auto;
-    }
-  }
-
-  .total-price {
-    font-weight: $bold-weight;
-  }
-}
-
-.total {
-  display: flex;
-  padding: $spacing-small 0;
-  justify-content: flex-end;
-  align-items: center;
-  text-align: right;
-
-  .total-price {
-    font-weight: bold;
-    margin-left: auto;
-  }
-}
 </style>
 

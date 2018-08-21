@@ -8,16 +8,16 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import OrderCreatorModal from '@/components/modal/OrderCreatorModal';
-import OrderEditorModal from '@/components/modal/OrderEditorModal';
+import OrderInfosEditorModal from '@/components/modal/OrderInfosEditorModal';
 import OrderEndingModal from '@/components/modal/OrderEndingModal';
 import OrderBillModal from '@/components/modal/OrderBillModal';
 import ItemChoiceSelector from '@/components/order/ItemChoiceSelector';
-import MenuItemEditor from '@/components/MenuItemEditor';
+import MenuItemEditor from '@/components/menu/MenuItemEditor';
 
 export default {
   components: {
     OrderCreatorModal,
-    OrderEditorModal,
+    OrderInfosEditorModal,
     ItemChoiceSelector,
     MenuItemEditor,
     OrderEndingModal,
@@ -55,7 +55,7 @@ export default {
   }
 
   .backdrop {
-    background-color: rgba($black, 0.5);
+    background-color: rgba($secondary-color, 0.5);
     position: fixed;
     top: 0;
     right: 0;
@@ -78,8 +78,8 @@ export default {
   margin: auto;
   border-radius: $box-radius;
 
-  box-shadow: 0px 0px 75px -17px rgba($black, 0.25);
-  background-color: rgba($white, 0.95);
+  box-shadow: 0px 0px 75px -17px rgba($secondary-color, 0.25);
+  background-color: rgba($primary-color, 0.95);
 
   .title {
     font-size: 2rem;

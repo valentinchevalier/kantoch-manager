@@ -71,7 +71,6 @@ export default {
     async addOrder(context, order) {
       const newOrder = {
         ...order,
-        items: {},
         itemGroups: {},
         nextItemGroupId: 0,
         addedAt: new Date(),
@@ -181,90 +180,30 @@ export default {
         },
       });
     },
-    // async addItemToOrder({ state, dispatch }, params) {
-    //   const {
-    //     orderId,
-    //     item,
-    //   } = params;
+    async removeItemToOrder({ dispatch }, params) {
+      const {
+        orderId,
+        item,
+        groupIndex,
+      } = params;
 
-    //   if (!item.plateId) {
-    //     return;
-    //   }
+      if (!item.plateId) {
+        return;
+      }
 
-    //   const itemFullId = OrderUtils.orderItemFullId(item.plateId, item.choiceId);
-    //   let set = {
-    //     plateId: item.plateId,
-    //     quantity: 1,
-    //   };
+      const itemFullId = OrderUtils.orderItemFullId(item.plateId, item.choiceId);
 
-    //   if (item.choiceId) {
-    //     set.choiceId = item.choiceId;
-    //   }
-    //   const currentOrder = state.orders.find(order => order.id === orderId);
-    //   const currentItem = currentOrder.items[itemFullId];
-
-    //   if (currentItem) {
-    //     set = {
-    //       quantity: currentItem.quantity + 1,
-    //     };
-    //   }
-
-    //   dispatch('updateOrderInDB', {
-    //     orderId,
-    //     set: {
-    //       items: {
-    //         [itemFullId]: set,
-    //       },
-    //     },
-    //   });
-    // },
-    // async removeItemToOrder({ state, dispatch }, params) {
-    //   const {
-    //     orderId,
-    //     item,
-    //   } = params;
-    //   let {
-    //     quantity,
-    //   } = params;
-
-    //   if (!item.plateId) {
-    //     return;
-    //   }
-
-    //   const itemFullId = OrderUtils.orderItemFullId(item.plateId, item.choiceId);
-    //   const currentOrder = state.orders.find(order => order.id === orderId);
-    //   const currentItem = currentOrder.items[itemFullId];
-
-    //   if (!currentItem) {
-    //     return;
-    //   }
-
-    //   quantity = quantity || 1;
-
-    //   const newQuantity = currentItem.quantity - quantity;
-    //   if (newQuantity <= 0) {
-    //     dispatch('updateOrderInDB', {
-    //       orderId,
-    //       set: {
-    //         items: {
-    //           [itemFullId]: Firebase.firestore.FieldValue.delete(),
-    //         },
-    //       },
-    //     });
-    //     return;
-    //   }
-
-    //   dispatch('updateOrderInDB', {
-    //     orderId,
-    //     set: {
-    //       items: {
-    //         [itemFullId]: {
-    //           quantity: newQuantity,
-    //         },
-    //       },
-    //     },
-    //   });
-    // },
+      dispatch('updateOrderInDB', {
+        orderId,
+        set: {
+          itemGroups: {
+            [groupIndex]: {
+              [itemFullId]: Firebase.firestore.FieldValue.delete(),
+            },
+          },
+        },
+      });
+    },
     async closeOrder({ dispatch }, params) {
       const {
         orderId,

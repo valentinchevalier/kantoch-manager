@@ -8,8 +8,8 @@
 <script>
 import { mapActions } from 'vuex';
 import Authentication from '@/utils/authentication';
-import AppIcon from '@/components/AppIcon';
-import Menu from '@/components/Menu';
+import AppIcon from '@/components/utils/AppIcon';
+import Menu from '@/components/menu/Menu';
 
 export default {
   components: {
