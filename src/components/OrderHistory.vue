@@ -29,7 +29,7 @@ export default {
   },
   data() {
     const from = new Date();
-    from.setHours(0, 0, 0, 0);
+    from.setHours(24, 0, 0, 0);
     return {
       date: undefined,
       orders: [],
@@ -96,6 +96,10 @@ export default {
     .datepicker {
       margin-bottom: $spacing;
     }
+  }
+
+  .order-history-list {
+    max-width: 60rem;
   }
 }
 

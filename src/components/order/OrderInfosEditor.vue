@@ -81,8 +81,8 @@ export default {
       }
 
       &.selected {
-        background-color: $black;
-        color: $white;
+        background-color: $secondary-color;
+        color: $primary-color;
       }
     }
   }

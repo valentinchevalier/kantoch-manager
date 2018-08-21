@@ -2,7 +2,7 @@
   <div class="order-history-list" v-if="orders.length > 0">
     <h2 class="medium-title"></h2>
     <OrdersTable :orders="normalOrders" @order-click="onOrderClick" @order-long-click="onOrderLongClick"/>
-    <h2 class="small-title"><AppIcon icon="star" /> Habitués <AppIcon icon="star" /></h2>
+    <h2 class="small-title" v-if="regularOrders.length > 0"><AppIcon icon="star" /> Habitués <AppIcon icon="star" /></h2>
     <OrdersTable :orders="regularOrders" :showName="true" @order-click="onOrderClick" @order-long-click="onOrderLongClick"/>
     <div class="total-price">Total du jour : <span class="amount">{{ordersTotalPrice | price}}</span></div>
   </div>

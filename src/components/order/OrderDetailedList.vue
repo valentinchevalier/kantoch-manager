@@ -2,7 +2,7 @@
   <div class="order-detailed-list">
     <div class="order" v-for="order in orders" :key="order.id">
       <OrderTitle :order="order" :editable="true" :hideType="true"/>
-      <OrderItemsCooking :order="order" />
+      <OrderItemsEditor :order="order" />
       <div class="actions">
         <button class="btn btn-icon-left btn-small" type="button" @click="editOrder(order)"><AppIcon icon="ustensils" /> Modifier</button>
         <button class="btn btn-icon-left btn-small" type="button" @click="endOrder(order)"><AppIcon icon="receipt" /> Terminer</button>
@@ -14,13 +14,13 @@
 <script>
 import { mapActions } from 'vuex';
 import AppIcon from '@/components/utils/AppIcon';
-import OrderItemsCooking from '@/components/order/OrderItemsCooking';
+import OrderItemsEditor from '@/components/order/OrderItemsEditor';
 import OrderTitle from '@/components/order/utils/OrderTitle';
 
 export default {
   components: {
     AppIcon,
-    OrderItemsCooking,
+    OrderItemsEditor,
     OrderTitle,
   },
   props: {
@@ -82,7 +82,7 @@ export default {
   grid-gap: $spacing;
 
   @include responsive($small-breakpoint) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 
@@ -104,7 +104,7 @@ export default {
 
 .order {
   padding: $spacing-small $spacing;
-  border: 2px solid $black;
+  border: 2px solid $secondary-color;
   border-radius: $radius;
 
   .order-title {
@@ -112,9 +112,12 @@ export default {
   }
 
   .actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-top: $spacing-small;
 
-    > * + * {
+    > * {
       margin: $spacing-xsmall;
     }
   }
