@@ -50,10 +50,12 @@ export default {
 html {
   font-size: 10px;
 }
+
 body {
   font-size: 1.5rem;
   padding: 0;
   margin: 0;
+  background-color: $primary-color;
 }
 
 #app {
@@ -61,7 +63,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: $black;
+  color: $secondary-color;
 }
 
 #nav {
@@ -137,9 +139,9 @@ body {
   top: 0;
   left: 0;
   text-decoration: none;
-  color: $black;
+  color: $secondary-color;
   z-index: 1000;
-  background-color: rgba($white, .9);
+  background-color: rgba($primary-color, .9);
 
   @include responsive($small-breakpoint) {
     right: 0;

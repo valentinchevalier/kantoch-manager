@@ -69,7 +69,7 @@ export default {
       &:not(:last-child) {
         margin-right: $spacing-small;
         padding-right: $spacing-small;
-        border-right: 1px solid $black;
+        border-right: 1px solid $secondary-color;
       }
     }
   }

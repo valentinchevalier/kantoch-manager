@@ -1,5 +1,5 @@
 <template>
-  <div class="plate-label" v-if="plates">
+  <div class="order-item-label" v-if="plates">
     <div class="main-label">{{label}}</div>
     <div class="extra-label" v-if="labelExtra">{{labelExtra}}</div>
     <div v-if="choiceId" class="choice">{{choiceLabel}}</div>
@@ -46,7 +46,7 @@ export default {
 <style scoped lang="scss">
 @import '~@/styles/variables';
 
-.plate-label {
+.order-item-label {
   .choice,
   .extra-label {
     font-size: 1.3rem;

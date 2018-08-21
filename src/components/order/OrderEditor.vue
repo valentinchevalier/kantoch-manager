@@ -8,7 +8,7 @@
       <TemporaryOrderItems :order="order"/>
       <div class="add-to-command btn btn-small" @click="addTemporaryOrderItemsToCommand" v-if="hasTemporaryOrderItems">Ajouter à la commande</div>
       <h2 class="small-title mt">Produits en cours de préparation</h2>
-      <OrderItemsCooking :order="order"/>
+      <OrderItemsEditor :order="order"/>
     </div>
   </div>
 </template>
@@ -17,12 +17,12 @@
 import { mapActions, mapState } from 'vuex';
 import Menu from '@/components/menu/Menu';
 import OrderTitle from '@/components/order/utils/OrderTitle';
-import OrderItemsCooking from './OrderItemsCooking';
+import OrderItemsEditor from './OrderItemsEditor';
 import TemporaryOrderItems from './TemporaryOrderItems';
 
 export default {
   components: {
-    OrderItemsCooking,
+    OrderItemsEditor,
     Menu,
     TemporaryOrderItems,
     OrderTitle,
@@ -129,14 +129,14 @@ export default {
   align-items: center;
 
   &:not(:last-child) {
-    border-bottom: 1px solid $black;
+    border-bottom: 1px solid $secondary-color;
   }
 
   .quantity {
     margin-left: auto;
   }
 
-  .plate-label {
+  .order-item-label {
     text-align: left;
   }
 }

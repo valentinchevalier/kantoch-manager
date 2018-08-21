@@ -55,7 +55,7 @@ export default {
   .order-table-row {
     text-decoration: none;
     padding: $spacing-small 0;
-    color: $black;
+    color: $secondary-color;
     display: table-row;
     cursor: pointer;
 
@@ -63,7 +63,7 @@ export default {
       display: table-cell;
       text-align: left;
       padding: $spacing-small 0;
-      border-bottom: 1px solid $black;
+      border-bottom: 1px solid $secondary-color;
     }
 
     .total-price {

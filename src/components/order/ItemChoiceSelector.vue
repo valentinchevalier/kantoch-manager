@@ -83,7 +83,7 @@ export default {
 
 .separator {
   margin: $spacing 0;
-  border-top: 2px solid $black;
+  border-top: 2px solid $secondary-color;
 }
 
 .inputs {

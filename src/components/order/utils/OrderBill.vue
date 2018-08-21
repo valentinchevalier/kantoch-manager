@@ -9,7 +9,7 @@
         <div class="total-price">{{formule.price | price}}</div>
       </div>
       <div class="bill-item" v-for="item in bill.singleItems" :key="item.id" v-if="item.quantity > 0">
-        <PlateLabel :plateId="item.plateId" :choiceId="item.choiceId" />
+        <OrderItemLabel :plateId="item.plateId" :choiceId="item.choiceId" />
         <div class="unit-price">{{item.quantity}} x {{item.unitPrice | price}}</div>
         <div class="total-price">{{item.totalPrice | price}}</div>
       </div>
@@ -28,11 +28,11 @@
 <script>
 import { mapState } from 'vuex';
 import DetailedPrice from '@/components/utils/DetailedPrice';
-import PlateLabel from '@/components/order/utils/OrderItemLabel';
+import OrderItemLabel from '@/components/order/utils/OrderItemLabel';
 
 export default {
   components: {
-    PlateLabel,
+    OrderItemLabel,
     DetailedPrice,
   },
   props: {
@@ -55,6 +55,10 @@ export default {
 @import '~@/styles/mixins';
 
 .formule-label {
+  .main-label {
+    font-weight: $bold-weight;
+  }
+
   .extra-label {
     font-size: 1.3rem;
     line-height: 1.2;
@@ -68,11 +72,11 @@ export default {
   cursor: pointer;
 
   &:not(:last-child) {
-    border-bottom: 1px solid $dark-gray;
+    border-bottom: 1px solid $secondary-color-alt;
   }
 
   .formule-label,
-  .plate-label {
+  .order-item-label {
     text-align: left;
     margin-right: auto;
   }
