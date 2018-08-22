@@ -155,6 +155,7 @@ export default {
   display: flex;
   padding: $spacing-xsmall 0;
   align-items: center;
+  user-select: none;
 
   &.cooked {
     opacity: 0.6;

@@ -47,6 +47,7 @@ export default {
   cursor: pointer;
   color: $secondary-color;
   transition: background-color $transition-duration ease, color $transition-duration ease;
+  user-select: none;
 
   @include responsive($small-breakpoint) {
     padding: $spacing-small $spacing-xsmall;
