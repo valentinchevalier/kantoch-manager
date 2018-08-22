@@ -58,6 +58,7 @@ export default {
     color: $secondary-color;
     display: table-row;
     cursor: pointer;
+    user-select: none;
 
     > * {
       display: table-cell;
