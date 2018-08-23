@@ -54,6 +54,7 @@ export default {
 
 .detailed-price {
   cursor: pointer;
+  user-select: none;
 }
 
 .simple-price,

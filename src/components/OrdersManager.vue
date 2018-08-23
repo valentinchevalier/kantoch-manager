@@ -7,7 +7,7 @@
     <div class="no-results" v-if="ordersTakeAway.length <= 0">Aucune commande à emporter</div>
     <OrderDetailedList :orders="ordersTakeAway" v-else/>
     <h2 class="medium-title">Commandes terminées</h2>
-    <div class="btn-link btn-small" @click="endedOrdersVisible = !endedOrdersVisible"><AppIcon :icon="!endedOrdersVisible ? 'eye' : 'eye-slash'"/>{{!endedOrdersVisible ? 'Afficher' : 'Masquer'}}</div>
+    <button class="btn-link btn-small" @click="endedOrdersVisible = !endedOrdersVisible"><AppIcon :icon="!endedOrdersVisible ? 'eye' : 'eye-slash'"/>{{!endedOrdersVisible ? 'Afficher' : 'Masquer'}}</button>
     <div class="no-results" v-if="endedOrdersVisible && ordersEnded.length <= 0">Aucune commande terminée</div>
     <OrderHistoryList v-if="endedOrdersVisible && ordersEnded.length > 0" :orders="ordersEnded" @order-click="showBill" @order-long-click="editOrderInfos"/>
     <button type="button" class="btn btn-small btn-icon-left add-btn" @click="openOrderCreatorModal"><AppIcon icon="plus" />Nouvelle commande</button>
