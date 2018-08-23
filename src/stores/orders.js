@@ -16,7 +16,12 @@ export default {
   getters: {},
   mutations: {
     [ADD_ORDER](state, order) {
-      state.orders.push(order);
+      const orderIndex = state.orders.findIndex(pl => pl.id === order.id);
+      if (orderIndex === -1) {
+        state.orders.push(order);
+      } else {
+        Vue.set(state.orders, orderIndex, order);
+      }
     },
     [REMOVE_ORDER](state, order) {
       const orderIndex = state.orders.findIndex(pl => pl.id === order.id);

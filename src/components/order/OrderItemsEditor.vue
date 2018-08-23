@@ -12,7 +12,7 @@
       </div>
     </template>
     <template v-if="orderItemsAlreadyCooked.length > 0">
-      <button class="btn-link btn-small" @click="isCookedVisible = !isCookedVisible"><AppIcon :icon="!isCookedVisible ? 'eye' : 'eye-slash'" />
+      <button type="button" class="btn-link btn-small" @click="isCookedVisible = !isCookedVisible"><AppIcon :icon="!isCookedVisible ? 'eye' : 'eye-slash'" />
         <template v-if="isCookedVisible">Masquer les produits déjà servis</template>
         <template v-else>Afficher {{orderItemsAlreadyCooked.length}} produits déjà servis</template>
       </button>
