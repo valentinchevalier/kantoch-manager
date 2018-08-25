@@ -14,7 +14,7 @@
     <template v-if="orderItemsAlreadyCooked.length > 0">
       <button type="button" class="btn-link btn-small" @click="isCookedVisible = !isCookedVisible"><AppIcon :icon="!isCookedVisible ? 'eye' : 'eye-slash'" />
         <template v-if="isCookedVisible">Masquer les produits déjà servis</template>
-        <template v-else>Afficher {{orderItemsAlreadyCooked.length}} produits déjà servis</template>
+        <template v-else>Afficher {{countAlreadyCooked}} produits déjà servis</template>
       </button>
       <div class="cooked-items" :class="{ visible: isCookedVisible }">
         <div class="order-item cooked" v-for="orderItem in orderItemsAlreadyCooked" :key="orderItem.id">
@@ -65,6 +65,13 @@ export default {
         }, []);
 
       return res;
+    },
+    countAlreadyCooked() {
+      return this.orderItemsAlreadyCooked
+        .reduce((total, item) => {
+          total += item.quantity;
+          return total;
+        }, 0);
     },
     orderItemsToCook() {
       return this.orderItems.filter(item => !item.isCooked);

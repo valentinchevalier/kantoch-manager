@@ -52,7 +52,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('temporaryOrder', ['addOneItem', 'setItemQuantity', 'resetItems']),
+    ...mapActions('temporaryOrder', ['setItemQuantity', 'resetItems']),
     ...mapActions('orders', ['addItemsGroupToOrder']),
     ...mapActions('modal', ['showItemChoiceSelector', 'showMenuItemEditor']),
     onMenuItemClick(item) {
@@ -60,16 +60,9 @@ export default {
         return;
       }
 
-      if (item.choices && item.choices.length > 0) {
-        this.showItemChoiceSelector({
-          item,
-          orderId: this.id,
-        });
-        return;
-      }
-
-      this.addOneItem({
-        plateId: item.id,
+      this.showItemChoiceSelector({
+        item,
+        orderId: this.id,
       });
     },
     onQuantityUpdate(item, value) {
