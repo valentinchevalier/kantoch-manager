@@ -26,15 +26,20 @@ export default {
     resetItems({ commit }) {
       commit(RESET_ITEMS);
     },
-    addOneItem({ state, dispatch }, item) {
+    addOneItem({ state, dispatch }, params) {
+      const {
+        item,
+        quantity,
+      } = params;
+
       if (!item.plateId) {
         return;
       }
 
       const itemFullId = OrderUtils.orderItemFullId(item.plateId, item.choiceId);
-      const quantity = state.items[itemFullId] ? state.items[itemFullId].quantity + 1 : 1;
+      const newQuantity = state.items[itemFullId] ? state.items[itemFullId].quantity + quantity : quantity;
 
-      dispatch('setItemQuantity', { item, quantity });
+      dispatch('setItemQuantity', { item, quantity: newQuantity });
     },
     setItemQuantity({ state, commit }, params) {
       const {

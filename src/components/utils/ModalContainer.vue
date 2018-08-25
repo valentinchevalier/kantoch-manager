@@ -103,17 +103,12 @@ export default {
 
     .btn {
       @include responsive($small-breakpoint) {
-        width: 100%;
+        padding: $spacing-small;
       }
     }
 
-    > * + * {
-      margin: $spacing-small;
-
-      @include responsive($small-breakpoint) {
-        margin-left: 0;
-        margin-top: $spacing-small;
-      }
+    > * {
+      margin: $spacing-small / 2;
     }
   }
 }

@@ -1,28 +1,38 @@
 <template>
   <form class="" @submit.prevent="addToOrder">
     <h3 class="title" v-html="item.label"></h3>
-    <div class="complex-editor-buttons" v-if="hasChoices">
+    <div class="complex-editor-buttons" :class="{ noSelected: !currentChoice }" v-if="hasChoices">
       <button
         type="button"
         class="choice btn"
+        :class="{selected: choice.id === currentChoice}"
         v-for="choice in sortedChoices"
         :key="choice.id"
         @click="selectChoice(choice.id)"
         :disabled="!choice.available">
-        <p class="label">{{choice.label}}</p>
+        {{choice.label}}
       </button>
     </div>
 
+    <NumberInput v-model="quantity" :min="1"/>
+
     <div class="actions">
-      <button class="btn btn-small" type="button" @click="cancel">Annuler</button>
+      <button class="btn btn-small" type="button" @click="cancel"><AppIcon icon="cross" /> Annuler</button>
+      <button class="btn btn-small" type="button" @click="submit"><AppIcon icon="plus" /> Ajouter</button>
     </div>
   </form>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
+import NumberInput from '@/components/utils/NumberInput';
+import AppIcon from '@/components/utils/AppIcon';
 
 export default {
+  components: {
+    NumberInput,
+    AppIcon,
+  },
   props: {
     item: {
       type: Object,
@@ -30,6 +40,12 @@ export default {
     orderId: {
       type: String,
     },
+  },
+  data() {
+    return {
+      quantity: 1,
+      currentChoice: undefined,
+    };
   },
   computed: {
     hasChoices() {
@@ -53,12 +69,18 @@ export default {
   },
   methods: {
     ...mapActions('temporaryOrder', ['addOneItem']),
-    selectChoice(choiceId) {
+    submit() {
       this.addOneItem({
-        plateId: this.item.id,
-        choiceId,
+        item: {
+          plateId: this.item.id,
+          choiceId: this.currentChoice,
+        },
+        quantity: this.quantity,
       });
       this.$emit('close');
+    },
+    selectChoice(choiceId) {
+      this.currentChoice = choiceId;
     },
     cancel() {
       this.$emit('close');
@@ -78,6 +100,19 @@ export default {
 
   .btn {
     border-radius: $box-radius;
+  }
+
+  &:not(.noSelected) {
+    .btn {
+      &:not(.selected) {
+        opacity: 0.4;
+      }
+
+      &.selected {
+        background-color: $secondary-color;
+        color: $primary-color;
+      }
+    }
   }
 }
 
