@@ -74,8 +74,20 @@ export default {
         });
     },
     async addOrder(context, order) {
+      const {
+        type,
+        name,
+        numberOfGuest,
+        isRegular,
+        regularCustomerId,
+      } = order;
+
       const newOrder = {
-        ...order,
+        type,
+        name,
+        numberOfGuest,
+        isRegular,
+        regularCustomerId: regularCustomerId || false,
         itemGroups: {},
         nextItemGroupId: 0,
         addedAt: new Date(),
@@ -106,6 +118,7 @@ export default {
         name,
         numberOfGuest,
         isRegular,
+        regularCustomerId,
       } = order;
 
       dispatch('updateOrderInDB', {
@@ -115,6 +128,7 @@ export default {
           name,
           numberOfGuest,
           isRegular,
+          regularCustomerId: regularCustomerId || false,
         },
       });
     },
@@ -209,11 +223,21 @@ export default {
         },
       });
     },
-    async closeOrder({ dispatch }, params) {
+    async closeOrder({ state, dispatch }, params) {
       const {
         orderId,
         bill,
       } = params;
+
+      const currentOrder = state.orders.find(order => order.id === orderId);
+
+      if (currentOrder.isRegular) {
+        dispatch('addOrderToRegularCustomer', {
+          regularCustomerId: currentOrder.regularCustomerId,
+          orderId,
+          amount: bill.totalPrice,
+        }, { root: true });
+      }
 
       dispatch('updateOrderInDB', {
         orderId,

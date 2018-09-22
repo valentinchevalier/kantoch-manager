@@ -4,6 +4,7 @@ import createPersistedState from 'vuex-persistedstate';
 
 import menu from './stores/menu';
 import orders from './stores/orders';
+import regularCustomers from './stores/regularCustomers';
 import modal from './stores/modal';
 import temporaryOrder from './stores/temporaryOrder';
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
   modules: {
     menu,
     orders,
+    regularCustomers,
     modal,
     temporaryOrder,
   },

@@ -1,3 +1,5 @@
+// import Timestamp from 'firebase/firestore/Timestamp';
+
 export default {
   shuffle(array) {
     return array.map(a => [Math.random(), a])

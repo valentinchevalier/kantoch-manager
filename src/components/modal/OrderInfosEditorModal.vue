@@ -9,8 +9,8 @@
       <button class="btn btn-small" type="button" @click="cancel">Annuler</button>
       <button class="btn btn-small" type="submit">Enregistrer</button>
     </div>
-    <button class="btn-link" type="button" @click="startDeletingCommand" v-if="!isDeleting"><AppIcon icon="trash" /> Supprimer la commande</button>
-    <button class="btn-link" type="button" @click="confirmDeletingCommand" v-if="isDeleting">Confirmer la suppression ?</button>
+    <button class="btn-link" type="button" @click="startDeletingOrder" v-if="!isDeleting"><AppIcon icon="trash" /> Supprimer la commande</button>
+    <button class="btn-link" type="button" @click="confirmDeletingOrder" v-if="isDeleting">Confirmer la suppression ?</button>
   </form>
 </template>
 
@@ -48,12 +48,14 @@ export default {
       numberOfGuest,
       name,
       isRegular,
+      regularCustomerId,
     } = this.order;
     this.orderEdition = Object.assign({}, {
       type,
       numberOfGuest,
       name,
       isRegular,
+      regularCustomerId,
     });
   },
   methods: {
@@ -73,10 +75,10 @@ export default {
         orderId: this.orderId,
       });
     },
-    startDeletingCommand() {
+    startDeletingOrder() {
       this.isDeleting = true;
     },
-    confirmDeletingCommand() {
+    confirmDeletingOrder() {
       this.deleteOrder(this.order);
       this.$emit('close');
     },

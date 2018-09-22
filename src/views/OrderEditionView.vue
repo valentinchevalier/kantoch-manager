@@ -10,7 +10,6 @@ import OrderEditor from '@/components/order/OrderEditor';
 import AppIcon from '@/components/utils/AppIcon';
 
 export default {
-  name: 'order',
   components: {
     AppIcon,
     OrderEditor,

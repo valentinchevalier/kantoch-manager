@@ -4,6 +4,8 @@ import Router from 'vue-router';
 import HomeView from './views/HomeView';
 import OrderEditionView from './views/OrderEditionView';
 import OrdersManagerView from './views/OrdersManagerView';
+import RegularCustomersView from './views/RegularCustomersView';
+import RegularCustomerDetailsView from './views/RegularCustomerDetailsView';
 import OrderHistoryView from './views/OrderHistoryView';
 import SettingsView from './views/SettingsView';
 import LoginView from './views/LoginView';
@@ -35,6 +37,16 @@ const router = new Router({
       path: '/orders-manager',
       name: 'orders-manager',
       component: OrdersManagerView,
+    },
+    {
+      path: '/regular-customers',
+      name: 'regular-customers',
+      component: RegularCustomersView,
+    },
+    {
+      path: '/regular-customer/:id',
+      name: 'regular-customer',
+      component: RegularCustomerDetailsView,
     },
     {
       path: '/order-history',

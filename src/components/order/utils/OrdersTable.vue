@@ -1,7 +1,7 @@
 <template>
   <div class="orders-table" v-if="orders.length > 0">
     <div class="order-table-row" v-for="order in orders" :key="order.id" @click="onOrderClick(order)" v-long-press="700" @long-press="onOrderLongClick(order)">
-      <div class="order-table-cell name" v-if="showName">{{order.name}}</div>
+      <div class="order-table-cell name" v-if="showName"><OrderName :order="order"/></div>
       <div class="order-table-cell order-type">{{ order.type | orderType }}</div>
       <div class="order-table-cell number-of-guests">{{order.numberOfGuest}} personnes</div>
       <div class="order-table-cell total-price">{{order.bill ? order.bill.totalPrice : 0 | price}}</div>
@@ -16,7 +16,12 @@
 </template>
 
 <script>
+import OrderName from '@/components/order/utils/OrderName';
+
 export default {
+  components: {
+    OrderName,
+  },
   props: {
     orders: {
       type: Array,
@@ -38,6 +43,9 @@ export default {
     },
     onOrderLongClick(order) {
       this.$emit('order-long-click', order);
+    },
+    orderName(order) {
+      return !order.isRegular ? order.name : this.regularCustomer(order.regularCustomerId).name;
     },
   },
 };

@@ -3,14 +3,18 @@ import moment from 'moment';
 
 import { ON_SITE, TAKE_AWAY } from '@/utils/order-utils';
 
-Vue.filter('price', (value) => {
+Vue.filter('price', (value, showSign = false) => {
   if (!value) {
-    return '';
+    value = 0;
   }
 
   const formatter = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' });
+  let sign = '';
+  if (showSign) {
+    sign = value > 0 ? '+' : '';
+  }
 
-  return formatter.format(value);
+  return sign + formatter.format(value);
 });
 
 moment.locale('fr');

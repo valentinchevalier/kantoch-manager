@@ -32,6 +32,28 @@ export default {
         componentData: {},
       });
     },
+    showRegularCustomerCreatorModal({ commit }) {
+      commit(SHOW_MODAL, {
+        component: 'RegularCustomerCreatorModal',
+        componentData: {},
+      });
+    },
+    showRegularCustomerInfosEditorModal({ commit }, { regularCustomerId }) {
+      commit(SHOW_MODAL, {
+        component: 'RegularCustomerInfosEditorModal',
+        componentData: {
+          regularCustomerId,
+        },
+      });
+    },
+    showRegularCustomerCreditorModal({ commit }, { regularCustomerId }) {
+      commit(SHOW_MODAL, {
+        component: 'RegularCustomerCreditorModal',
+        componentData: {
+          regularCustomerId,
+        },
+      });
+    },
     showOrderInfosEditorModal({ commit }, { orderId }) {
       commit(SHOW_MODAL, {
         component: 'OrderInfosEditorModal',

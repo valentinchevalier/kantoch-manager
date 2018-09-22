@@ -12,7 +12,6 @@ import SettingsEditor from '@/components/SettingsEditor';
 import AppIcon from '@/components/utils/AppIcon';
 
 export default {
-  name: 'order',
   components: {
     AppIcon,
     SettingsEditor,

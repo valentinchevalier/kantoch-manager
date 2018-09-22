@@ -1,42 +1,36 @@
 <template>
-  <div class="order-title">
-    <div class="name"><OrderName :order="order"/></div>
-    <div class="infos">
-      <div class="number-of-guests">{{order.numberOfGuest}} personnes</div>
-      <div class="type" v-if="!hideType">{{ order.type | orderType }}</div>
-      <div class="edit-btn btn-link btn-small" v-if="editable" @click="editOrderInfos"><AppIcon icon="edit" /></div>
-    </div>
+  <div class="order-name">
+    <AppIcon icon="star" class="regular" v-if="order.isRegular"/> {{orderName}}
   </div>
 </template>
 
 <script>
 import AppIcon from '@/components/utils/AppIcon';
-import OrderName from '@/components/order/utils/OrderName';
-import { mapActions } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   components: {
     AppIcon,
-    OrderName,
   },
   props: {
     order: {
       type: Object,
       required: true,
     },
-    editable: {
-      type: Boolean,
-      default: false,
-    },
-    hideType: {
-      type: Boolean,
-      default: false,
-    },
   },
-  methods: {
-    ...mapActions('modal', ['showOrderInfosEditorModal']),
-    editOrderInfos() {
-      this.showOrderInfosEditorModal({ orderId: this.order.id });
+  computed: {
+    ...mapState('regularCustomers', ['regularCustomers']),
+    orderName() {
+      if (this.order.isRegular && this.order.regularCustomerId && this.regularCustomer) {
+        return this.regularCustomer.name;
+      }
+      return this.order.name;
+    },
+    regularCustomer() {
+      if (!this.order.isRegular || !this.order.regularCustomerId || this.regularCustomers.length === 0) {
+        return false;
+      }
+      return this.regularCustomers.find(regularCustomer => regularCustomer.id === this.order.regularCustomerId);
     },
   },
 };
@@ -45,7 +39,7 @@ export default {
 <style scoped lang="scss">
 @import '~@/styles/variables';
 
-.order-title {
+.order-name {
   .name {
     font-size: 2rem;
     margin-bottom: $spacing-xsmall;

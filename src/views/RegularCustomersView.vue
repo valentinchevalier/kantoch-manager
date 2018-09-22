@@ -1,18 +1,18 @@
 <template>
   <div>
     <router-link :to="{ name: 'home' }" class="back-button"><AppIcon icon="arrow-left"/> Retour</router-link>
-    <h1 class="main-title"><AppIcon icon="ustensils"/> Gestion des commandes</h1>
-    <OrdersManager/>
+    <h1 class="main-title"><AppIcon icon="star"/> Gestion des habitués</h1>
+    <RegularCustomersManager/>
   </div>
 </template>
 
 <script>
-import OrdersManager from '@/components/OrdersManager';
+import RegularCustomersManager from '@/components/RegularCustomersManager';
 import AppIcon from '@/components/utils/AppIcon';
 
 export default {
   components: {
-    OrdersManager,
+    RegularCustomersManager,
     AppIcon,
   },
 };

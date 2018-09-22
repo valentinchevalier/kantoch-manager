@@ -13,6 +13,7 @@
   text-decoration: none;
   text-transform: uppercase;
   font-size: 1.4rem;
+  border-radius: 3px;
 
   // @include responsive($small-breakpoint) {
   //   padding: $button-small-padding;
@@ -32,6 +33,13 @@
     width: auto;
     font-size: 1.2rem;
     padding: $button-small-padding;
+  }
+
+  &.btn-xsmall {
+    width: auto;
+    font-size: 1rem;
+    padding: $spacing-xsmall $spacing-small;
+    border-width: 1px;
   }
 
   &.btn-icon-right {

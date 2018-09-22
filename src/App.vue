@@ -19,13 +19,15 @@ export default {
       .then((res) => {
         if (res) {
           this.initMenuFromFirebase();
-          this.initKantochFromFirebase();
+          this.initOrdersFromFirebase();
+          this.initRegularCustomersFromFirebase();
         }
       });
   },
   methods: {
     ...mapActions('menu', { initMenuFromFirebase: 'initFromFirebase' }),
-    ...mapActions('orders', { initKantochFromFirebase: 'initFromFirebase' }),
+    ...mapActions('orders', { initOrdersFromFirebase: 'initFromFirebase' }),
+    ...mapActions('regularCustomers', { initRegularCustomersFromFirebase: 'initFromFirebase' }),
   },
 };
 </script>
@@ -162,5 +164,13 @@ body {
       transform: translateX(-.5rem);
     }
   }
+}
+
+.color-red {
+  color: $red;
+}
+
+.color-green {
+  color: $green;
 }
 </style>

@@ -20,7 +20,6 @@ import { mapActions } from 'vuex';
 import Authentication from '@/utils/authentication';
 
 export default {
-  name: 'login',
   data() {
     return {
       email: '',
@@ -30,12 +29,14 @@ export default {
   },
   methods: {
     ...mapActions('menu', { initMenuFromFirebase: 'initFromFirebase' }),
-    ...mapActions('orders', { initKantochFromFirebase: 'initFromFirebase' }),
+    ...mapActions('orders', { initOrdersFromFirebase: 'initFromFirebase' }),
+    ...mapActions('regularCustomers', { initRegularCustomersFromFirebase: 'initFromFirebase' }),
     signIn() {
       Authentication.signIn(this.email, this.password)
         .then(() => {
           this.initMenuFromFirebase();
-          this.initKantochFromFirebase();
+          this.initOrdersFromFirebase();
+          this.initRegularCustomersFromFirebase();
           this.$router.replace({ name: 'home' });
         })
         .catch((err) => {

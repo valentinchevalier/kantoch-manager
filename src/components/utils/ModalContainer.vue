@@ -9,8 +9,11 @@
 import { mapActions, mapState } from 'vuex';
 import OrderCreatorModal from '@/components/modal/OrderCreatorModal';
 import OrderInfosEditorModal from '@/components/modal/OrderInfosEditorModal';
+import RegularCustomerCreatorModal from '@/components/modal/RegularCustomerCreatorModal';
 import OrderEndingModal from '@/components/modal/OrderEndingModal';
 import OrderBillModal from '@/components/modal/OrderBillModal';
+import RegularCustomerCreditorModal from '@/components/modal/RegularCustomerCreditorModal';
+import RegularCustomerInfosEditorModal from '@/components/modal/RegularCustomerInfosEditorModal';
 import ItemChoiceSelector from '@/components/order/ItemChoiceSelector';
 import MenuItemEditor from '@/components/menu/MenuItemEditor';
 
@@ -18,10 +21,13 @@ export default {
   components: {
     OrderCreatorModal,
     OrderInfosEditorModal,
+    RegularCustomerCreatorModal,
     ItemChoiceSelector,
     MenuItemEditor,
     OrderEndingModal,
     OrderBillModal,
+    RegularCustomerInfosEditorModal,
+    RegularCustomerCreditorModal,
   },
   computed: {
     ...mapState('modal', ['isVisible', 'component', 'componentData']),
