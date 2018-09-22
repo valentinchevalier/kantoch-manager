@@ -4,7 +4,7 @@ import moment from 'moment';
 import { ON_SITE, TAKE_AWAY } from '@/utils/order-utils';
 
 Vue.filter('price', (value) => {
-  if (!value) {
+  if (!value && value !== 0) {
     return '';
   }
 

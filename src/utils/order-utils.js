@@ -54,9 +54,6 @@ export default {
     const orderItems = this.degroupItems(orderItemGroups);
     const billItems = this.cleanBillItems(orderItems);
 
-    console.log(orderItems);
-    console.log(billItems);
-
     const formules = this.generateFormules(
       this.formuleMainItems(billItems, plates),
       this.formuleEntreeItems(billItems, plates),
