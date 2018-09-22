@@ -125,7 +125,6 @@ export default {
       });
     },
     isDeleting(orderItem) {
-      console.log(this.deletingItem, orderItem);
       return this.deletingItem && this.deletingItem.plateId === orderItem.plateId && this.deletingItem.choiceId === orderItem.choiceId && this.deletingItem.groupIndex === orderItem.groupIndex;
     },
   },

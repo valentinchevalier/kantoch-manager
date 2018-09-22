@@ -1,7 +1,7 @@
 <template>
   <div class="order-billing">
     <OrderTitle :order="order"/>
-    <OrderBill :bill="bill" :numberOfGuest="order.numberOfGuest" />
+    <OrderPayment :bill="bill" :numberOfGuest="order.numberOfGuest" />
     <div class="actions">
       <button type="button" class="btn btn-small" @click="close">Retour</button>
       <button type="button" class="btn btn-small" @click="onCloseOrder">Terminer la commande</button>
@@ -14,13 +14,13 @@ import { mapState, mapActions } from 'vuex';
 import OrderUtils from '@/utils/order-utils';
 import AppIcon from '@/components/utils/AppIcon';
 import OrderTitle from '@/components/order/utils/OrderTitle';
-import OrderBill from '@/components/order/utils/OrderBill';
+import OrderPayment from '@/components/order/utils/OrderPayment';
 
 export default {
   components: {
     AppIcon,
     OrderTitle,
-    OrderBill,
+    OrderPayment,
   },
   data() {
     return {
