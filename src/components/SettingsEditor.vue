@@ -22,6 +22,9 @@ export default {
     onMenuItemClick(item) {
       this.showMenuItemEditor({ plate: item });
     },
+    addMenuItem() {
+      this.showMenuItemCreator();
+    },
     signOut() {
       Authentication.signOut()
         .then(() => {
