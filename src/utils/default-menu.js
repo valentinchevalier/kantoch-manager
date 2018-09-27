@@ -8,13 +8,6 @@ export default {
       isFormuleEntree: true,
     },
     {
-      id: 'tapas',
-      category: 'food',
-      label: 'Tapas',
-      price: 4.5,
-      isFormuleEntree: true,
-    },
-    {
       id: 'tarte-crudites',
       category: 'food',
       label: 'Tarte salée',
@@ -81,6 +74,18 @@ export default {
       category: 'food',
       label: 'Cookie',
       price: 2,
+    },
+    {
+      id: 'tapas',
+      category: 'food',
+      label: 'Tapas',
+      price: 4.5,
+    },
+    {
+      id: 'tapas-4',
+      category: 'food',
+      label: 'Assortiment 4 Tapas',
+      price: 20,
     },
     {
       id: 'eau',
