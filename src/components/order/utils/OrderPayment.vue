@@ -1,5 +1,5 @@
 <template>
-  <div class="order-bill" v-if="bill.totalPrice">
+  <div class="order-payment" v-if="bill.totalPrice">
     <div>
       <div class="bill-item" :class="{ selected: isFormuleSelected(index), paid: isFormulePaid(index) }" v-for="(formule, index) in bill.formules" :key="index" @click="onFormuleClick(formule, index)">
         <div class="icon-container"><AppIcon :icon="!isFormuleSelected(index) ? 'check-circle' : 'cross-circle'" /></div>
@@ -21,12 +21,14 @@
       <h3 class="title">À payer</h3>
       <DetailedPrice :amount="selectedPrice" class="total-price" />
     </div>
-    <button class="btn btn-small btn-icon-left" @click="onPayClick()"><AppIcon icon="money-bill" />Payer</button>
+    <div class="actions">
+      <button class="btn-link" @click="resetPaid()"><AppIcon icon="undo" /> Recommencer</button>
+      <button class="btn btn-small btn-icon-left" @click="onPayClick()"><AppIcon icon="money-bill" />Payer</button>
+    </div>
     <div class="total">
       <h3 class="title">Déjà payé</h3>
       <DetailedPrice :amount="alreadyPaidPrice" class="total-price" />
     </div>
-    <button class="btn-link" @click="resetPaid()"><AppIcon icon="undo" /> Recommencer</button>
     <div class="total">
       <h3 class="title">Reste à payer</h3>
       <DetailedPrice :amount="bill.totalPrice - alreadyPaidPrice"  class="total-price" />
@@ -123,6 +125,10 @@ export default {
 @import '~@/styles/variables';
 @import '~@/styles/mixins';
 
+.actions {
+  margin: 0;
+}
+
 .formule-label {
   .main-label {
     font-weight: $bold-weight;
@@ -182,7 +188,7 @@ export default {
 
 .total {
   display: flex;
-  padding: $spacing-small 0;
+  padding: 0 0;
   justify-content: flex-end;
   align-items: center;
   text-align: right;

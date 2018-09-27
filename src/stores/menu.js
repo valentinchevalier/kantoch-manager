@@ -38,15 +38,17 @@ export default {
     seed({ state }) {
       const menuRef = db.collection('plates');
       Object.keys(state.plates).forEach((plateId) => {
-        menuRef.doc(plateId).delete();
+        if (!defaultMenu.plates.some(plate => plate.id === plateId)) {
+          menuRef.doc(plateId).delete();
+        }
       });
       defaultMenu.plates.forEach((plate, index) => {
-        console.log(index);
+        console.log(plate);
         menuRef.doc(plate.id).set({
           ...plate,
           available: true,
           order: index,
-        });
+        }, { merge: true });
       });
     },
     initFromFirebase({ commit }) {
